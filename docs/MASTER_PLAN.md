@@ -1,0 +1,836 @@
+# MedOrigin Master Plan
+
+Status: `FOUNDATION_DRAFT`
+
+This is a program plan, not implementation authority. Each phase must be decomposed into bounded specs/grains before execution. A phase closes only on exact evidence, not narrative progress.
+
+## Program rules
+
+1. Planning and implementation are separate gates.
+2. No clinical, safety, privacy, superiority, or readiness claim outruns exact evidence.
+3. Negative, blocked, null, and abstention results are valid outcomes.
+4. Every source adoption is exact-revision/path/artifact bound.
+5. User data and medical evidence do not become training data implicitly.
+6. No mandatory MedOrigin cloud or founder-funded runtime dependency.
+7. No automatic remote inference fallback.
+8. Desktop and mobile use shared contracts but may use different native implementations.
+9. Arabic/English and accessibility are tested continuously.
+10. Release readiness and real-PHI readiness are separate gates.
+
+---
+
+# P00 — Foundation challenge and freeze
+
+## Goal
+
+Turn the initial thesis into a challenged, gap-tracked, implementation-ready foundation before large code lands.
+
+## Work
+
+- independent Codex architecture/product/source review;
+- independent Claude/Opus architecture/product/source review;
+- reconcile disagreements into a gap register;
+- verify every major source family and remove weak/duplicative candidates;
+- define canonical terminology for evidence, source, claim, confidence, sufficiency, authority, applicability, snapshot, pack, and review state;
+- freeze non-goals and cloud/privacy invariants;
+- draft threat model;
+- draft data lifecycle map;
+- draft intended-use/claims register;
+- decide initial license strategy;
+- decide initial governance and merge/CI rules.
+
+## Closure gate
+
+- no unresolved P0 planning gap;
+- every unresolved P1 has owner, decision gate, and phase;
+- open architecture decisions are explicit rather than silently assumed;
+- source ledger is complete enough for the first implementation horizon;
+- implementation roadmap is internally consistent.
+
+---
+
+# P01 — Repository, governance and reproducibility foundation
+
+## Goal
+
+Create the minimum engineering substrate that makes later evidence trustworthy.
+
+## Work
+
+- Rust workspace and toolchain pin;
+- formatting/lint/test baseline;
+- CI for Windows/Linux/macOS where available and relevant;
+- exact-head CI/evidence discipline;
+- dependency/source provenance schema;
+- SBOM/advisory baseline;
+- deterministic fixture/test conventions;
+- versioned schemas;
+- benchmark artifact identity contract;
+- release/claim ledger skeleton;
+- secure-development and vulnerability-reporting docs.
+
+## Closure gate
+
+A clean repository can reproduce the baseline checks from a fresh checkout with no hidden service dependency.
+
+---
+
+# P02 — Canonical contracts and local vault
+
+## Goal
+
+Establish durable local authority before adding AI.
+
+## Work
+
+- `SourceArtifact`;
+- `EvidenceSpan`;
+- `Claim`;
+- `EvidenceSnapshot`;
+- `PatientContext`;
+- `AnswerArtifact`;
+- pack manifests;
+- audit/event contracts;
+- explicit scope/realm contracts;
+- encrypted metadata/blob prototype;
+- key provider abstraction;
+- backup/restore;
+- one-writer or qualified concurrency policy;
+- deletion/tombstone semantics;
+- migrations and crash recovery.
+
+## Required campaigns
+
+- restart equivalence;
+- interrupted write/migration;
+- disk-full behavior;
+- backup/restore into a clean location;
+- key-loss/recovery semantics;
+- temp/WAL/journal/cache inspection;
+- scope leakage tests.
+
+## Closure gate
+
+Durable source/evidence state survives restart/recovery without AI or network access.
+
+---
+
+# P03 — Evidence corpus and source acquisition
+
+## Goal
+
+Build rights-aware, versioned local evidence ingestion.
+
+## Work
+
+- PubMed/NCBI metadata adapter;
+- Crossref DOI/metadata adapter;
+- PMC open-full-text adapter where rights permit;
+- optional OpenAlex discovery adapter;
+- user-provided document import;
+- institution-provided evidence import;
+- retraction/correction/supersession metadata;
+- source deduplication/identity reconciliation;
+- immutable evidence snapshots;
+- evidence-pack build/update pipeline;
+- offline pack import/export.
+
+## Closure gate
+
+A corpus can be created, updated, inspected, exported, and reproduced with source identities and rights state intact.
+
+---
+
+# P04 — Retrieval baseline
+
+## Goal
+
+Establish a strong model-light retrieval baseline before semantic complexity.
+
+## Work
+
+- scope filtering;
+- exact identifier lookup;
+- FTS5/BM25;
+- medical terminology normalization;
+- PICO/PICOTS query representation;
+- source-family and recency filters;
+- deterministic ranking baseline;
+- retrieval trace/snapshot;
+- held-out retrieval benchmark.
+
+## Metrics
+
+- recall@k;
+- precision@k;
+- nDCG;
+- source-family coverage;
+- recency;
+- retraction exclusion;
+- rights-policy compliance;
+- cold/warm latency;
+- memory/disk footprint.
+
+## Closure gate
+
+Lexical retrieval quality and failure modes are measured before embeddings are promoted.
+
+---
+
+# P05 — Semantic retrieval and reranking tournament
+
+## Goal
+
+Add only semantic components that produce measured value over P04.
+
+## Work
+
+- embedding candidates;
+- local vector projection candidates;
+- reranker candidates;
+- reciprocal/fusion strategies;
+- multilingual/cross-language retrieval;
+- source-diversity constraints;
+- Arabic/English benchmark slices;
+- resource/latency accounting.
+
+## Promotion rule
+
+No embedding/vector/reranker becomes canonical unless it improves held-out performance enough to justify RAM, disk, startup, privacy, update, and model-rights cost.
+
+---
+
+# P06 — Citation identity and exact claim-support verification
+
+## Goal
+
+Prevent real-but-irrelevant citations from legitimizing unsupported claims.
+
+## Work
+
+### Stage A — citation identity
+
+Outcomes:
+
+```text
+VERIFIED_IDENTITY
+PARTIAL_METADATA_MATCH
+AMBIGUOUS
+NOT_FOUND
+RETRACTED
+CORRECTED
+SOURCE_UNAVAILABLE
+```
+
+### Stage B — claim support
+
+Outcomes:
+
+```text
+SUPPORTS
+PARTIALLY_SUPPORTS
+CONTRADICTS
+DOES_NOT_ESTABLISH
+UNRESOLVED
+```
+
+- exact evidence spans;
+- citation placement;
+- contradiction links;
+- unsupported-claim detection;
+- numeric/safety/high-consequence claim categories;
+- verifier benchmark and human adjudication protocol.
+
+## Closure gate
+
+The verifier itself is evaluated; it is not treated as ground truth because it is model-assisted.
+
+---
+
+# P07 — Evidence appraisal and applicability
+
+## Goal
+
+Separate evidence quality from patient/jurisdiction applicability.
+
+## Work
+
+- study-design representation;
+- risk-of-bias inputs where available;
+- directness/precision/consistency representation;
+- population/intervention/comparator/outcome applicability;
+- recency;
+- jurisdiction;
+- guideline version/issuer;
+- contradiction;
+- explicit missing patient context;
+- no hidden single-number evidence score.
+
+## Closure gate
+
+UI/API can explain why evidence is strong/weak and why it does/does not apply without conflating those judgments.
+
+---
+
+# P08 — Decision assurance tournament
+
+## Goal
+
+Select a replaceable decision-assurance strategy through evidence, not preference.
+
+## Candidate universe
+
+- deterministic sufficiency rules;
+- Decision 2.0 compact models;
+- Laya;
+- Mapika/decider;
+- CLM;
+- restricted-logit/open-Jev alternatives;
+- BioClinical encoder controls;
+- structured-output LLM control;
+- Jev comparison when reproducible and permitted.
+
+## Required states
+
+```text
+ANSWER
+ANSWER_WITH_CAUTION
+ASK_MORE
+RETRIEVE_EVIDENCE
+USE_TOOL
+CONFLICT
+ABSTAIN
+ESCALATE
+EMERGENCY
+```
+
+## Metrics
+
+- action/state accuracy where gold exists;
+- unsafe-commit rate;
+- over-abstain rate;
+- risk-coverage/AURC;
+- abstention precision/recall/F1;
+- Brier/ECE/NLL where scores are meaningful;
+- missing-information behavior;
+- distribution-shift behavior;
+- latency/RAM/disk;
+- Arabic/English slices.
+
+## Closure gate
+
+No model's raw confidence is exposed as medical truth. A deterministic-only baseline remains available.
+
+---
+
+# P09 — Calibration layer
+
+## Goal
+
+Define what any user-visible probability actually means.
+
+## Work
+
+Potential separately calibrated targets:
+
+- probability evidence is sufficient for commitment;
+- probability a claim is supported by the bound evidence;
+- probability an answer is evidence-supported under a defined benchmark;
+- probability abstention/ask-more is the correct state;
+- applicability classification confidence.
+
+- calibration-set governance;
+- temporal/domain shift monitoring;
+- reliability diagrams;
+- bin-level sample counts;
+- no percentage outside measured domain;
+- UI language for calibrated vs uncalibrated outputs.
+
+## Closure gate
+
+Every visible percentage has a documented estimand and calibration identity.
+
+---
+
+# P10 — Local synthesis and post-answer verification
+
+## Goal
+
+Use generation as constrained synthesis over verified evidence.
+
+## Work
+
+- local generator tournament by device tier;
+- structured evidence context compiler;
+- citation-aware answer format;
+- unsupported-claim post-check;
+- numeric/dose/safety claim checks;
+- contradiction preservation;
+- concise clinician mode vs deep-review mode;
+- deterministic fallback template when generation is unavailable.
+
+## Closure gate
+
+Generator failure never removes access to evidence or forces cloud fallback.
+
+---
+
+# P11 — Desktop Doctor Workstation
+
+## Goal
+
+Deliver the complete local clinician evidence experience.
+
+## Core navigation
+
+```text
+Ask
+Evidence / Sources
+Deep Review
+Documents
+Packs
+Settings & Privacy
+```
+
+Patient context is contextual rather than a separate EHR product.
+
+## UX requirements
+
+- answer + evidence side by side;
+- exact source-span jump;
+- contradiction visible;
+- calibrated/uncalibrated state visible;
+- evidence quality and applicability separate;
+- network/offline/pack freshness visible;
+- loading/empty/error/blocked states;
+- keyboard-first navigation;
+- screen-reader semantics;
+- zoom/reflow;
+- RTL/Arabic;
+- no remote fonts/analytics by default.
+
+## Shell qualification
+
+Tauri remains a candidate until cache/crash/clipboard/storage/accessibility tests pass.
+
+---
+
+# P12 — Document/PDF/OCR subsystem
+
+## Goal
+
+Turn local clinical documents into source-addressable evidence without trusting extraction blindly.
+
+## Work
+
+- file quarantine/classification;
+- born-digital PDF parsing;
+- scanned PDF/image OCR;
+- layout/table/formula extraction;
+- page/region/cell coordinate preservation;
+- OCR engine tournament;
+- Arabic/English OCR;
+- critical numeric verifier;
+- de-identification/PII classification where explicitly used;
+- hostile-input fuzz/resource campaigns;
+- parser crash isolation.
+
+## Medical OCR benchmark
+
+Dedicated categories:
+
+- drug names;
+- dose/decimal;
+- units;
+- negation;
+- laboratory values;
+- dates/times;
+- bilingual Arabic/English;
+- tables;
+- handwriting only if separately promoted.
+
+## Closure gate
+
+Conflicting critical extraction returns unresolved/null rather than silently choosing a value.
+
+---
+
+# P13 — Guideline verification engine
+
+## Goal
+
+Represent and verify guideline recommendations beyond PDF retrieval.
+
+## Work
+
+- guideline identity/version/jurisdiction;
+- recommendation IDs/spans;
+- population/criteria/contraindications;
+- stated strength/certainty;
+- supersession;
+- computable intermediate representation research;
+- CQL/CPG-on-FHIR interoperability experiments;
+- semantic faithfulness verification;
+- applicability mapping;
+- conflicting-guideline handling;
+- non-computability/human-review state.
+
+## Closure gate
+
+Schema validity or CQL compilation is never treated as proof that generated logic preserves clinical meaning.
+
+---
+
+# P14 — FHIR patient-context boundary
+
+## Goal
+
+Use clinical context without becoming a replacement EHR.
+
+## Work
+
+- FHIR R4 read/import subset;
+- profile/version-aware mapping;
+- unsupported/loss report;
+- patient identity/subject confirmation;
+- medication/condition/lab/allergy context;
+- exact source provenance;
+- read-only SMART research after local path is proven;
+- NPHIES research as separate Saudi adapter;
+- no external clinical writes.
+
+## Closure gate
+
+The same answer can explain exactly which patient-context facts were used and where they came from.
+
+---
+
+# P15 — Native mobile foundation
+
+## Goal
+
+Establish iOS and Android as native, secure, offline-capable clients sharing MedOrigin contracts.
+
+## Work
+
+- Rust core FFI boundary;
+- SwiftUI shell;
+- Kotlin/Compose shell;
+- Keychain/Keystore;
+- biometric-lock policy;
+- encrypted local subset vault;
+- app-switch/screenshot/notification privacy;
+- import/share-sheet/file-provider integration;
+- pack storage/resource quotas;
+- offline mode;
+- background lifecycle rules;
+- Arabic/RTL/accessibility.
+
+## Closure gate
+
+Mobile can open a local vault, load a bounded evidence pack, and operate without a MedOrigin server.
+
+---
+
+# P16 — Mobile Ask / Scan / Saved / Patient
+
+## Goal
+
+Ship the focused mobile product.
+
+## Ask
+
+- local retrieval;
+- compact reranker;
+- compact decision assurance;
+- local synthesis or structured fallback;
+- citation review.
+
+## Scan
+
+```text
+camera
+ -> edge/perspective correction
+ -> recoverable local capture
+ -> OCR
+ -> critical-number validation
+ -> local document/evidence admission
+```
+
+## Saved
+
+Offline evidence briefs and specialty packs.
+
+## Patient
+
+Explicit bounded context, never a hidden comprehensive record.
+
+---
+
+# P17 — Desktop-mobile local pairing and selective sync
+
+## Goal
+
+Allow controlled local transfer without central cloud dependence.
+
+## Work
+
+- one-time short-lived QR bootstrap;
+- authenticated pairing;
+- encrypted direct/LAN preference;
+- device identity and revocation;
+- selective pack/artifact/context sync;
+- conflict/revision semantics;
+- no raw keys in transfer bootstrap;
+- no silent public relay;
+- interrupted/replay/race/revocation tests.
+
+## Closure gate
+
+Paired devices synchronize only selected scopes and each remains usable independently.
+
+---
+
+# P18 — Deep Review
+
+## Goal
+
+Deliver extended evidence synthesis with transparent research process.
+
+## Required artifact
+
+```text
+research plan
+queries/retrieval traces
+source inclusion/exclusion
+source set
+subquestion synthesis
+contradictions
+gaps
+applicability
+evidence profile
+claim-support report
+calibration/decision state
+immutable evidence snapshot
+limitations
+```
+
+## Closure gate
+
+A reviewer can reproduce which evidence produced the report and distinguish source statements from MedOrigin inference.
+
+---
+
+# P19 — Voice evidence mode (optional promotion)
+
+## Goal
+
+Add voice only after the text/evidence product is trustworthy.
+
+## Work
+
+- local microphone path;
+- medical ASR tournament;
+- Arabic/English/code-switch evaluation;
+- spoken query editing/confirmation;
+- interruption/barge-in;
+- concise spoken answer;
+- full citations remain visible in text;
+- voice never lowers evidence standards.
+
+---
+
+# P20 — MedOriginBench
+
+## Goal
+
+Create the qualification system that makes product claims auditable.
+
+## Benchmark families
+
+### Retrieval
+
+- diagnosis;
+- treatment;
+- screening/prevention;
+- prognosis;
+- adverse effects/interactions;
+- pregnancy/pediatrics;
+- renal/hepatic adjustment;
+- rare disease;
+- multimorbidity;
+- rapidly changing evidence;
+- insufficient evidence;
+- retracted/corrected evidence;
+- conflicting guidelines;
+- jurisdiction-specific questions;
+- patient-context questions.
+
+### Citation/support
+
+- citation identity;
+- exact-span support;
+- unsupported cited-claim rate;
+- contradiction miss rate;
+- citation placement.
+
+### Abstention/decision assurance
+
+- missing information;
+- irrelevant evidence;
+- weak evidence;
+- conflicting evidence;
+- stale pack;
+- unavailable source;
+- model/worker failure.
+
+### Calibration
+
+- reliability;
+- Brier/ECE/NLL where applicable;
+- risk-coverage;
+- temporal and specialty shift.
+
+### OCR/documents
+
+- critical numeric categories;
+- Arabic/English;
+- tables/layout;
+- hostile documents.
+
+### Privacy/security
+
+- no-silent-egress;
+- scope leakage;
+- cache/index deletion;
+- backup/restore;
+- worker capability isolation;
+- prompt injection in retrieved/document content.
+
+### Resource/performance
+
+- cold/warm latency;
+- CPU/GPU/RAM;
+- disk/index size;
+- battery/mobile thermal behavior;
+- long-running deep review;
+- degraded/low-memory behavior.
+
+### Human review
+
+Qualified clinician/researcher review where authorized, with predefined rubrics, blinded versions where feasible, adjudication, and inter-rater agreement.
+
+## Closure gate
+
+No single aggregate score is sufficient for release or superiority claims.
+
+---
+
+# P21 — Privacy, security and real-data qualification
+
+## Goal
+
+Separate useful synthetic functionality from real sensitive-data readiness.
+
+## Campaigns
+
+- threat model closure;
+- OS key custody;
+- at-rest and unlocked-state storage inspection;
+- temp/WAL/cache/crash/log review;
+- worker sandbox/capability tests;
+- network observation/no-egress campaign;
+- backup/restore/deletion behavior;
+- mobile backup/notification/app-preview behavior;
+- update/supply-chain integrity;
+- support-bundle redaction;
+- permission revocation;
+- clinical data lifecycle map.
+
+## Rule
+
+Architecture and tests do not self-certify HIPAA, GDPR, PDPL, SFDA, medical-device, or other compliance claims. Legal/regulatory claims need appropriate external authority/evidence.
+
+---
+
+# P22 — Release engineering and distribution
+
+## Goal
+
+Produce installable, reproducible, recoverable desktop/mobile artifacts.
+
+## Work
+
+- versioning/migrations;
+- deterministic/reproducible build evidence where feasible;
+- SBOM;
+- signatures/pack trust;
+- rollback/revocation;
+- Windows installer;
+- macOS package/signing/notarization strategy;
+- Linux packages;
+- Android distribution;
+- iOS distribution gate;
+- offline install/update packs;
+- dependency/model/license notices;
+- clean-install usability.
+
+---
+
+# P23 — Claims, competitive evaluation and publication
+
+## Goal
+
+Publish only claims supported by matched evidence.
+
+## Work
+
+- claims registry;
+- intended-use statement;
+- limitations;
+- MedOriginBench release packet;
+- matched comparisons where legally/technically permitted;
+- independent reproduction path;
+- research manuscript(s) for retrieval/verification/decision assurance/calibration where genuinely novel and supported;
+- public model/system cards.
+
+---
+
+# Cross-cutting workstreams
+
+Every phase must consider:
+
+- provenance and exact identity;
+- rights/license/NOTICE;
+- privacy/data lifecycle;
+- security/capabilities;
+- deterministic failure semantics;
+- Arabic/English;
+- accessibility;
+- resource budgets;
+- offline behavior;
+- cancellation/recovery;
+- benchmark/evidence impact;
+- migration/rollback;
+- documentation/user comprehension.
+
+# Canonical sequence principle
+
+The plan is intentionally ordered so that evidence/source truth and evaluation precede model glamour:
+
+```text
+truth contracts
+ -> local custody
+ -> sources
+ -> retrieval
+ -> claim verification
+ -> applicability
+ -> decision assurance
+ -> calibration
+ -> synthesis
+ -> desktop/mobile UX
+ -> advanced features
+ -> clinical/privacy/release qualification
+```
+
+Agents may propose a different ordering only with explicit dependency/risk evidence. They must not skip an earlier trust prerequisite because a later feature is easier to demo.
