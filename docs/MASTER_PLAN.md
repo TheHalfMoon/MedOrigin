@@ -1,4 +1,4 @@
-# MedOrigin Master Plan
+# SafeEvidence Master Plan
 
 Status: `FOUNDATION_DRAFT`
 
@@ -11,7 +11,7 @@ This is a program plan, not implementation authority. Each phase must be decompo
 3. Negative, blocked, null, and abstention results are valid outcomes.
 4. Every source adoption is exact-revision/path/artifact bound.
 5. User data and medical evidence do not become training data implicitly.
-6. No mandatory MedOrigin cloud or founder-funded runtime dependency.
+6. No mandatory SafeEvidence cloud or founder-funded runtime dependency.
 7. No automatic remote inference fallback.
 8. Desktop and mobile use shared contracts but may use different native implementations.
 9. Arabic/English and accessibility are tested continuously.
@@ -25,7 +25,7 @@ This is a program plan, not implementation authority. Each phase must be decompo
 Before writing new subsystem code, the owning grain MUST execute:
 
 ```text
-R0  define required MedOrigin contract/behavior
+R0  define required SafeEvidence contract/behavior
 R1  inspect exact donor implementations
 R2  identify smallest reusable files/crates/modules/tests
 R3  spike DEPEND/COPY/ADAPT/WORKER/PORT options
@@ -48,7 +48,7 @@ Examples already confirmed during P00:
 - P14 starts from MedScale's existing FHIR R4 crate;
 - P20 reuses DAL/MedScale evaluation tooling.
 
-Reuse does not transfer donor empirical claims, clinical validation, release readiness, or safety status. MedOrigin re-runs its own acceptance evidence after transplantation.
+Reuse does not transfer donor empirical claims, clinical validation, release readiness, or safety status. SafeEvidence re-runs its own acceptance evidence after transplantation.
 
 ---
 
@@ -544,7 +544,7 @@ The same answer can explain exactly which patient-context facts were used and wh
 
 ## Goal
 
-Establish iOS and Android as native, secure, offline-capable clients sharing MedOrigin contracts.
+Establish iOS and Android as native, secure, offline-capable clients sharing SafeEvidence contracts.
 
 ## Work
 
@@ -563,7 +563,7 @@ Establish iOS and Android as native, secure, offline-capable clients sharing Med
 
 ## Closure gate
 
-Mobile can open a local vault, load a bounded evidence pack, and operate without a MedOrigin server.
+Mobile can open a local vault, load a bounded evidence pack, and operate without a SafeEvidence server.
 
 ---
 
@@ -652,7 +652,7 @@ limitations
 
 ## Closure gate
 
-A reviewer can reproduce which evidence produced the report and distinguish source statements from MedOrigin inference.
+A reviewer can reproduce which evidence produced the report and distinguish source statements from SafeEvidence inference.
 
 ---
 
@@ -675,7 +675,7 @@ Add voice only after the text/evidence product is trustworthy.
 
 ---
 
-# P20 — MedOriginBench
+# P20 — SafeEvidenceBench
 
 ## Goal
 
@@ -823,7 +823,7 @@ Publish only claims supported by matched evidence.
 - claims registry;
 - intended-use statement;
 - limitations;
-- MedOriginBench release packet;
+- SafeEvidenceBench release packet;
 - matched comparisons where legally/technically permitted;
 - independent reproduction path;
 - research manuscript(s) for retrieval/verification/decision assurance/calibration where genuinely novel and supported;
