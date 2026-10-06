@@ -16,24 +16,25 @@ This is a program plan, not implementation authority. Each phase must be decompo
 8. Desktop and mobile use shared contracts but may use different native implementations.
 9. Arabic/English and accessibility are tested continuously.
 10. Release readiness and real-PHI readiness are separate gates.
-11. Reuse is the default before greenfield implementation. Existing qualified code must be copied, adapted, depended on, or used as a bounded worker when that is safer/faster than rebuilding.
+11. Copying ready authorized implementations is the default before greenfield implementation. SafeEvidence must copy, vendor, or directly use existing good code rather than rewrite equivalent generic subsystems.
 12. Every implementation phase begins with an exact donor-code inspection and reuse decision. `GREENFIELD_JUSTIFIED` requires an explicit rejection reason for available implementations.
 13. Donor tests and fixtures travel with reused behavior where practical; empirical claims never transfer automatically.
 
-## Reuse-first gate for every phase
+## Copy-first gate for every phase
 
 Before writing new subsystem code, the owning grain MUST execute:
 
 ```text
 R0  define required SafeEvidence contract/behavior
 R1  inspect exact donor implementations
-R2  identify smallest reusable files/crates/modules/tests
-R3  spike DEPEND/COPY/ADAPT/WORKER/PORT options
-R4  compare integration, trust, resource and maintenance cost
-R5  select reuse mode or write GREENFIELD_JUSTIFIED decision
+R2  identify the largest coherent safe slice that avoids unrelated donor-product code
+R3  choose COHERENT_COPY / VENDOR / DEPEND / WORKER
+R4  copy donor tests/fixtures with behavior
+R5  adapt only the integration boundary
+R6  write GREENFIELD_JUSTIFIED only when no good ready implementation exists
 ```
 
-The primary implementation map is `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`.
+The primary copy authority is `docs/COPY_FIRST_SOURCE_PLAN.md`; `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md` remains the detailed donor map.
 
 A phase is not implementation-ready if it says only "build X" while known code already implements X and no reuse decision exists.
 
@@ -902,3 +903,24 @@ Binding additions:
 
 P00A closes only after Codex and Opus independently challenge these additions
 against exact live sources and no unresolved P0 planning gap remains.
+
+
+# Copy-first implementation amendment
+
+The founder explicitly authorizes copying, modifying, combining, adapting,
+vendoring, and rebranding the source-code donors discussed for SafeEvidence.
+
+Therefore implementation phases must follow `docs/COPY_FIRST_SOURCE_PLAN.md`.
+The project is not expected to independently recreate commodity subsystems that
+already exist in authorized sources.
+
+The preferred P01-P15 behavior is:
+
+```text
+copy ready implementation
+-> remove unrelated donor-product scope
+-> preserve provenance and donor tests
+-> adapt naming/contracts
+-> qualify under SafeEvidence
+-> build only the missing SafeEvidence-specific semantics
+```
