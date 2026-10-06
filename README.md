@@ -116,6 +116,7 @@ The initial planning authority will live under `docs/`:
 - `docs/SOURCE_LEDGER.md`
 - `docs/MASTER_PLAN.md`
 - `docs/GAP_REVIEW.md`
+- `docs/COPY_FIRST_SOURCE_PLAN.md`
 - `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`
 - `docs/DONOR_TRANSPLANT_PROTOCOL.md`
 - `docs/RUNTIME_BUDGET.md`
