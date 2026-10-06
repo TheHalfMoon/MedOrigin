@@ -1,4 +1,4 @@
-# MedOrigin Agent Rules
+# SafeEvidence Agent Rules
 
 These rules apply to Codex, Claude/Opus, Cursor, and any other engineering agent working in this repository.
 
@@ -9,7 +9,7 @@ These rules apply to Codex, Claude/Opus, Cursor, and any other engineering agent
 
 ## Current project state
 
-MedOrigin is in **P00 — Foundation challenge and freeze**.
+SafeEvidence is in **P00 — Foundation challenge and freeze**.
 
 Do **not** begin broad implementation merely because the repository exists. The current job is to challenge, refine, and close the foundation plan.
 
@@ -31,7 +31,7 @@ If documents conflict, stop treating the conflict as resolved and record it expl
 ## Core invariants
 
 - Local-first and useful offline.
-- No mandatory MedOrigin cloud.
+- No mandatory SafeEvidence cloud.
 - No silent remote inference, search, storage, telemetry, auth, or sync fallback.
 - Zero founder-funded runtime COGS is a design target.
 - Evidence first, language second.
@@ -46,7 +46,7 @@ If documents conflict, stop treating the conflict as resolved and record it expl
 
 ## Source reuse — mandatory reuse-first rule
 
-MedOrigin MUST NOT rebuild a subsystem from scratch merely because MedOrigin owns the product contract.
+SafeEvidence MUST NOT rebuild a subsystem from scratch merely because SafeEvidence owns the product contract.
 
 Before greenfield implementation, inspect actual donor code and `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`. When existing code satisfies the required behavior and can be bounded safely, prefer in this order:
 
@@ -60,7 +60,7 @@ PORT_TO_RUST
 GREENFIELD_JUSTIFIED
 ```
 
-Copying proven code is desirable when it is the smaller, safer, faster engineering path. Owning a MedOrigin interface does not require owning an independently rewritten implementation.
+Copying proven code is desirable when it is the smaller, safer, faster engineering path. Owning a SafeEvidence interface does not require owning an independently rewritten implementation.
 
 Never wholesale-copy a repository merely because permission exists. Reuse the smallest coherent implementation slice that preserves correctness and maintainability.
 
@@ -112,7 +112,7 @@ During P00:
 
 - challenge the plan, do not defend it reflexively;
 - search sibling/source repositories when a material decision depends on them;
-- identify duplicate capability across MedOrigin and sibling projects;
+- identify duplicate capability across SafeEvidence and sibling projects;
 - minimize architecture before expanding it;
 - prefer measurable promotion gates over framework preference;
 - preserve genuine reviewer disagreement until evidence resolves it;
@@ -139,7 +139,7 @@ Once implementation is authorized:
 
 Alibaba Open Code Review and Jev are required review components where they are applicable and available in the authorized environment. They complement, not replace, tests and human/agent reasoning.
 
-Do not use CodeRabbit, Qodo, or Cubic as required proof/evidence for MedOrigin.
+Do not use CodeRabbit, Qodo, or Cubic as required proof/evidence for SafeEvidence.
 
 Never claim a review tool ran unless exact output/evidence exists.
 
