@@ -1,12 +1,12 @@
-# MedOrigin
+# SafeEvidence
 
 **Local clinical evidence and decision assurance, built for desktop and mobile without a mandatory cloud.**
 
-> **Foundation status:** planning only. MedOrigin is not a medical device, has not been clinically validated, and must not be used for diagnosis, treatment, triage, prescribing, or patient-care decisions until the relevant claims are independently qualified.
+> **Foundation status:** planning only. SafeEvidence is not a medical device, has not been clinically validated, and must not be used for diagnosis, treatment, triage, prescribing, or patient-care decisions until the relevant claims are independently qualified.
 
 ## Product thesis
 
-MedOrigin is a local-first clinical evidence workstation for clinicians and researchers. Its core question is not only:
+SafeEvidence is a local-first clinical evidence workstation for clinicians and researchers. Its core question is not only:
 
 > What does the literature say?
 
@@ -14,14 +14,14 @@ It must also answer:
 
 > Does the available evidence justify an answer for this question, this patient context, this jurisdiction, and this point in time?
 
-MedOrigin should be able to answer, ask for missing information, expose conflicting evidence, or abstain. A fluent model response is never authority by itself.
+SafeEvidence should be able to answer, ask for missing information, expose conflicting evidence, or abstain. A fluent model response is never authority by itself.
 
 ## Founding invariants
 
 - **Evidence first, language second.** Retrieval, source identity, claim support, contradiction, applicability, and sufficiency are evaluated before answer rendering.
 - **Local-first by architecture.** Core record/evidence work, retrieval, inference, decision assurance, OCR, and saved history must have a useful offline path.
 - **No silent cloud fallback.** External processing is explicit and optional. Failure of a local model or source does not silently move clinical data to a remote service.
-- **No mandatory MedOrigin cloud.** Desktop and mobile must remain useful without a MedOrigin-hosted account, database, vector service, inference API, telemetry service, or storage backend.
+- **No mandatory SafeEvidence cloud.** Desktop and mobile must remain useful without a SafeEvidence-hosted account, database, vector service, inference API, telemetry service, or storage backend.
 - **Zero founder-funded runtime COGS as a design target.** User hardware and explicitly configured external sources perform ordinary work; founder-paid inference/storage/search is not a correctness dependency.
 - **Confidence is not evidence strength.** Model probability, evidence quality, patient applicability, source authority, and review state remain separate concepts.
 - **A real citation is not enough.** Material claims require support verification against exact source spans where available.
@@ -105,7 +105,7 @@ Clinical question + optional patient context
                                          Answer
 ```
 
-The final implementation must preserve replaceable workers and MedOrigin-owned contracts. No model family, RAG framework, vector database, OCR stack, or UI shell is canonical merely because it is listed as a candidate.
+The final implementation must preserve replaceable workers and SafeEvidence-owned contracts. No model family, RAG framework, vector database, OCR stack, or UI shell is canonical merely because it is listed as a candidate.
 
 ## Foundation documents
 
@@ -133,4 +133,4 @@ No large implementation phase should begin until the foundation review has:
 
 ## License
 
-MedOrigin-owned code license is not frozen by this initial planning commit. Third-party code, model weights, datasets, terminology, documents, fonts, and assets retain their own applicable rights and must be tracked independently.
+SafeEvidence-owned code license is not frozen by this initial planning commit. Third-party code, model weights, datasets, terminology, documents, fonts, and assets retain their own applicable rights and must be tracked independently.
