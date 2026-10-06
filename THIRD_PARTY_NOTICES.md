@@ -1,0 +1,33 @@
+# SafeEvidence Third-Party Notices
+
+Status: `FOUNDATION_INVENTORY`
+
+SafeEvidence is licensed under Apache-2.0 for SafeEvidence-owned code unless an
+individual file or component states otherwise.
+
+This file is the public aggregation point for third-party code, libraries,
+model artifacts, datasets, terminology, fonts, document assets, and other
+redistributed material that require attribution or additional notices.
+
+## Rules
+
+1. Permission or an open-source repository license makes a source eligible for
+   review; it does not make every nested dependency, model, dataset, font, or
+   asset redistributable.
+2. Every admitted copied/vendored component must record exact repository,
+   revision, source paths, original license/permission basis, modifications,
+   required notices, transitive material, and removal/update strategy.
+3. Runtime dependencies remain under their own licenses and must be represented
+   in the generated SBOM/notice bundle.
+4. Model weights and datasets are reviewed independently from the repository
+   source-code license.
+5. Licensed medical terminology and copyrighted literature are never covered
+   merely because adapter code is open source.
+6. This file must describe what ships. Planning candidates are recorded in
+   `docs/SOURCE_LEDGER.md`, not falsely listed here as distributed components.
+
+## Currently distributed third-party material
+
+None. SafeEvidence is still in P00 foundation planning.
+
+This section must be updated as part of the first source-admission/transplant PR.
