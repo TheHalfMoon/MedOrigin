@@ -17,23 +17,29 @@ RE-QUALIFY ALL CLAIMS
 A donor's passing tests or research claims do not automatically become
 SafeEvidence claims.
 
-## 2. Preferred reuse order
+## 2. Preferred copy order
+
+For the founder-authorized source-code universe, SafeEvidence is copy-first:
 
 ```text
-stable external dependency
-        ↓
 bounded coherent code transplant
+        ↓
+vendored source snapshot
+        ↓
+stable external dependency when clearly lower-maintenance
         ↓
 isolated local worker / FFI
         ↓
-port to Rust when the trust boundary requires it
+port only when the trust boundary requires it
         ↓
 greenfield only with GREENFIELD_JUSTIFIED
 ```
 
-Use a dependency for commodity libraries with healthy independent maintenance.
-Use a bounded transplant for sibling-project foundation code when direct
-dependency would create cross-product coupling. Use a worker for large
+Use a bounded transplant for sibling-product foundation code so SafeEvidence
+owns the implementation without cross-product runtime coupling. For generic
+independent libraries, vendoring or a pinned dependency are both acceptable;
+choose the one that minimizes long-term maintenance while preserving offline
+reproducibility. Use a worker for large
 Python/Java/native systems whose whole runtime should not enter the trusted
 core.
 
@@ -184,3 +190,21 @@ SafeEvidence re-runs matched evaluation on its own exact build.
 A source-admission/transplant PR cannot close until provenance, notices,
 transitive review, donor tests, SafeEvidence tests, and exact-head evidence are
 bound to the adopted bytes.
+
+
+## 11. Founder copy authorization
+
+The founder has explicitly authorized copying all discussed SafeEvidence
+source-code donors. Therefore an agent must not reject a code transplant merely
+because copying would be substantial.
+
+The limiting questions are technical:
+
+- Is the copied slice coherent?
+- Does it import unrelated product scope?
+- Are donor tests/fixtures included?
+- Are embedded third-party assets and terms accounted for?
+- Can SafeEvidence maintain/update/remove it?
+- Does it fit the SafeEvidence trust and runtime budget?
+
+When those answers are satisfactory, **copying is preferred over rewriting**.
