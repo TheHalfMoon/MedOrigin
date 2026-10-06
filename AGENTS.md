@@ -22,9 +22,13 @@ Read in this order before planning or changing architecture:
 3. `docs/PRODUCT_THESIS.md`
 4. `docs/ARCHITECTURE.md`
 5. `docs/SOURCE_LEDGER.md`
-6. `docs/MASTER_PLAN.md`
-7. `docs/GAP_REVIEW.md`
-8. active specs/decision records once created
+6. `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`
+7. `docs/DONOR_TRANSPLANT_PROTOCOL.md`
+8. `docs/RUNTIME_BUDGET.md`
+9. `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
+10. `docs/MASTER_PLAN.md`
+11. `docs/GAP_REVIEW.md`
+12. active specs/decision records once created
 
 If documents conflict, stop treating the conflict as resolved and record it explicitly.
 
@@ -160,3 +164,18 @@ Optional institution/user-provided external services may exist behind explicit a
 Agent self-report is not completion authority.
 
 A task is complete only when its owning acceptance criteria are satisfied and evidence is bound to the exact revision. If evidence is incomplete, report the task as partial, blocked, or not proven instead of forcing `done`.
+
+## SafeEvidence 2026-10-07 P00 amendment
+
+The findings in `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md` are mandatory P00
+inputs. Agents must not close P00 by reviewing only the older foundation set.
+
+In particular, do not:
+- ignore PubMed update/delete/retraction lifecycle;
+- omit item-level rights from packs/sync/export;
+- build retrieval without benchmarking MedCPT;
+- build claim verification without scientific-rationale evaluation and a
+  clinician-adjudicated SafeEvidence holdout;
+- display a confidence percentage without a frozen estimand/calibration split;
+- invent mobile FFI before evaluating UniFFI;
+- author generic parser/OCR/search/update frameworks when admitted donors exist.
