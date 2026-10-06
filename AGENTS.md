@@ -22,13 +22,14 @@ Read in this order before planning or changing architecture:
 3. `docs/PRODUCT_THESIS.md`
 4. `docs/ARCHITECTURE.md`
 5. `docs/SOURCE_LEDGER.md`
-6. `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`
-7. `docs/DONOR_TRANSPLANT_PROTOCOL.md`
-8. `docs/RUNTIME_BUDGET.md`
-9. `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
-10. `docs/MASTER_PLAN.md`
-11. `docs/GAP_REVIEW.md`
-12. active specs/decision records once created
+6. `docs/COPY_FIRST_SOURCE_PLAN.md`
+7. `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`
+8. `docs/DONOR_TRANSPLANT_PROTOCOL.md`
+9. `docs/RUNTIME_BUDGET.md`
+10. `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
+11. `docs/MASTER_PLAN.md`
+12. `docs/GAP_REVIEW.md`
+13. active specs/decision records once created
 
 If documents conflict, stop treating the conflict as resolved and record it explicitly.
 
@@ -48,23 +49,29 @@ If documents conflict, stop treating the conflict as resolved and record it expl
 - Arabic/English, RTL, accessibility, and resource limits are architecture concerns from the start.
 - Source permission does not waive exact provenance, embedded third-party review, model/data/asset rights, notices, security review, or tests.
 
-## Source reuse — mandatory reuse-first rule
+## Source reuse — mandatory copy-first rule
 
-SafeEvidence MUST NOT rebuild a subsystem from scratch merely because SafeEvidence owns the product contract.
+SafeEvidence MUST NOT rebuild a subsystem from scratch when an authorized ready source already implements it well.
 
-Before greenfield implementation, inspect actual donor code and `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`. When existing code satisfies the required behavior and can be bounded safely, prefer in this order:
+Before greenfield implementation, inspect `docs/COPY_FIRST_SOURCE_PLAN.md`, actual donor code, and `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`.
+
+Founder authorization permits copying, modifying, combining, adapting, vendoring, and rebranding the discussed source-code donors. For those authorized sources, permission to copy is not an implementation blocker.
+
+Prefer in this order:
 
 ```text
-DEPEND / COPY_BOUNDED
+COHERENT_COPY / VENDOR_SNAPSHOT
         ↓
-ADAPT
+DIRECT_DEPENDENCY when lower-maintenance
         ↓
-PORT_TO_RUST
+ADAPT copied code behind SafeEvidence contracts
+        ↓
+PORT only for a real trust/platform boundary
         ↓
 GREENFIELD_JUSTIFIED
 ```
 
-Copying proven code is desirable when it is the smaller, safer, faster engineering path. Owning a SafeEvidence interface does not require owning an independently rewritten implementation.
+Copying proven code is the default when it is suitable. Owning a SafeEvidence interface does not require owning an independently rewritten implementation.
 
 Never wholesale-copy a repository merely because permission exists. Reuse the smallest coherent implementation slice that preserves correctness and maintainability.
 
