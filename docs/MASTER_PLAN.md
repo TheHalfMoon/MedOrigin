@@ -869,3 +869,36 @@ truth contracts
 ```
 
 Agents may propose a different ordering only with explicit dependency/risk evidence. They must not skip an earlier trust prerequisite because a later feature is easier to demo.
+
+# P00A — SafeEvidence foundation re-audit amendment (2026-10-07)
+
+Before implementation promotion, reconcile
+`docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`.
+
+Binding additions:
+
+- P03 owns PubMed baseline/daily updates, revisions/deletions,
+  Crossref/Retraction Watch overlays, PMC/Europe PMC rights-aware full text,
+  canonical identifier reconciliation, and current-validity overlays.
+- P05 adds NCBI MedCPT to the biomedical retrieval/reranker tournament and uses
+  biomedical/systematic-review benchmarks.
+- P06 adds SciFact-style rationale evaluation, a MultiVerS research oracle, and
+  a clinician-adjudicated SafeEvidence claim/span holdout.
+- P09 freezes the user-facing confidence estimand and calibration/final split
+  policy before any percentage UI.
+- P12 chooses one primary document engine through Xberg vs docling.rs medical
+  qualification; SafeOCR cannot be cited as implementation code while its repo
+  is empty.
+- P13 uses ProtocolWISE semantics plus CQL/CQF tooling as bounded conformance
+  validation where appropriate.
+- P15 evaluates UniFFI as the default Rust-to-Swift/Kotlin binding strategy.
+- P18 may reuse ASReview screening/dedup patterns; stopping remains
+  human/evidence governed.
+- P21/P22 define TUF-style signed update/freeze/rollback semantics for app and
+  pack distribution and qualify the concrete implementation.
+- evidence/citation/appraisal schemas receive an explicit EBMonFHIR crosswalk.
+- every transplant follows `DONOR_TRANSPLANT_PROTOCOL.md`.
+- every production engine follows `RUNTIME_BUDGET.md`.
+
+P00A closes only after Codex and Opus independently challenge these additions
+against exact live sources and no unresolved P0 planning gap remains.
