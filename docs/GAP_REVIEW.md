@@ -1,8 +1,8 @@
-# MedOrigin Foundation Gap Review Protocol
+# SafeEvidence Foundation Gap Review Protocol
 
 Status: `FOUNDATION_DRAFT`
 
-This document defines how Codex, Claude/Opus, and other reviewers must challenge the MedOrigin foundation before implementation is promoted.
+This document defines how Codex, Claude/Opus, and other reviewers must challenge the SafeEvidence foundation before implementation is promoted.
 
 The goal is not to agree with the plan. The goal is to find what would make the product unsafe, scientifically weak, architecturally expensive, privacy-breaking, non-portable, untestable, or impossible to release.
 
@@ -31,7 +31,7 @@ At minimum:
 - `docs/GAP_REVIEW.md`
 - `AGENTS.md`
 
-Reviewers must inspect relevant donor/source repositories rather than trusting MedOrigin's summary when a material design choice depends on them.
+Reviewers must inspect relevant donor/source repositories rather than trusting SafeEvidence's summary when a material design choice depends on them.
 
 ## 3. Gap severity
 
@@ -52,7 +52,7 @@ Challenge:
 
 - primary user and workflow;
 - whether desktop/mobile scopes are coherent;
-- whether MedOrigin duplicates MedScale or another sibling product unnecessarily;
+- whether SafeEvidence duplicates MedScale or another sibling product unnecessarily;
 - whether the product has a sufficiently narrow initial wedge;
 - whether Deep Review, Guidelines, FHIR, OCR, voice, and mobile are correctly sequenced;
 - whether non-goals are strong enough to prevent product sprawl.
@@ -355,7 +355,7 @@ For high-impact source choices, reviewers must compare at least:
 ```text
 keep current candidate
 use a smaller/simpler alternative
-build MedOrigin-native
+build SafeEvidence-native
 remove/defer the capability
 ```
 
