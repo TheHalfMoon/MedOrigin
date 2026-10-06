@@ -1,4 +1,4 @@
-# MedOrigin Architecture
+# SafeEvidence Architecture
 
 Status: `FOUNDATION_DRAFT`
 
@@ -6,12 +6,12 @@ Status: `FOUNDATION_DRAFT`
 
 Build a local-first clinical evidence system in which source custody, retrieval, evidence verification, decision assurance, calibration, document processing, patient context, and presentation are explicit modules with narrow trust boundaries.
 
-The system must remain useful without a MedOrigin backend and must never treat model output, vector similarity, graph projection, or fluent synthesis as clinical authority.
+The system must remain useful without a SafeEvidence backend and must never treat model output, vector similarity, graph projection, or fluent synthesis as clinical authority.
 
 ## 2. Top-level shape
 
 ```text
-                         MedOrigin Core (Rust)
+                         SafeEvidence Core (Rust)
                                   |
           +-----------------------+-----------------------+
           |                       |                       |
@@ -21,7 +21,7 @@ The system must remain useful without a MedOrigin backend and must never treat m
           |                       |                       |
           +-----------------------+-----------------------+
                                   |
-                         MedOrigin contracts
+                         SafeEvidence contracts
                                   |
         +-------------+-----------+----------+-------------+
         |             |                      |             |
@@ -269,7 +269,7 @@ A decision model never receives authority to mutate patient data, prescribe, ord
 
 ## 8. Calibration
 
-MedOrigin must not expose raw model probability as medical truth.
+SafeEvidence must not expose raw model probability as medical truth.
 
 Separate calibration targets may include:
 
@@ -347,7 +347,7 @@ Generated computable logic remains separate from source meaning and requires ver
 
 ### Document IR
 
-Parsers output a MedOrigin-owned IR:
+Parsers output a SafeEvidence-owned IR:
 
 ```text
 Document
@@ -384,7 +384,7 @@ Critical fields require cross-checking/second-pass validation or explicit uncert
 
 ## 13. FHIR and patient-context interoperability
 
-FHIR is an interchange boundary, not the MedOrigin canonical database.
+FHIR is an interchange boundary, not the SafeEvidence canonical database.
 
 V1 direction:
 
@@ -517,7 +517,7 @@ Updates create new pack identities. Old saved answers remain bound to the old sn
 
 ## 19. Network and update model
 
-Evidence updates may contact approved public/institutional sources without creating a MedOrigin cloud dependency.
+Evidence updates may contact approved public/institutional sources without creating a SafeEvidence cloud dependency.
 
 The user can operate in:
 
