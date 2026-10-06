@@ -27,6 +27,10 @@ At minimum:
 - `docs/PRODUCT_THESIS.md`
 - `docs/ARCHITECTURE.md`
 - `docs/SOURCE_LEDGER.md`
+- `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`
+- `docs/DONOR_TRANSPLANT_PROTOCOL.md`
+- `docs/RUNTIME_BUDGET.md`
+- `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
 - `docs/MASTER_PLAN.md`
 - `docs/GAP_REVIEW.md`
 - `AGENTS.md`
