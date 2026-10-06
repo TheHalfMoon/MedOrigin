@@ -48,6 +48,18 @@ The following public repositories are the strongest internal sources discovered 
 
 Authorized private repositories were inspected during founder review. Because MedOrigin is public, this public ledger intentionally does **not** disclose private repository names or private file paths without separate explicit authorization for public disclosure. If a private source is selected for implementation, its exact identity and permission basis must be recorded in a non-public founder-controlled provenance record or disclosed here only after explicit authorization.
 
+### Implementation-ready internal anchors
+
+The following are confirmed code surfaces, not merely architecture references:
+
+| Donor | Concrete reusable surfaces |
+|---|---|
+| MedScale | `medscale-keys`; encrypted vault/storage; sealed blobs; migrations/writer lock; source/evidence contracts; network broker; FHIR R4 extractors; Pack admission/store/runtime/ONNX path; lexical retrieval baseline |
+| DAL | calibration/selective-risk metrics, Brier/ECE, unsafe-commit/over-abstain, risk-coverage tests and evaluation scripts |
+| commandMed | implemented policy validation/precedence, deterministic safety scaffold, tool registry/provenance and trace fixtures |
+
+Exact paths and observed heads are recorded in `REUSE_FIRST_IMPLEMENTATION_MAP.md`.
+
 ## 3. Primary evidence/discovery sources
 
 These are candidate source adapters, not bundled content rights.
@@ -200,13 +212,16 @@ Speech model/runtime rights and device-specific performance must be qualified in
 - Syft / Trivy — SBOM/artifact scanning where applicable;
 - platform sandbox primitives — exact OS confinement must be demonstrated, not declared.
 
-## 13. Competitive / behavioral references
+## 13. OpenMed code-donor boundary and competitive references
 
-These may guide product or evaluation but are not automatically code donors or evidence-content sources:
+OpenMed is both a product comparator and an eligible bounded code/test donor. MedScale previously froze and studied OpenMed v2.2.0 at commit `59d9cb0a2e0ccbba8fa3d891a66d83ffaf45e837`; MedOrigin must reverify exact upstream identity before adoption.
+
+High-value donor families include terminology grounding/snapshot/provenance, FHIR/profile/integrity/SDC tests, Unicode/span projection, PII/NER/de-identification evaluation rules, document/OCR adapters, and hard-negative/multilingual fixtures. Prefer an isolated local worker when that avoids unnecessary Rust reimplementation; port only trusted-core behavior that must live in Rust. Restricted terminology/data/model assets remain separately governed.
+
+The following also guide product or evaluation but are not automatically code donors or evidence-content sources:
 
 - OpenEvidence;
 - Abridge;
-- OpenMed;
 - commercial clinical evidence products;
 - commercial medical-scribe products;
 - first-party OS health/document/mobile features.
