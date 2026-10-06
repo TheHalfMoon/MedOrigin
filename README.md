@@ -116,6 +116,10 @@ The initial planning authority will live under `docs/`:
 - `docs/SOURCE_LEDGER.md`
 - `docs/MASTER_PLAN.md`
 - `docs/GAP_REVIEW.md`
+- `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`
+- `docs/DONOR_TRANSPLANT_PROTOCOL.md`
+- `docs/RUNTIME_BUDGET.md`
+- `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
 
 `AGENTS.md` defines the planning/review contract for Codex, Claude/Opus, and other engineering agents.
 
@@ -133,4 +137,4 @@ No large implementation phase should begin until the foundation review has:
 
 ## License
 
-SafeEvidence-owned code license is not frozen by this initial planning commit. Third-party code, model weights, datasets, terminology, documents, fonts, and assets retain their own applicable rights and must be tracked independently.
+SafeEvidence-owned code is licensed under Apache-2.0. Third-party code, model weights, datasets, terminology, documents, fonts, and assets retain their own applicable rights and are tracked independently through the source/provenance and third-party notice process.
