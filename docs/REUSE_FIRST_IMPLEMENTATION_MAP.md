@@ -1,11 +1,11 @@
-# MedOrigin Reuse-First Implementation Map
+# SafeEvidence Reuse-First Implementation Map
 
 Status: `P00_FOUNDATION_AMENDMENT`  
 Review date: 2026-10-06
 
 ## 1. Purpose
 
-MedOrigin MUST NOT rebuild a subsystem from scratch when a qualified code source already implements the required behavior well enough to copy, adapt, depend on, or use as a bounded local worker.
+SafeEvidence MUST NOT rebuild a subsystem from scratch when a qualified code source already implements the required behavior well enough to copy, adapt, depend on, or use as a bounded local worker.
 
 The product still owns its contracts, clinical semantics, trust boundaries, tests, and release claims. Owning a contract does **not** imply rewriting every implementation.
 
@@ -14,20 +14,20 @@ The default implementation order is:
 ```text
 DEPEND / COPY_BOUNDED
         ↓
-ADAPT behind MedOrigin contract
+ADAPT behind SafeEvidence contract
         ↓
 PORT only when trust/language/platform boundary requires it
         ↓
 GREENFIELD only after explicit justification
 ```
 
-Permission makes reuse eligible. Exact source identity, path, transitive material, notices, security review, tests, and MedOrigin acceptance evidence make reuse adoptable.
+Permission makes reuse eligible. Exact source identity, path, transitive material, notices, security review, tests, and SafeEvidence acceptance evidence make reuse adoptable.
 
 ## 2. Greenfield authorization rule
 
 Before any implementation grain writes a new subsystem, it MUST produce a donor decision containing:
 
-1. required MedOrigin behavior/contract;
+1. required SafeEvidence behavior/contract;
 2. code sources inspected at exact revisions;
 3. concrete files/crates/modules that already implement the behavior;
 4. smallest viable reuse mode for each candidate;
@@ -51,7 +51,7 @@ GREENFIELD_JUSTIFIED
 
 `GREENFIELD_JUSTIFIED` is valid only when the record explains why available code is materially worse on correctness, privacy/security, portability, maintenance, resource cost, rights/provenance, or product fit.
 
-"MedOrigin should own this" is not by itself a valid greenfield reason.
+"SafeEvidence should own this" is not by itself a valid greenfield reason.
 
 ## 3. Frozen donor heads observed during this review
 
@@ -73,7 +73,7 @@ Private source identities remain outside this public file unless separately auth
 
 ## 4. Direct transplant candidates from MedScale
 
-MedScale is not merely a conceptual reference. It contains real reusable Rust code. MedOrigin should begin by transplanting/adapting qualified slices instead of recreating them.
+MedScale is not merely a conceptual reference. It contains real reusable Rust code. SafeEvidence should begin by transplanting/adapting qualified slices instead of recreating them.
 
 ### 4.1 Local vault and keys — COPY/ADAPT first
 
@@ -104,7 +104,7 @@ Existing useful behavior includes:
 - source metadata and durable authority rows;
 - single-writer/exclusive-writer work and tests.
 
-**MedOrigin direction:** transplant the smallest coherent storage/key slice, rename/adapt contracts, preserve tests, then re-qualify privacy and crash semantics. Do not write a new encryption/vault stack first.
+**SafeEvidence direction:** transplant the smallest coherent storage/key slice, rename/adapt contracts, preserve tests, then re-qualify privacy and crash semantics. Do not write a new encryption/vault stack first.
 
 ### 4.2 Source and evidence contracts — COPY/ADAPT first
 
@@ -127,7 +127,7 @@ Useful existing concepts/code:
 - retrieval result explicitly marked relevance-only;
 - digest validation.
 
-**MedOrigin delta:** expand rights/source classes beyond MedScale's synthetic evidence baseline and add richer publication/correction/licensing metadata. Extend; do not restart.
+**SafeEvidence delta:** expand rights/source classes beyond MedScale's synthetic evidence baseline and add richer publication/correction/licensing metadata. Extend; do not restart.
 
 ### 4.3 Network broker — COPY/ADAPT first
 
@@ -149,7 +149,7 @@ Existing behavior:
 - real-PHI-forbidden data-class denial;
 - URL/private-network/browser validation work in later modules.
 
-**MedOrigin direction:** adapt this to `NETWORK_LOCKED / EVIDENCE_UPDATE_ONLY / SELECTED_CONNECTORS`. Evidence source adapters call the broker; core/model/OCR workers do not gain direct sockets.
+**SafeEvidence direction:** adapt this to `NETWORK_LOCKED / EVIDENCE_UPDATE_ONLY / SELECTED_CONNECTORS`. Evidence source adapters call the broker; core/model/OCR workers do not gain direct sockets.
 
 ### 4.4 FHIR — COPY/ADAPT first
 
@@ -169,7 +169,7 @@ Existing implemented baseline:
 - UCUM subset/unit conflict handling;
 - payload/depth limits.
 
-**MedOrigin direction:** use this crate as the initial read-only patient-context adapter and extend resource/profile coverage only as demanded. Do not create a second FHIR parser/database from scratch.
+**SafeEvidence direction:** use this crate as the initial read-only patient-context adapter and extend resource/profile coverage only as demanded. Do not create a second FHIR parser/database from scratch.
 
 ### 4.5 Pack admission and local specialist runtime — COPY/ADAPT first
 
@@ -192,13 +192,13 @@ Existing behavior:
 - proposal/evidence-only runtime boundary;
 - real CPU ONNX token-classifier execution through `tract-onnx`.
 
-**MedOrigin direction:** evolve this into `ModelPack / EvidencePack / GuidelinePack / TerminologyPack / BenchmarkPack`. Reuse admission, hashing, signer/epoch, and runtime patterns instead of inventing a new package format.
+**SafeEvidence direction:** evolve this into `ModelPack / EvidencePack / GuidelinePack / TerminologyPack / BenchmarkPack`. Reuse admission, hashing, signer/epoch, and runtime patterns instead of inventing a new package format.
 
 ### 4.6 Lexical retrieval baseline — COPY/ADAPT as oracle/baseline
 
 MedScale has implemented deterministic lexical retrieval contracts and code with immutable corpus identity and retraction handling.
 
-**MedOrigin direction:** copy it as a correctness/reference baseline and fixture path, then add real FTS5/BM25. Do not confuse the existing simple ranker with the final retrieval engine.
+**SafeEvidence direction:** copy it as a correctness/reference baseline and fixture path, then add real FTS5/BM25. Do not confuse the existing simple ranker with the final retrieval engine.
 
 ## 5. Decision/safety/calibration code reuse
 
@@ -227,7 +227,7 @@ Implemented behavior already includes:
 - injection/spoof fail-closed behavior;
 - exactly one terminal state.
 
-**MedOrigin direction:** preserve fixtures and semantics as an executable oracle. Port/adapt the trusted deterministic subset to Rust rather than redesigning the state machine from a blank file.
+**SafeEvidence direction:** preserve fixtures and semantics as an executable oracle. Port/adapt the trusted deterministic subset to Rust rather than redesigning the state machine from a blank file.
 
 ### 5.2 DAL metrics/selective prediction — COPY/ADAPT benchmark tooling
 
@@ -251,7 +251,7 @@ Existing code includes:
 - risk/coverage metrics;
 - abstention/selective evaluation.
 
-**MedOrigin direction:** transplant/adapt this into MedOriginBench/P08/P09. Keep it in Python initially if that is the fastest reproducible benchmark path; production Rust does not require rewriting scientific evaluation utilities.
+**SafeEvidence direction:** transplant/adapt this into SafeEvidenceBench/P08/P09. Keep it in Python initially if that is the fastest reproducible benchmark path; production Rust does not require rewriting scientific evaluation utilities.
 
 ## 6. OpenMed should be treated as a code donor, not only a competitor
 
@@ -293,7 +293,7 @@ B) copy/port a bounded algorithm/test slice into Rust
 C) depend on a lower-level Rust donor that already solves the same task
 ```
 
-A local worker can be the fastest safe path for terminology, de-identification, or document preprocessing while the trusted MedOrigin core remains Rust and network-denied.
+A local worker can be the fastest safe path for terminology, de-identification, or document preprocessing while the trusted SafeEvidence core remains Rust and network-denied.
 
 Never copy restricted terminology tables merely because surrounding code is reusable.
 
@@ -321,9 +321,9 @@ A Rust port/workspace already provides:
 
 ### Rule for P12
 
-MedOrigin MUST NOT author a PDF/Office parser, layout engine, table parser, or OCR framework from scratch before Xberg/docling.rs/OpenMed/PaddleOCR routes are benchmarked against the required medical fixtures.
+SafeEvidence MUST NOT author a PDF/Office parser, layout engine, table parser, or OCR framework from scratch before Xberg/docling.rs/OpenMed/PaddleOCR routes are benchmarked against the required medical fixtures.
 
-MedOrigin-owned work should focus on:
+SafeEvidence-owned work should focus on:
 
 - hostile-input boundary;
 - source-coordinate/evidence-span normalization;
@@ -341,7 +341,7 @@ Existing Rust library provides local ONNX embeddings and reranking and supports 
 
 ### sqlite-vec / USearch
 
-Use behind MedOrigin's projection abstraction if benchmarks justify them. Do not implement a vector database.
+Use behind SafeEvidence's projection abstraction if benchmarks justify them. Do not implement a vector database.
 
 ## 9. Desktop/mobile/sync reuse
 
@@ -354,7 +354,7 @@ Do not blindly copy a domain-specific sibling UI. Reuse:
 - native file/key integration;
 - tests and privacy probes.
 
-The clinician UX itself may remain MedOrigin-specific.
+The clinician UX itself may remain SafeEvidence-specific.
 
 ### Mobile
 
@@ -377,35 +377,35 @@ Do not build ASR from scratch.
 
 ## 11. Phase-by-phase reuse default
 
-| MedOrigin phase | Reuse-first default |
+| SafeEvidence phase | Reuse-first default |
 |---|---|
 | P01 repo/governance | transplant sibling CI/provenance/governance patterns; SpecGrain/Diffcipline process |
 | P02 contracts/vault | **MedScale keys + storage + source contracts** |
 | P03 evidence acquisition | MedScale evidence identities + OpenMed provenance/snapshot patterns; write only source-specific adapters/glue |
 | P04 lexical retrieval | MedScale lexical baseline + SQLite FTS5 |
 | P05 semantic/rerank | **fastembed-rs** + sqlite-vec/USearch tournament |
-| P06 claim support | reuse MedScale evidence evaluation schemas/protocols; MedOrigin-specific verifier remains core new work |
+| P06 claim support | reuse MedScale evidence evaluation schemas/protocols; SafeEvidence-specific verifier remains core new work |
 | P07 appraisal/applicability | reuse MedScale evidence strategy/evaluation semantics; extend clinical model |
 | P08 decision assurance | **commandMed safety oracle/port + DAL harness + external typed-decision providers** |
 | P09 calibration | **DAL metrics/selective tooling** |
 | P10 synthesis/runtime | **MedScale Pack admission/runtime** + llama.cpp/mistral.rs provider |
-| P11 desktop | reuse core/platform primitives; MedOrigin-specific clinician UX |
+| P11 desktop | reuse core/platform primitives; SafeEvidence-specific clinician UX |
 | P12 documents/OCR | **Xberg/docling.rs/OpenMed/PaddleOCR**; no custom parser stack |
-| P13 guidelines | reuse authorized guideline-verification research/code where exact provenance permits; build only missing MedOrigin adapter/IR pieces |
+| P13 guidelines | reuse authorized guideline-verification research/code where exact provenance permits; build only missing SafeEvidence adapter/IR pieces |
 | P14 FHIR | **MedScale FHIR** + selected OpenMed tests/algorithms |
 | P15 mobile | MedScale mobile contracts + native platform code + existing FFI patterns |
 | P16 mobile Ask/Scan | same retrieval/model/document donors, device-qualified |
 | P17 pairing/sync | existing authenticated transport + sibling QR protocol/test patterns |
 | P18 Deep Review | compose already-admitted retrieval/verification/appraisal components |
 | P19 voice | sherpa-onnx/whisper.cpp/etc. |
-| P20 MedOriginBench | **DAL + MedScale evaluation tooling/protocol patterns** |
+| P20 SafeEvidenceBench | **DAL + MedScale evaluation tooling/protocol patterns** |
 | P21 privacy/security | **MedScale vault/network/sandbox/privacy adversarial tests** + Kernux capability patterns |
 | P22 release | reuse mature sibling release/SBOM/signing workflows |
 | P23 claims/publication | reuse evidence/claim-ledger discipline, not empirical results |
 
-## 12. What is genuinely new MedOrigin work
+## 12. What is genuinely new SafeEvidence work
 
-Reuse does not remove the product's novel integration work. Likely MedOrigin-specific engineering/research remains:
+Reuse does not remove the product's novel integration work. Likely SafeEvidence-specific engineering/research remains:
 
 - public medical evidence acquisition lifecycle and evidence packs at product scale;
 - clinical query decomposition and source-family strategy;
@@ -417,7 +417,7 @@ Reuse does not remove the product's novel integration work. Likely MedOrigin-spe
 - clinician evidence workstation UX;
 - mobile evidence experience;
 - Deep Review reproducibility;
-- MedOriginBench and matched product-level validation.
+- SafeEvidenceBench and matched product-level validation.
 
 These are where engineering effort should concentrate. Generic storage, encryption, FHIR parsing, model packaging, OCR frameworks, embedding runtimes, calibration metric formulas, and network-policy plumbing should be reused whenever possible.
 
@@ -431,4 +431,4 @@ P00 cannot close until:
 - Codex and Opus independently challenge whether any planned greenfield subsystem duplicates available code;
 - every accepted greenfield subsystem has a `GREENFIELD_JUSTIFIED` record.
 
-The objective is not maximum copying. The objective is **minimum unnecessary rebuilding** while keeping MedOrigin coherent, local, secure, auditable, and independently testable.
+The objective is not maximum copying. The objective is **minimum unnecessary rebuilding** while keeping SafeEvidence coherent, local, secure, auditable, and independently testable.
