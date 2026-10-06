@@ -273,3 +273,33 @@ review_evidence
 ```
 
 No "all source is permitted" statement overrides third-party/model/data/asset provenance or the requirement to bind the adopted bytes to an exact identity.
+
+## Gap-closing sources promoted 2026-10-07
+
+Exact live revision must be reverified at adoption.
+
+| Source | Observed revision | Role | Disposition |
+|---|---|---|---|
+| NCBI MedCPT | `11e129be74102c98d16a11c310b0b5ce74c1db5e` | biomedical retriever/reranker challenger | `MODEL/BENCHMARK/REFERENCE` |
+| HL7/ebm | `374b48bb956e26a51dfdece365d98786ccc90e62` | EBMonFHIR evidence/citation/assessment crosswalk | `STANDARD/REFERENCE` |
+| ASReview | `79d568212b2b0a78f9fd7be3c5117dfb890489f9` | Deep Review screening/dedup | `WORKER/COPY_BOUNDED` |
+| SYNERGY | `dc2dadfdbb98eb1b4259604789abd640aa3b693e` | systematic-review inclusion benchmark | `BENCHMARK` |
+| Mozilla UniFFI | `bc9fb38556d9efad4cb74a8a61b5c8a7e741fcea` | Rust↔Swift/Kotlin bindings | `DEPEND` |
+| awslabs/tough | `98d8eb8b2ce63515d9b4981c938ef6453c5b5771` | TUF Rust candidate | `QUALIFY` |
+| BEIR | `ef83d29307061c65d04b035b4f4e7c18bd8374af` | retrieval evaluation | `BENCHMARK` |
+| SciFact | `68b98a56d93e0f9da0d2aab4e6c3294699a0f72e` | claim/rationale verification benchmark | `BENCHMARK/CODE_REFERENCE` |
+| MultiVerS | `a6ce033f0e17ae38c1f102eae1ee4ca213fbbe2e` | scientific verifier research oracle | `WORKER/BENCHMARK_ONLY` |
+| CQL toolchain | `c41c21f5616a0da82d49e32a9cc3a5b3ca299bc2` | guideline conformance validation | `WORKER/REFERENCE` |
+| Tantivy | `1783018f9e6c0ffa4a884df3812011d8d13e4b52` | large lexical-index challenger | `DEPEND/BENCHMARK` |
+| vLLM Semantic Router | `f53701a387197d95ee4c2d1dfb4acaa1adca5b3f` | typed decision-model research source | `MODEL/REFERENCE` |
+
+Also promote the following data/source routes: PubMed annual baseline + ordered
+daily updates; PMC Open Access article datasets; Europe PMC; Crossref REST +
+Retraction Watch; MeSH; rights-gated RxNorm; ClinicalTrials.gov status
+snapshots.
+
+### SafeOCR status
+
+`AbdulazizShehri/SafeOCR` is currently empty and therefore is **not** an
+implementation donor. Its healthcare OCR safety thesis may inform SafeEvidence
+tests, but no code reuse may be claimed until source exists.
