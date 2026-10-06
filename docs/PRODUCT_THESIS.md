@@ -1,10 +1,10 @@
-# MedOrigin Product Thesis
+# SafeEvidence Product Thesis
 
 Status: `FOUNDATION_DRAFT`
 
 ## 1. Product statement
 
-MedOrigin is a local-first clinical evidence and decision-assurance system for clinicians and researchers. It is designed to retrieve, verify, compare, and explain medical evidence while preserving the option to ask for missing context, expose conflicts, or abstain instead of forcing an answer.
+SafeEvidence is a local-first clinical evidence and decision-assurance system for clinicians and researchers. It is designed to retrieve, verify, compare, and explain medical evidence while preserving the option to ask for missing context, expose conflicts, or abstain instead of forcing an answer.
 
 The product is not defined as "an offline OpenEvidence clone." Its intended differentiation is verification and decision assurance:
 
@@ -12,7 +12,7 @@ The product is not defined as "an offline OpenEvidence clone." Its intended diff
 Discovery product:
 find evidence -> summarize
 
-MedOrigin target:
+SafeEvidence target:
 find evidence
 -> establish source identity
 -> verify claim support
@@ -63,7 +63,7 @@ Import local PDFs/documents/scans, extract source-linked evidence, and navigate 
 
 ### Mobile evidence access
 
-Ask, scan, review, and save evidence on iOS/Android without requiring a MedOrigin cloud account or mandatory remote inference.
+Ask, scan, review, and save evidence on iOS/Android without requiring a SafeEvidence cloud account or mandatory remote inference.
 
 ## 4. Product surfaces
 
@@ -114,7 +114,7 @@ The exact final state machine must be qualified before clinical claims. The key 
 
 ## 6. Trust semantics
 
-MedOrigin must keep these concepts separate:
+SafeEvidence must keep these concepts separate:
 
 ```text
 model probability
@@ -165,7 +165,7 @@ Saved answers bind immutable evidence snapshots. New evidence creates a new eval
 
 ## 8. Evidence-source philosophy
 
-MedOrigin should support four product-level pack classes:
+SafeEvidence should support four product-level pack classes:
 
 ```text
 Open Evidence Pack
@@ -178,7 +178,7 @@ Access and redistribution rights are separate questions. A technically retrievab
 
 ## 9. Competitive thesis
 
-MedOrigin should compete on measurable properties rather than branding claims:
+SafeEvidence should compete on measurable properties rather than branding claims:
 
 - citation identity accuracy;
 - exact claim-support accuracy;
@@ -198,10 +198,10 @@ Any comparison with OpenEvidence, Abridge, OpenMed, or another product must use 
 
 ## 10. Local-first and cost boundary
 
-A useful MedOrigin installation must not require:
+A useful SafeEvidence installation must not require:
 
-- a MedOrigin account;
-- a MedOrigin backend;
+- a SafeEvidence account;
+- a SafeEvidence backend;
 - hosted vector storage;
 - hosted telemetry;
 - hosted authentication;
@@ -232,4 +232,4 @@ Release claims must be scoped to exact evidence. The repository must be able to 
 
 ## 13. Success definition
 
-MedOrigin succeeds when a clinician can locally ask a clinical question, inspect the exact evidence behind the answer, see what is uncertain or conflicting, understand whether the evidence applies to the supplied patient context, and trust that the system will decline to overstate what the evidence does not establish.
+SafeEvidence succeeds when a clinician can locally ask a clinical question, inspect the exact evidence behind the answer, see what is uncertain or conflicting, understand whether the evidence applies to the supplied patient context, and trust that the system will decline to overstate what the evidence does not establish.
