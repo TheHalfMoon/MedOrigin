@@ -16,6 +16,39 @@ This is a program plan, not implementation authority. Each phase must be decompo
 8. Desktop and mobile use shared contracts but may use different native implementations.
 9. Arabic/English and accessibility are tested continuously.
 10. Release readiness and real-PHI readiness are separate gates.
+11. Reuse is the default before greenfield implementation. Existing qualified code must be copied, adapted, depended on, or used as a bounded worker when that is safer/faster than rebuilding.
+12. Every implementation phase begins with an exact donor-code inspection and reuse decision. `GREENFIELD_JUSTIFIED` requires an explicit rejection reason for available implementations.
+13. Donor tests and fixtures travel with reused behavior where practical; empirical claims never transfer automatically.
+
+## Reuse-first gate for every phase
+
+Before writing new subsystem code, the owning grain MUST execute:
+
+```text
+R0  define required MedOrigin contract/behavior
+R1  inspect exact donor implementations
+R2  identify smallest reusable files/crates/modules/tests
+R3  spike DEPEND/COPY/ADAPT/WORKER/PORT options
+R4  compare integration, trust, resource and maintenance cost
+R5  select reuse mode or write GREENFIELD_JUSTIFIED decision
+```
+
+The primary implementation map is `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`.
+
+A phase is not implementation-ready if it says only "build X" while known code already implements X and no reuse decision exists.
+
+Examples already confirmed during P00:
+
+- P02 starts from MedScale key/vault/storage/source-contract code rather than a blank storage design;
+- P04 starts from MedScale lexical retrieval contracts/baseline and then promotes FTS5/BM25;
+- P08 starts from commandMed's deterministic safety scaffold and DAL's evaluation harness;
+- P09 starts from DAL calibration/selective-risk code;
+- P10 starts from MedScale Pack admission/runtime;
+- P12 depends on/adapts Xberg/docling.rs/OpenMed/PaddleOCR rather than authoring document/OCR engines;
+- P14 starts from MedScale's existing FHIR R4 crate;
+- P20 reuses DAL/MedScale evaluation tooling.
+
+Reuse does not transfer donor empirical claims, clinical validation, release readiness, or safety status. MedOrigin re-runs its own acceptance evidence after transplantation.
 
 ---
 
@@ -45,6 +78,8 @@ Turn the initial thesis into a challenged, gap-tracked, implementation-ready fou
 - every unresolved P1 has owner, decision gate, and phase;
 - open architecture decisions are explicit rather than silently assumed;
 - source ledger is complete enough for the first implementation horizon;
+- `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md` is reconciled against live donor heads;
+- P01-P10 each have at least one explicit reuse decision or `GREENFIELD_JUSTIFIED` record;
 - implementation roadmap is internally consistent.
 
 ---
