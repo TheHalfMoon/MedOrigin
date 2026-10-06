@@ -1,14 +1,14 @@
-# MedOrigin Source Ledger
+# SafeEvidence Source Ledger
 
 Status: `FOUNDATION_DRAFT`
 
-This ledger defines the candidate source universe for MedOrigin. Inclusion is not adoption authority. A source becomes adoptable only after the exact revision, exact paths/artifacts, controlling terms/permission, embedded dependencies, notices, modifications, security placement, tests, update strategy, and exit strategy are recorded.
+This ledger defines the candidate source universe for SafeEvidence. Inclusion is not adoption authority. A source becomes adoptable only after the exact revision, exact paths/artifacts, controlling terms/permission, embedded dependencies, notices, modifications, security placement, tests, update strategy, and exit strategy are recorded.
 
 ## 1. Adoption modes
 
 ```text
 COPY_BOUNDED     Copy the minimum useful implementation/test/rule slice with provenance.
-ADAPT            Use a donor as a close implementation basis behind MedOrigin-owned contracts.
+ADAPT            Use a donor as a close implementation basis behind SafeEvidence-owned contracts.
 PORT_TO_RUST     Reimplement bounded behavior/contracts/tests in Rust while preserving provenance.
 DEPEND           Use a pinned upstream dependency.
 VENDOR           Store an immutable source/runtime snapshot after explicit justification.
@@ -24,9 +24,9 @@ Permission expands what is legally/contractually possible; it does not determine
 
 ## 2. Founder-owned / sibling repositories — primary public sources
 
-The following public repositories are the strongest internal sources discovered during the MedOrigin foundation review.
+The following public repositories are the strongest internal sources discovered during the SafeEvidence foundation review.
 
-| Source | MedOrigin candidate value | Default mode |
+| Source | SafeEvidence candidate value | Default mode |
 |---|---|---|
 | `TheHalfMoon/MedScale` | primary evidence architecture; source identity; rights-aware acquisition; claim-support verification; Packs; local-first privacy; FHIR/interoperability patterns; evidence evaluation protocol | `ADAPT / COPY_BOUNDED / PORT_TO_RUST / REFERENCE` |
 | `TheHalfMoon/DAL` | decision assurance; explicit commit-vs-abstain semantics; calibration/selective-risk metrics; MedQAbstain work; typed decision baselines; negative-result discipline | `ADAPT / COPY_BOUNDED / BENCHMARK_ONLY` |
@@ -46,7 +46,7 @@ The following public repositories are the strongest internal sources discovered 
 
 ### Private sibling sources
 
-Authorized private repositories were inspected during founder review. Because MedOrigin is public, this public ledger intentionally does **not** disclose private repository names or private file paths without separate explicit authorization for public disclosure. If a private source is selected for implementation, its exact identity and permission basis must be recorded in a non-public founder-controlled provenance record or disclosed here only after explicit authorization.
+Authorized private repositories were inspected during founder review. Because SafeEvidence is public, this public ledger intentionally does **not** disclose private repository names or private file paths without separate explicit authorization for public disclosure. If a private source is selected for implementation, its exact identity and permission basis must be recorded in a non-public founder-controlled provenance record or disclosed here only after explicit authorization.
 
 ### Implementation-ready internal anchors
 
@@ -81,7 +81,7 @@ Source access and content redistribution are separate decisions. A public URL is
 
 | Source | Candidate role | Rule |
 |---|---|---|
-| HL7 FHIR R4 4.0.1 | primary interchange reference | `REFERENCE`; MedOrigin keeps its own canonical authority model |
+| HL7 FHIR R4 4.0.1 | primary interchange reference | `REFERENCE`; SafeEvidence keeps its own canonical authority model |
 | SMART on FHIR | future read-only connector/auth reference | separately qualified adapter |
 | CQL / CPG-on-FHIR | computable guideline/evidence logic reference | verification-first; no compilation-equals-correctness assumption |
 | NPHIES | Saudi interoperability reference where applicable | exact profile/version and deployment authority required |
@@ -94,7 +94,7 @@ Source access and content redistribution are separate decisions. A public URL is
 
 ## 5. Evidence/retrieval architecture candidates
 
-MedOrigin owns retrieval contracts. Heavy RAG systems are references or optional workers, not default product authority.
+SafeEvidence owns retrieval contracts. Heavy RAG systems are references or optional workers, not default product authority.
 
 | Source | Candidate value | Default mode |
 |---|---|---|
@@ -115,7 +115,7 @@ Default V1 direction: scoped lexical retrieval + optional local embeddings + rer
 
 ## 6. Decision assurance and calibration candidates
 
-No candidate is trusted because it emits a probability. Every model is benchmarked under MedOrigin's own protocol.
+No candidate is trusted because it emits a probability. Every model is benchmarked under SafeEvidence's own protocol.
 
 | Source | Candidate role | Default mode |
 |---|---|---|
@@ -214,7 +214,7 @@ Speech model/runtime rights and device-specific performance must be qualified in
 
 ## 13. OpenMed code-donor boundary and competitive references
 
-OpenMed is both a product comparator and an eligible bounded code/test donor. MedScale previously froze and studied OpenMed v2.2.0 at commit `59d9cb0a2e0ccbba8fa3d891a66d83ffaf45e837`; MedOrigin must reverify exact upstream identity before adoption.
+OpenMed is both a product comparator and an eligible bounded code/test donor. MedScale previously froze and studied OpenMed v2.2.0 at commit `59d9cb0a2e0ccbba8fa3d891a66d83ffaf45e837`; SafeEvidence must reverify exact upstream identity before adoption.
 
 High-value donor families include terminology grounding/snapshot/provenance, FHIR/profile/integrity/SDC tests, Unicode/span projection, PII/NER/de-identification evaluation rules, document/OCR adapters, and hard-negative/multilingual fixtures. Prefer an isolated local worker when that avoids unnecessary Rust reimplementation; port only trusted-core behavior that must live in Rust. Restricted terminology/data/model assets remain separately governed.
 
@@ -260,7 +260,7 @@ permission_scope_if_used
 embedded_or_transitive_material
 model_dataset_asset_rights
 copyright_notice_requirements
-MedOrigin_target
+SafeEvidence_target
 adoption_mode
 why_reuse_beats_native
 security_trust_placement
