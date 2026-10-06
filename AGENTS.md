@@ -44,9 +44,25 @@ If documents conflict, stop treating the conflict as resolved and record it expl
 - Arabic/English, RTL, accessibility, and resource limits are architecture concerns from the start.
 - Source permission does not waive exact provenance, embedded third-party review, model/data/asset rights, notices, security review, or tests.
 
-## Source reuse
+## Source reuse — mandatory reuse-first rule
 
-Never wholesale-copy a repository merely because permission exists.
+MedOrigin MUST NOT rebuild a subsystem from scratch merely because MedOrigin owns the product contract.
+
+Before greenfield implementation, inspect actual donor code and `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`. When existing code satisfies the required behavior and can be bounded safely, prefer in this order:
+
+```text
+DEPEND / COPY_BOUNDED
+        ↓
+ADAPT
+        ↓
+PORT_TO_RUST
+        ↓
+GREENFIELD_JUSTIFIED
+```
+
+Copying proven code is desirable when it is the smaller, safer, faster engineering path. Owning a MedOrigin interface does not require owning an independently rewritten implementation.
+
+Never wholesale-copy a repository merely because permission exists. Reuse the smallest coherent implementation slice that preserves correctness and maintainability.
 
 For every implementation-relevant source, classify it as one of:
 
@@ -62,9 +78,12 @@ ARTIFACT_IMPORT
 REFERENCE
 BENCHMARK_ONLY
 REJECT_DEFAULT
+GREENFIELD_JUSTIFIED
 ```
 
-Before copied/adapted/vendored/runtime material becomes canonical, bind exact revision/digest, paths/artifacts, license/permission basis, transitive material, notices, modifications, trust placement, tests, update strategy, and exit strategy.
+A new subsystem may use `GREENFIELD_JUSTIFIED` only after a donor decision records the exact sources inspected and why reuse is materially worse on correctness, security/privacy, portability, maintenance, resource cost, provenance/rights, or product fit. "We prefer our own implementation" is not sufficient.
+
+Before copied/adapted/vendored/runtime material becomes canonical, bind exact revision/digest, paths/artifacts, license/permission basis, transitive material, notices, modifications, trust placement, tests, update strategy, and exit strategy. Bring useful donor tests/fixtures with the implementation whenever possible.
 
 Private source identities must not be disclosed in this public repository without explicit founder authorization for public disclosure.
 
