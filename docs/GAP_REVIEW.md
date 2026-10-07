@@ -417,3 +417,26 @@ Dimensions:
 - cost/zero-cloud assumptions.
 
 `NO_KNOWN_PLANNING_GAP` means only that the defined review coverage found no unresolved unknowns at that revision. It is not evidence that the product is safe, clinically valid, secure, compliant, or release-ready.
+
+### U. Study-level evidence synthesis
+
+Challenge:
+
+- study identity vs report/publication identity;
+- multiple reports from the same study;
+- registry/publication linkage;
+- duplicate-publication false merges and false splits;
+- outcome/timepoint/arm multiplicity;
+- participant/group double counting;
+- structured effect extraction;
+- unit-of-analysis decisions;
+- quantitative synthesis eligibility;
+- heterogeneity and sensitivity analysis;
+- publication/reporting bias;
+- protocol deviations;
+- living-review update triggers;
+- funding and conflict-of-interest provenance.
+
+Reviewers must verify that SafeEvidence does not count reports as independent
+studies and does not build generic evidence-synthesis/statistical machinery from
+scratch when copy-first sources already exist.
