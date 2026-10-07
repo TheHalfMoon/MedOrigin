@@ -27,9 +27,10 @@ Read in this order before planning or changing architecture:
 8. `docs/DONOR_TRANSPLANT_PROTOCOL.md`
 9. `docs/RUNTIME_BUDGET.md`
 10. `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
-11. `docs/MASTER_PLAN.md`
-12. `docs/GAP_REVIEW.md`
-13. active specs/decision records once created
+11. `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`
+12. `docs/MASTER_PLAN.md`
+13. `docs/GAP_REVIEW.md`
+14. active specs/decision records once created
 
 If documents conflict, stop treating the conflict as resolved and record it explicitly.
 
@@ -186,3 +187,16 @@ In particular, do not:
 - display a confidence percentage without a frozen estimand/calibration split;
 - invent mobile FFI before evaluating UniFFI;
 - author generic parser/OCR/search/update frameworks when admitted donors exist.
+
+
+## Pre-build kill review rule
+
+`docs/PREBUILD_KILL_REVIEW_2026-10-07.md` is mandatory P00 authority.
+
+Agents must preserve the distinction between Study and SourceArtifact/report,
+prevent double-counting across multiple reports of one study, carry structured
+effect-extraction provenance, and use design-specific appraisal profiles.
+
+Do not implement generic systematic-review, meta-analysis, PICO extraction,
+study-screening, or evidence-surveillance machinery from scratch when the
+copy-first source plan identifies a qualified donor.
