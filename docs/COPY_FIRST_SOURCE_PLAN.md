@@ -213,7 +213,7 @@ SafeEvidence should not rebuild generic active-learning screening.
 |---|---|---|
 | Rust↔Swift/Kotlin bindings | UniFFI @ `bc9fb385...` | DEPEND or VENDOR |
 | mobile security contracts | MedScale | COPY |
-| QR pairing threat model/patterns | Signthos @ `f945f12...` | COPY/ADAPT |
+| QR pairing threat model/patterns | Signthos (AGPL public tree; separate permission asserted but not verified) | REFERENCE_ONLY_PENDING_RIGHTS; no transplant until per-slice grant/license decision |
 | platform architecture patterns | ottari @ `b7948b5...` | COPY/ADAPT |
 | iOS/Android document bridge ideas | Xberg | COPY/REFERENCE |
 
@@ -296,8 +296,8 @@ P00 cannot close until Codex and Opus independently verify that:
 | Capability | Ready source | Copy strategy |
 |---|---|---|
 | study/report surveillance and trial-review links | `evidence-surveillance/es3` | COPY_BOUNDED |
-| living RCT ingestion/PICO patterns | `ijmarshall/trialstreamer` | COPY_BOUNDED / RESEARCH_WORKER |
-| RCT PICO/risk-of-bias automation | `ijmarshall/robotreviewer` | COPY/WORKER only with exact permission and third-party record |
+| living RCT ingestion/PICO patterns | `ijmarshall/trialstreamer` | REFERENCE_ONLY_PENDING_RIGHTS (no observed public license; documented grant needed before copy) |
+| RCT PICO/risk-of-bias automation | `ijmarshall/robotreviewer` | REFERENCE / BENCHMARK; GPL-compliant distribution or separately verified grant required to ship code/worker |
 | EBM NLP models/patterns | `bwallace/RRnlp` | COPY_BOUNDED |
 | treatment-result/evidence extraction | `jayded/evidence-inference` | COPY_BOUNDED / BENCHMARK |
 | overlapping PICO extraction | `WengLab-InformaticsResearch/PICOX` | COPY_BOUNDED / BENCHMARK |

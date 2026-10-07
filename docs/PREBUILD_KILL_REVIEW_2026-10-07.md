@@ -355,8 +355,8 @@ A generated answer alone is not a complete evidence export.
 | Source | Observed head | Role | Default disposition |
 |---|---|---|---|
 | evidence-surveillance/es3 | fa845217690e179d3f8151e97773aabc035d6cfe | trial-review linkage, surveillance/update patterns | COPY_BOUNDED / REFERENCE |
-| ijmarshall/trialstreamer | a97cb8332c039e228ef42188c9d966440894e354 | living RCT acquisition/PICO/quality patterns | COPY_BOUNDED / RESEARCH_WORKER |
-| ijmarshall/robotreviewer | 9a2781974c3edc6322b4fb329b1ea0348af7b8a1 | RCT PICO/risk-of-bias automation oracle | RESEARCH_WORKER / COPY subject to adoption record |
+| ijmarshall/trialstreamer | a97cb8332c039e228ef42188c9d966440894e354 | living RCT acquisition/PICO/quality patterns | REFERENCE_ONLY_PENDING_RIGHTS; no copy without verified grant |
+| ijmarshall/robotreviewer | 9a2781974c3edc6322b4fb329b1ea0348af7b8a1 | RCT PICO/risk-of-bias automation oracle | REFERENCE / BENCHMARK; GPL compliance or verified separate grant before distribution |
 | bwallace/RRnlp | e1a26b4ed1c8d65f2c2e2558dc9f0918572306d0 | EBM NLP implementation/model research | COPY_BOUNDED / BENCHMARK |
 | jayded/evidence-inference | a661e8c14f973398380c8865cf2f27a535aaaf6d | intervention-comparator-outcome result and evidence extraction | COPY_BOUNDED / BENCHMARK |
 | WengLab-InformaticsResearch/PICOX | f3351c4786bf197efacfcefc1c1e66c36c245842 | overlapping PICO extraction | COPY_BOUNDED / BENCHMARK |

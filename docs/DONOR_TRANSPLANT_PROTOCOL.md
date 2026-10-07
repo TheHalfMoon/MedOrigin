@@ -19,7 +19,7 @@ SafeEvidence claims.
 
 ## 2. Preferred copy order
 
-For the founder-authorized source-code universe, SafeEvidence is copy-first:
+For source code with a verified rights-admission basis, SafeEvidence is copy-first. The founder has asserted permission for the discussed donors, but that assertion is not a substitute for a per-source grant or an applicable public license. Copying is DENIED pending admission when exact rights remain unresolved.
 
 ```text
 bounded coherent code transplant
@@ -192,19 +192,27 @@ transitive review, donor tests, SafeEvidence tests, and exact-head evidence are
 bound to the adopted bytes.
 
 
-## 11. Founder copy authorization
+## 11. Founder permission assertion and binding admission
 
-The founder has explicitly authorized copying all discussed SafeEvidence
-source-code donors. Therefore an agent must not reject a code transplant merely
-because copying would be substantial.
+The founder has asserted permission to copy and adapt the discussed donor source
+universe. Record this assertion accurately, but never convert it into an
+unverified claim of ownership or third-party sublicensing rights.
 
-The limiting questions are technical:
+`docs/DONOR_RIGHTS_REGISTER.md` is the mandatory admission authority. Before
+copying code or distributing its modified form, record exact repo/revision/paths,
+SPDX or governing terms, rightsholder or documented grant basis, obligations,
+notices, and separate asset/model/data/terminology rights. An unlicensed external
+repo, GPL/AGPL or custom-licensed source is not automatically Apache-2.0 merely
+because the founder has permission to use its code.
 
-- Is the copied slice coherent?
-- Does it import unrelated product scope?
-- Are donor tests/fixtures included?
-- Are embedded third-party assets and terms accounted for?
-- Can SafeEvidence maintain/update/remove it?
-- Does it fit the SafeEvidence trust and runtime budget?
+`SEPARATE_PERMISSION_ASSERTED` and `REFERENCE_ONLY_PENDING_RIGHTS` are DENY
+for copy/vendor/distributed worker until permitted mode and a verifiable
+documentary reference are recorded. `PUBLIC_LICENSE` admits only modes
+compatible with its actual terms; `FOUNDER_OWNED` requires contributor scope.
 
-When those answers are satisfactory, **copying is preferred over rewriting**.
+Rights admission precedes technical suitability. Once admitted, prefer a
+coherent ready implementation over a rewrite, preserving source/license notices,
+donor fixtures, security tests, update owner and transitive assets.
+
+If any other source matrix conflicts with this rule, STOP and classify the
+candidate as `REFERENCE_ONLY_PENDING_RIGHTS` until reconciled.

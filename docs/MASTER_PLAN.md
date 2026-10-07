@@ -40,7 +40,7 @@ A phase is not implementation-ready if it says only "build X" while known code a
 
 Examples already confirmed during P00:
 
-- P02 starts from MedScale key/vault/storage/source-contract code rather than a blank storage design;
+- P02 first qualifies ottari persistent SQLCipher/WAL for durable private authority and selectively reuses MedScale key/lock/path/source-contract code after integration tests; never copies the MedScale whole-file EncryptedVault as the canonical lifecycle;
 - P04 starts from MedScale lexical retrieval contracts/baseline and then promotes FTS5/BM25;
 - P08 starts from commandMed's deterministic safety scaffold and DAL's evaluation harness;
 - P09 starts from DAL calibration/selective-risk code;
@@ -888,8 +888,7 @@ Binding additions:
 - P09 freezes the user-facing confidence estimand and calibration/final split
   policy before any percentage UI.
 - P12 chooses one primary document engine through Xberg vs docling.rs medical
-  qualification; SafeOCR cannot be cited as implementation code while its repo
-  is empty.
+  qualification; SafeOCR is now a live critical-value verification source candidate requiring exact source pin and validation.
 - P13 uses ProtocolWISE semantics plus CQL/CQF tooling as bounded conformance
   validation where appropriate.
 - P15 evaluates UniFFI as the default Rust-to-Swift/Kotlin binding strategy.

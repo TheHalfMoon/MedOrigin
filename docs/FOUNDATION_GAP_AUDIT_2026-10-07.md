@@ -296,8 +296,9 @@ Tauri/React
 Measure privacy surfaces, accessibility, startup/RAM, developer velocity,
 rendering quality, and platform packaging.
 
-Given reuse-first and PHI/privacy concerns, Slint is the stronger default
-hypothesis; Tauri must win evidence rather than familiarity.
+Neither Slint nor Tauri is a preferred or qualified shell. Both remain unranked
+candidates in an OPEN_TOURNAMENT requiring licensing, accessibility,
+Arabic/bidi, privacy residuals, startup/RAM and packaging evidence.
 
 ### SE-G015 — Query privacy during public evidence search is underspecified
 
