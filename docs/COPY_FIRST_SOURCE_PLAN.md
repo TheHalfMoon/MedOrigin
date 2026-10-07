@@ -76,11 +76,11 @@ would waste time.
 | Capability | Primary source | Observed head | Copy strategy | SafeEvidence destination |
 |---|---|---|---|---|
 | cryptographic key handling | `TheHalfMoon/MedScale` | `1e2b7d94e970256b38bda15fa91f62bc397e825a` | COHERENT_COPY | `crates/safeevidence-keys/` |
-| SQLCipher vault | MedScale | same | COHERENT_COPY + strip unrelated schemas | `crates/safeevidence-vault/` |
-| sealed blobs | MedScale | same | COHERENT_COPY | vault/storage modules |
+| private SQLCipher vault | ottari `himsat-core` (primary hypothesis) + selected MedScale lock/claim helpers | exact adopted revisions at P02 | COPY_BOUNDED after crash/backup bake-off | `crates/safeevidence-vault/` |
+| private blob/storage primitives | ottari + selected MedScale helpers | exact adopted revisions at P02 | COPY_BOUNDED after threat-model qualification | vault/storage modules |
 | path claims / local custody | MedScale | same | COHERENT_COPY | vault/core |
 | writer ownership | MedScale `writer_lock.rs` | same | COHERENT_COPY incl. cross-process tests | vault |
-| migrations/restart integrity | MedScale | same | COPY selected migration framework/tests | vault |
+| migrations/restart integrity | ottari primary + compatible donor tests | exact adopted revisions at P02 | COPY_BOUNDED after kill/recovery qualification | vault |
 | source identity | MedScale contracts | same | COHERENT_COPY + extend | `safeevidence-contracts` |
 | evidence corpus contracts | MedScale | same | COHERENT_COPY + extend | contracts/evidence |
 | network broker | MedScale | same | COHERENT_COPY | `safeevidence-network` |

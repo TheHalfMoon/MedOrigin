@@ -411,7 +411,7 @@ Reuse does not remove the product's novel integration work. Likely SafeEvidence-
 - clinical query decomposition and source-family strategy;
 - exact claim-to-evidence support verifier integrated with product UX;
 - evidence-quality/applicability presentation;
-- calibrated end-to-end commitment probability with explicit estimand;
+- categorical commitment/abstention states with explicit reasons; any future probability requires a separately validated estimand;
 - integration of deterministic safety + typed decision models + retrieval sufficiency;
 - contradiction-first synthesis;
 - clinician evidence workstation UX;
@@ -432,3 +432,21 @@ P00 cannot close until:
 - every accepted greenfield subsystem has a `GREENFIELD_JUSTIFIED` record.
 
 The objective is not maximum copying. The objective is **minimum unnecessary rebuilding** while keeping SafeEvidence coherent, local, secure, auditable, and independently testable.
+
+
+## Independent-review reconciliation corrections
+
+This map is subordinate to:
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`;
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`;
+- `docs/DONOR_RIGHTS_REGISTER.md`.
+
+Corrections:
+- private vault default hypothesis is ottari SQLCipher/WAL, not MedScale
+  whole-file EncryptedVault;
+- SafeOCR is a live critical-value donor candidate;
+- commandMed policy mechanics are reusable, but its patient lexical policy is
+  not copied unchanged;
+- DAL negative Study-0 evidence must be retained;
+- V1 has no user-facing clinical confidence percentage;
+- every donor is copied only when its rights register allows the exact mode.

@@ -189,7 +189,7 @@ TUF roots mean it must pass a SafeEvidence/TUF conformance qualification first.
 `rust-tuf` is also explicitly beta. TUF is the required security model; the
 Rust implementation remains a tournament.
 
-### SE-G008 — SafeOCR is not a usable code donor today
+### SE-G008 — SafeOCR donor status changed after the original audit
 
 `AbdulazizShehri/SafeOCR` was later verified by both independent reviews as
 non-empty and containing a critical-value verification implementation and
@@ -197,12 +197,10 @@ tests. The earlier empty-repository statement is superseded.
 
 SafeOCR is now a donor candidate, not a clinically qualified component.
 
-Keep the healthcare OCR safety thesis, but source implementation from:
-
-- Xberg;
-- docling.rs;
-- PaddleOCR/qualified OCR models;
-- OpenMed document/OCR tests where useful.
+Use SafeOCR as a bounded critical-value verification donor candidate alongside:
+- Xberg/docling.rs for document parsing;
+- qualified OCR backends/models;
+- OpenMed offset/document tests where useful.
 
 SafeEvidence owns the critical medical OCR benchmark for decimals, doses, units,
 lab values, negation, tables, Arabic/Latin mixtures, and source-region lineage.

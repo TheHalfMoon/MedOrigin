@@ -954,9 +954,9 @@ Binding corrections:
   retraction notices remain distinct publication states.
 - failure/partial/unavailable states never collapse into "no evidence."
 
-Internal review status after this amendment: no known unresolved P0 planning gap.
-This status is not implementation authority. P00 still requires independent
-Codex and Claude/Opus review and reconciliation on the exact post-audit commit.
+The internal review's "no known P0" status is superseded. Independent Codex
+and Claude/Opus reviews found P0 findings, now addressed only through the
+canonical reconciliation documents.
 
 
 # P00R — Independent review reconciliation

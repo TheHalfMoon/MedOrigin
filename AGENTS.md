@@ -55,11 +55,11 @@ If documents conflict, stop treating the conflict as resolved and record it expl
 
 ## Source reuse — mandatory copy-first rule
 
-SafeEvidence MUST NOT rebuild a subsystem from scratch when an authorized ready source already implements it well.
+SafeEvidence MUST NOT rebuild a subsystem from scratch when a rights-admitted ready source already implements it well.
 
-Before greenfield implementation, inspect `docs/COPY_FIRST_SOURCE_PLAN.md`, actual donor code, and `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`.
+Before greenfield implementation, inspect `docs/COPY_FIRST_SOURCE_PLAN.md`, `docs/DONOR_RIGHTS_REGISTER.md`, actual donor code, and `docs/REUSE_FIRST_IMPLEMENTATION_MAP.md`.
 
-Founder authorization permits copying, modifying, combining, adapting, vendoring, and rebranding the discussed source-code donors. For those authorized sources, permission to copy is not an implementation blocker.
+The founder has asserted permission for the discussed source universe. Agents must still require an allowed per-source admission basis before copying bytes into the Apache-2.0 product tree. External copyright, copyleft, model, dataset, terminology, publication and asset rights are not inferred from a blanket statement.
 
 Prefer in this order:
 
