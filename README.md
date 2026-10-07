@@ -121,6 +121,14 @@ The initial planning authority will live under `docs/`:
 - `docs/DONOR_TRANSPLANT_PROTOCOL.md`
 - `docs/RUNTIME_BUDGET.md`
 - `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
+- `docs/P00_REPAIR_CLOSEOUT_PLAN_2026-10-08.md`
+- `docs/P00_DATA_PLACEMENT_CONTRACT.md`
+- `docs/P00_VAULT_DURABILITY_CONTRACT.md`
+- `docs/P00_STUDY_INDEPENDENCE_CONTRACT.md`
+- `docs/P00_DECISION_ASSURANCE_CONTRACT.md`
+- `docs/P00_PROOF_ADMISSION_CONTRACT.md`
+- `docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md`
+- `docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md`
 - `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
 - `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
 - `docs/DONOR_RIGHTS_REGISTER.md`
@@ -149,8 +157,10 @@ SafeEvidence-owned code is licensed under Apache-2.0. Third-party code, model we
 Two independent reviews (Codex and Claude/Opus) evaluated the same frozen
 foundation SHA and both returned `P00_NOT_READY`.
 
-Their findings have been reconciled in the P00 reconciliation authority. The
-project is now `P00_RECONCILED_PENDING_INDEPENDENT_RECHECK`, not P01-ready.
+Their first reconciliation failed document re-check. A subsequent isolated
+documentation repair binds the six P0 contracts and all original P1 acceptance
+gates. Status: `P00_REPAIR_PREPARED_PENDING_INDEPENDENT_RECHECK`, NOT
+P00-closed or P01-ready.
 
 No product implementation begins until both reviewers re-check the exact
 reconciliation head and no unresolved P0 remains.

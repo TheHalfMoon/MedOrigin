@@ -40,7 +40,7 @@ A phase is not implementation-ready if it says only "build X" while known code a
 
 Examples already confirmed during P00:
 
-- P02 first qualifies ottari persistent SQLCipher/WAL for durable private authority and selectively reuses MedScale key/lock/path/source-contract code after integration tests; never copies the MedScale whole-file EncryptedVault as the canonical lifecycle;
+- P02 starts from MedScale key/vault/storage/source-contract code rather than a blank storage design;
 - P04 starts from MedScale lexical retrieval contracts/baseline and then promotes FTS5/BM25;
 - P08 starts from commandMed's deterministic safety scaffold and DAL's evaluation harness;
 - P09 starts from DAL calibration/selective-risk code;
@@ -109,6 +109,12 @@ Create the minimum engineering substrate that makes later evidence trustworthy.
 
 A clean repository can reproduce the baseline checks from a fresh checkout with no hidden service dependency.
 
+P01 cannot close until donor-rights admission/SBOM/notice mechanisms exist,
+the owner signs the initial intended-use/evaluation charter, the public/private
+placement and durable-authority contracts are incorporated into P02 specs, and
+each original Codex/Opus P1 has an owning issue/phase-entry acceptance gate.
+The required acceptance source is the two P00 P1 registers.
+
 ---
 
 # P02 — Canonical contracts and local vault
@@ -147,7 +153,11 @@ Establish durable local authority before adding AI.
 
 ## Closure gate
 
-Durable source/evidence state survives restart/recovery without AI or network access.
+Durable source/evidence state survives restart/recovery without AI or network
+access. The P02 gate also requires the chosen private vault to pass
+`docs/P00_VAULT_DURABILITY_CONTRACT.md`, the Study/Result independence
+fixtures, and the atomic AnswerProofManifest authority contract. No donor's
+standalone tests are accepted as equivalent to integrated crash qualification.
 
 ---
 
@@ -326,19 +336,17 @@ Select a replaceable decision-assurance strategy through evidence, not preferenc
 - structured-output LLM control;
 - Jev comparison when reproducible and permitted.
 
-## Required states
+## Required typed state contract
 
 ```text
-ANSWER
-ANSWER_WITH_CAUTION
-ASK_MORE
-RETRIEVE_EVIDENCE
-USE_TOOL
-CONFLICT
-ABSTAIN
-ESCALATE
-EMERGENCY
+ControlAction = RETRIEVE_EVIDENCE | USE_TOOL | REQUEST_CONTEXT
+TerminalOutcome = ANSWER | ANSWER_WITH_CAUTION | ASK_MORE | CONFLICT |
+                  ABSTAIN | ESCALATE | BLOCKED | EMERGENCY_NOTICE
 ```
+
+See `docs/P00_DECISION_ASSURANCE_CONTRACT.md` for total precedence, reason
+codes, finite action budget, commit/abstention metrics and V1 disablement of
+unqualified emergency symptom heuristics.
 
 ## Metrics
 
@@ -888,7 +896,8 @@ Binding additions:
 - P09 freezes the user-facing confidence estimand and calibration/final split
   policy before any percentage UI.
 - P12 chooses one primary document engine through Xberg vs docling.rs medical
-  qualification; SafeOCR is now a live critical-value verification source candidate requiring exact source pin and validation.
+  qualification; SafeOCR cannot be cited as implementation code while its repo
+  is empty.
 - P13 uses ProtocolWISE semantics plus CQL/CQF tooling as bounded conformance
   validation where appropriate.
 - P15 evaluates UniFFI as the default Rust-to-Swift/Kotlin binding strategy.
@@ -1027,3 +1036,27 @@ P00R status:
 
 P00 closes only after Codex and Opus independently re-check the exact
 reconciliation head and report zero unresolved P0.
+
+## P00 repaired-contract precedence (2026-10-08)
+
+Use `docs/P00_REPAIR_CLOSEOUT_PLAN_2026-10-08.md` to interpret the P00
+reconciliation. Binding sheets for data placement, crash durability,
+statistical study/result independence, decision semantics, proof admission and
+per-slice donor rights supersede conflicting earlier candidate descriptions.
+
+Before activating any P01-P23 work, resolve every applicable original P1 row in:
+- `docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md`
+- `docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md`
+
+The first intended-use target is a CPU-only Windows desktop evidence workstation
+for English/Arabic **population-level adult clinical evidence** research,
+focused on sources, their support, contradictions, and limitations; no
+patient-specific treatment or emergency triage authority is claimed.
+Unqualified specialties, settings and territories are not marketed as covered.
+P01 product/clinical owner must approve the exact test-domain cohort, language
+and geography before evaluation/model/UX promotion. The V1 output has no
+clinical probability percentage.
+
+P00 remains OPEN until real independent post-repair reviewer reports support
+closeout. Do not implement product code or merge this repair into main
+prematurely.

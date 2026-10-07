@@ -27,13 +27,21 @@ Read in this order before planning or changing architecture:
 8. `docs/DONOR_TRANSPLANT_PROTOCOL.md`
 9. `docs/RUNTIME_BUDGET.md`
 10. `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
-11. `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
-12. `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
-13. `docs/DONOR_RIGHTS_REGISTER.md`
-14. `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`
-15. `docs/MASTER_PLAN.md`
-16. `docs/GAP_REVIEW.md`
-17. active specs/decision records once created
+11. `docs/P00_REPAIR_CLOSEOUT_PLAN_2026-10-08.md`
+12. `docs/P00_DATA_PLACEMENT_CONTRACT.md`
+13. `docs/P00_VAULT_DURABILITY_CONTRACT.md`
+14. `docs/P00_STUDY_INDEPENDENCE_CONTRACT.md`
+15. `docs/P00_DECISION_ASSURANCE_CONTRACT.md`
+16. `docs/P00_PROOF_ADMISSION_CONTRACT.md`
+17. `docs/DONOR_RIGHTS_REGISTER.md`
+18. `docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md`
+19. `docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md`
+20. `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
+21. `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
+22. `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`
+23. `docs/MASTER_PLAN.md`
+24. `docs/GAP_REVIEW.md`
+25. active specs/decision records once created
 
 If documents conflict, stop treating the conflict as resolved and record it explicitly.
 
@@ -226,3 +234,19 @@ Binding consequences:
 - founder permission assertions do not bypass per-source rights records;
 - no product implementation begins until post-reconciliation Codex and Opus
   re-checks close P00.
+
+## P00 repair authority — 2026-10-08
+
+The binding P00 contract sheets take precedence over older donor hypotheses and
+generic roadmap statements. If a conflict remains, stop; do not resolve by
+ignoring the new contract or copying code.
+
+This is a documentation-repair phase, not P01. A P00 finding is not closed
+solely by creating a document: its own reviewer must re-check the new exact
+head. P1 items are OPEN_PHASE_GATES and require named owner plus acceptance
+fixtures before the relevant phase begins.
+
+No production import without VERIFIED_ALLOWED rights-admission row. No
+MedScale whole-file EncryptedVault adoption. No V1 clinical confidence
+percentage. No model-generated clinical claim can be published as COMMITTED
+without atomic final-text AnswerProofManifest verification and durable commit.

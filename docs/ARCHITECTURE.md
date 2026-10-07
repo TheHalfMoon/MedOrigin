@@ -281,19 +281,18 @@ guideline conflict
 worker availability
 ```
 
-Candidate output:
+Typed control and terminal outcomes:
 
 ```text
-ANSWER
-ANSWER_WITH_CAUTION
-ASK_MORE
-RETRIEVE_EVIDENCE
-USE_TOOL
-CONFLICT
-ABSTAIN
-ESCALATE
-EMERGENCY
+ControlAction = RETRIEVE_EVIDENCE | USE_TOOL | REQUEST_CONTEXT
+TerminalOutcome = ANSWER | ANSWER_WITH_CAUTION | ASK_MORE | CONFLICT |
+                  ABSTAIN | ESCALATE | BLOCKED | EMERGENCY_NOTICE
 ```
+
+The terminal precedence, finite action budgets, reason codes and commit
+metrics are binding in `docs/P00_DECISION_ASSURANCE_CONTRACT.md`.
+EMERGENCY_NOTICE is disabled in V1 absent separate qualified policy; symptom
+substrings are never a triage gate.
 
 Model-assisted typed decisions may contribute, but deterministic rules may override them when a frozen policy/tool applies.
 
@@ -698,3 +697,17 @@ Historical answers are immutable; current-validity overlays may change.
 
 V1 exposes categorical evidence/support/applicability states and reasons. It
 does not expose a clinical truth-confidence percentage.
+
+## Canonical P00 contract references
+
+The older narrative architecture is subordinate to:
+- `docs/P00_DATA_PLACEMENT_CONTRACT.md` (store/grant/backup/export/sync/delete);
+- `docs/P00_VAULT_DURABILITY_CONTRACT.md` (commit/lock/WAL/backup);
+- `docs/P00_STUDY_INDEPENDENCE_CONTRACT.md` (typed result and overlap);
+- `docs/P00_DECISION_ASSURANCE_CONTRACT.md` (control vs terminal precedence);
+- `docs/P00_PROOF_ADMISSION_CONTRACT.md` (atomic assured answer);
+- `docs/DONOR_RIGHTS_REGISTER.md` (per-slice admission).
+
+Any older text suggesting a competing vault, nine interchangeable terminal
+states or a clinical confidence percentage in V1 is superseded. Real
+qualification still belongs to the owning phase.
