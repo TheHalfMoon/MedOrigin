@@ -898,8 +898,13 @@ Binding additions:
 - P12 chooses one primary document engine through Xberg vs docling.rs medical
   qualification; SafeOCR is a live critical-value verification code donor candidate,
   with exact pin/rights/tests/Arabic qualification required before adoption.
-- P13 uses ProtocolWISE semantics plus CQL/CQF tooling as bounded conformance
-  validation where appropriate.
+- P13 initially supports user- or institution-provided guideline documents and
+  metadata-only links to publicly identified guideline sources, subject to
+  per-item rights and issuer/jurisdiction/version checks. CQL/CQF is an
+  independently qualified syntax/execution reference, not proof of clinical
+  recommendation correctness. Semantic guideline verification remains
+  research-only until qualified; non-public source code is not an admitted
+  implementation donor.
 - P15 evaluates UniFFI as the default Rust-to-Swift/Kotlin binding strategy.
 - P18 may reuse ASReview screening/dedup patterns; stopping remains
   human/evidence governed.

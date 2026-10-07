@@ -96,21 +96,34 @@ Mobile is not required to mirror full desktop research analytics.
 
 ## 5. Behavioral outcomes
 
-The interaction state is explicit:
+SafeEvidence distinguishes bounded internal orchestration actions from final
+clinician-facing assurance outcomes:
 
 ```text
-ANSWER
-ANSWER_WITH_CAUTION
-ASK_MORE
-RETRIEVE_EVIDENCE
-USE_TOOL
-CONFLICT
-ABSTAIN
-ESCALATE
-EMERGENCY
+ControlAction:
+  RETRIEVE_EVIDENCE
+  USE_TOOL
+  REQUEST_CONTEXT
+
+TerminalOutcome:
+  ANSWER
+  ANSWER_WITH_CAUTION
+  ASK_MORE
+  CONFLICT
+  ABSTAIN
+  ESCALATE
+  BLOCKED
+  EMERGENCY_NOTICE
 ```
 
-The exact final state machine must be qualified before clinical claims. The key invariant is that `ABSTAIN`, `ASK_MORE`, and `CONFLICT` are successful outcomes when the evidence/context does not justify commitment.
+A ControlAction is never an answer commitment. `EMERGENCY_NOTICE` is disabled
+in V1 pending a separately qualified clinician-facing notice policy; it is not
+autonomous emergency triage. `ABSTAIN`, `ASK_MORE`, and `CONFLICT` are
+valid terminal outcomes when the evidence or context does not justify a
+supported answer. Final-text assurance additionally requires atomic proof
+admission. The binding precedence, action limits, reason codes, and
+commit/abstention definitions are in
+`docs/P00_DECISION_ASSURANCE_CONTRACT.md`.
 
 ## 6. Trust semantics
 

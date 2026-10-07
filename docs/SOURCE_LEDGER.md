@@ -350,8 +350,10 @@ repository availability.
 - metafor: stronger statistical oracle/optional worker candidate subject to
   copyleft/runtime decision;
 - trialstreamer: reference-only until separate permission reference is recorded;
-- ProtocolWISE: no implementation readiness claim until exact source can be
-  inspected;
+- Non-public guideline-verification research reference: identity withheld
+  from public documentation; research-only, no assumed code admission or
+  implementation readiness; exact source inspection and an appropriate
+  permission basis are required before adoption;
 - parser/model dependencies: default network/download/telemetry features are not
   admitted implicitly.
 

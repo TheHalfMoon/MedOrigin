@@ -253,7 +253,10 @@ to store the entire internal database as FHIR.
 
 ### SE-G012 — Guideline execution needs a reference validator
 
-ProtocolWISE remains the SafeEvidence-specific verification research source.
+A non-public guideline-verification research source was previously considered,
+but its identity is intentionally withheld in the public repository. It is
+REFERENCE_ONLY, not an implementation donor; no code reuse or clinical
+verification claim is made from that source.
 
 Add the official CQL toolchain as an external validator/reference worker:
 

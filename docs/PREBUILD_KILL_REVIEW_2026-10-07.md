@@ -384,6 +384,12 @@ P20 SafeEvidenceBench adds study-linkage precision/recall, false merge/miss rate
 
 ## Internal P00 readiness matrix
 
+**SUPERSEDED_BY_P00_REPAIR_2026_10_08.** This table preserves only the
+historical internal planning assessment. Its `RESOLVED` entries do not close
+independent P0/P1 findings, authorize copying, or indicate tested clinical
+capabilities. Current P00 authority is the repaired contracts, per-finding
+acceptance registers, and subsequent independent exact-head re-checks.
+
 | Dimension | Internal status |
 |---|---|
 | product definition | RESOLVED |

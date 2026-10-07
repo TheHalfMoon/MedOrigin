@@ -223,7 +223,7 @@ Do not hand-write two complete FFI layers if UniFFI qualifies.
 
 | Capability | Source | Strategy |
 |---|---|---|
-| guideline verification semantics | ProtocolWISE | COPY/ADAPT |
+| guideline verification research patterns | Non-public, unqualified research reference (identity withheld from public documentation) | REFERENCE_ONLY; no code copy, adaptation or implementation readiness asserted |
 | CQL translation/conformance | `cqframework/clinical_quality_language` @ `c41c21...` | VENDOR/WORKER_COPY |
 | evidence interoperability | HL7/EBMonFHIR | COPY schemas/examples as reference/export mappings |
 | FHIR patient context | MedScale + OpenMed tests | COPY |
