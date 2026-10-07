@@ -4,7 +4,7 @@ Status: P00_INTERNAL_REVIEW_COMPLETE
 
 ## Executive verdict
 
-After the copy-first source audit, evidence-lifecycle audit, and evidence-synthesis kill review, no known unresolved P0 planning gap remains in the SafeEvidence foundation from this internal review.
+An internal review previously found no known P0 planning gap. Two later independent reviews found material P0 gaps. That earlier statement is superseded by `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`.
 
 This is not implementation authority and is not a clinical, safety, security, or compliance claim. The remaining P00 gate is independent adversarial review by Codex and Claude/Opus against the exact post-audit commit.
 
@@ -424,3 +424,16 @@ Broad implementation begins only after:
 4. no unresolved P0 remains;
 5. every P1 is resolved or phase-bound with owner;
 6. the exact post-reconciliation commit becomes the P01 base.
+
+
+## Supersession notice
+
+Do not use the internal readiness matrix in this file as current closure
+authority.
+
+The independent Codex and Claude/Opus reviews found P0/P1 issues that supersede
+several `RESOLVED` rows, including storage/data planes, evidence/result
+identity, decision semantics, donor rights and proof admission.
+
+Current status is defined only by the reconciliation documents and subsequent
+independent re-checks.

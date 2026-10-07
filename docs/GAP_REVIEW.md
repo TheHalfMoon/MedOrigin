@@ -440,3 +440,23 @@ Challenge:
 Reviewers must verify that SafeEvidence does not count reports as independent
 studies and does not build generic evidence-synthesis/statistical machinery from
 scratch when copy-first sources already exist.
+
+
+# Independent-review reconciliation amendment
+
+The independent P00 reviews are complete for frozen base
+`136cdffc2cd14133e01018ca56833241dd50bc4e`.
+
+Canonical reconciliation:
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
+- `docs/DONOR_RIGHTS_REGISTER.md`
+
+Any future material review finding must additionally record:
+- `READY_SOURCE_TO_COPY`;
+- `EXACT_CODE_OR_TESTS_TO_REUSE`;
+- `GREENFIELD_REQUIRED`;
+- `BLOCKS_IMPLEMENTATION`.
+
+P00 may close only after Codex and Opus independently re-check the exact
+post-reconciliation head and no unresolved P0 remains.

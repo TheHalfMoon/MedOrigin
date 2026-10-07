@@ -9,6 +9,11 @@ This file is the public aggregation point for third-party code, libraries,
 model artifacts, datasets, terminology, fonts, document assets, and other
 redistributed material that require attribution or additional notices.
 
+Planning/admission authority is recorded separately in
+`docs/DONOR_RIGHTS_REGISTER.md`. A founder permission assertion is not itself
+a substitute for the exact public license or documentary grant required by an
+individual external source.
+
 ## Rules
 
 1. Permission or an open-source repository license makes a source eligible for
@@ -31,3 +36,21 @@ redistributed material that require attribution or additional notices.
 None. SafeEvidence is still in P00 foundation planning.
 
 This section must be updated as part of the first source-admission/transplant PR.
+
+
+## Reconciliation admission rule
+
+Before any third-party bytes are copied or redistributed, the exact slice must
+have an allowed disposition in `docs/DONOR_RIGHTS_REGISTER.md`.
+
+Code rights do not automatically cover:
+- model weights;
+- datasets;
+- publication text/abstracts;
+- medical terminology;
+- fonts/assets;
+- native binaries;
+- transitive vendored code.
+
+Copyleft/custom sources remain under their actual terms unless a separately
+verified permission/relicense record is attached.

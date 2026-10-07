@@ -191,9 +191,11 @@ Rust implementation remains a tournament.
 
 ### SE-G008 — SafeOCR is not a usable code donor today
 
-`AbdulazizShehri/SafeOCR` is currently an empty repository.
+`AbdulazizShehri/SafeOCR` was later verified by both independent reviews as
+non-empty and containing a critical-value verification implementation and
+tests. The earlier empty-repository statement is superseded.
 
-SafeEvidence must not claim SafeOCR implementation reuse.
+SafeOCR is now a donor candidate, not a clinically qualified component.
 
 Keep the healthcare OCR safety thesis, but source implementation from:
 
@@ -423,3 +425,15 @@ P00 cannot close until:
 The canonical product name is **SafeEvidence**. The GitHub repository slug
 remains `TheHalfMoon/MedOrigin` until separately renamed; repository content
 must use SafeEvidence as the product name.
+
+
+## Independent-review supersession
+
+This foundation audit remains useful historical context but is no longer the
+highest P00 authority. Independent Codex and Claude/Opus reviews found
+additional P0/P1 gaps.
+
+Canonical current authority:
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
+- `docs/DONOR_RIGHTS_REGISTER.md`

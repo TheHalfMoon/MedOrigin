@@ -233,3 +233,19 @@ Release claims must be scoped to exact evidence. The repository must be able to 
 ## 13. Success definition
 
 SafeEvidence succeeds when a clinician can locally ask a clinical question, inspect the exact evidence behind the answer, see what is uncertain or conflicting, understand whether the evidence applies to the supplied patient context, and trust that the system will decline to overstate what the evidence does not establish.
+
+## P00 reconciliation — initial qualified wedge
+
+The roadmap remains broad, but the first qualification target is intentionally
+narrower:
+
+> A desktop clinician evidence workstation for population-level medical
+> evidence questions with exact provenance, claim-to-span verification,
+> current-validity state, conflict visibility, and fail-closed abstention.
+
+This initial claim does not include autonomous diagnosis, autonomous treatment
+ordering, autonomous emergency triage, medication-dose execution, broad
+patient-specific recommendation authority, mandatory meta-analysis, mandatory
+executable guideline authority, voice authority, or full mobile parity.
+
+SafeEvidence V1 does not display a clinical truth-confidence percentage.

@@ -121,6 +121,9 @@ The initial planning authority will live under `docs/`:
 - `docs/DONOR_TRANSPLANT_PROTOCOL.md`
 - `docs/RUNTIME_BUDGET.md`
 - `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
+- `docs/DONOR_RIGHTS_REGISTER.md`
 - `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`
 
 `AGENTS.md` defines the planning/review contract for Codex, Claude/Opus, and other engineering agents.
@@ -140,3 +143,14 @@ No large implementation phase should begin until the foundation review has:
 ## License
 
 SafeEvidence-owned code is licensed under Apache-2.0. Third-party code, model weights, datasets, terminology, documents, fonts, and assets retain their own applicable rights and are tracked independently through the source/provenance and third-party notice process.
+
+## P00 reconciliation status
+
+Two independent reviews (Codex and Claude/Opus) evaluated the same frozen
+foundation SHA and both returned `P00_NOT_READY`.
+
+Their findings have been reconciled in the P00 reconciliation authority. The
+project is now `P00_RECONCILED_PENDING_INDEPENDENT_RECHECK`, not P01-ready.
+
+No product implementation begins until both reviewers re-check the exact
+reconciliation head and no unresolved P0 remains.

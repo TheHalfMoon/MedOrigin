@@ -108,3 +108,39 @@ Winner selection is workload-specific.
 
 Every optional engine or worker must have an exit strategy. SafeEvidence must be
 able to remove a donor/runtime without rewriting canonical evidence records.
+
+
+## 10. Corpus and distribution budget
+
+The public/rebuildable evidence plane and the encrypted private authority plane
+have separate budgets.
+
+Before P03, freeze and measure:
+- default corpus scope;
+- metadata/content pack size;
+- lexical/vector index size;
+- embedding dimensions/precision/quantization;
+- model-pack sizes;
+- build workspace;
+- update/delta size;
+- builder ownership and frequency;
+- distribution bandwidth/storage scenario.
+
+A PubMed-scale corpus is not assumed to fit the private vault, mobile device, or
+default desktop profile.
+
+Large population corpora may be optional. User-built or institution-built packs
+are valid strategies when they better satisfy rights or zero-founder-COGS goals.
+
+No first clinical question may silently trigger a model or corpus download.
+
+## 11. Network and model feature closure
+
+Parser, OCR, embedding and generation dependencies are admitted with explicit
+feature closure.
+
+Default network/model-download/telemetry/service features are disabled unless
+the owning phase explicitly qualifies them.
+
+A worker library's URL validation is not equivalent to OS-level network
+confinement.
