@@ -18,7 +18,7 @@ basis auditable before copying bytes into SafeEvidence.
 Code, models, datasets, terminology, publications, fonts and other assets are
 tracked separately.
 
-## Initial register
+## Candidate discovery register (NOT an import allowlist)
 
 | Source | Current planning basis | Default allowed mode before further record |
 |---|---|---|
@@ -56,6 +56,49 @@ tracked separately.
 | Tauri | public permissive license | DEPEND candidate |
 | Iroh | exact adopted license/revision required | DEPEND candidate after transport qualification |
 
+## Exact-slice import admission ledger
+
+This ledger is initially EMPTY. No row in the candidate discovery table
+certifies redistributability or permits an automatic vendor/copy operation.
+
+Before the first imported byte, add one admission row per exact component:
+
+| Admission ID | Repo | Full source SHA | Exact paths / content digests | Owner and contributor authority | Verified governing code license or separate-grant reference | Mode and compatibility analysis | Required notices / copyleft or attribution | Transitive code/native library | Model weights/tokenizers | Dataset/publication text | Terminology/assets/fonts | Export/redistribution territories and conditions | Security/test owner | State |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| NONE | not yet imported | — | — | — | — | — | — | — | — | — | — | — | — | NO_ADMISSIONS |
+
+Each entry is either CANDIDATE, RIGHTS_UNKNOWN, VERIFIED_ALLOWED,
+REFERENCE_ONLY, or DENIED. Only VERIFIED_ALLOWED plus required notices
+and transitive review permits copy/vendor/distributed worker.
+
+For FOUNDER_OWNED code, establish contributor ownership/consent scope and
+allowable relicensing; common GitHub identity is not in itself a documented
+transfer of other contributors' rights. For SEPARATE_PERMISSION_VERIFIED,
+record a durable grant reference naming the actual rightsholder and
+code/revisions, allowed modification, combination, publication, commercial
+use, sublicensing if applicable, and notice conditions. An asserted but
+unverified grant is deny-for-copy.
+
+A GPL/AGPL source may still be used through a qualified distribution route
+that follows its license; it must not be silently relicensed to Apache-2.0.
+Worker separation alone does not waive applicable license obligations.
+
+Model weights, benchmark corpora, trial article PDFs/abstracts, UMLS/RxNorm
+restricted terms, native binaries, fonts and assets have their own decisions
+even when their wrapper source is permissively licensed.
+
+### Priority donor corrections
+
+- `trialstreamer`: REFERENCE_ONLY_PENDING_RIGHTS until a public license or
+  specific documented separate permission is verified.
+- `robotreviewer`: GPL-governed code; BENCHMARK/REFERENCE until a compliant
+  distribution decision or verified alternate license.
+- `Signthos`: AGPL-governed public code and founder permission assertion;
+  reference only until all rights holders/contributors' applicable scope and
+  compatible grant/distribution route are verified.
+- `Slint`: shell candidate; record the selected license/distribution mode and
+  all attribution obligations before admission.
+
 ## Import rule
 
 No external source with `SEPARATE_PERMISSION_ASSERTED` or
@@ -72,3 +115,16 @@ A permission record must identify:
 
 Public code permission never implies permission for model weights, datasets,
 terminology or publication content.
+
+## Phase gates
+
+P01 establishes license scanning, exact source-pin capture, SBOM and notice
+generation plus a reviewed/approved first-import allowlist. A single
+rights owner must sign the actual component row; a project-wide founder
+assertion alone is not an import event.
+
+Every subsequent transplant PR must cite an admission ID and immutable
+revision, with evidence that code, models, third-party assets and tests match
+the approved scope. A component that changes revision/dependencies is
+re-admitted; unknown terms fail closed. This is an engineering compliance
+gate, not a legal opinion.
