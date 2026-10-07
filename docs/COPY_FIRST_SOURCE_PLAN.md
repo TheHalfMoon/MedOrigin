@@ -288,3 +288,26 @@ P00 cannot close until Codex and Opus independently verify that:
 - donor tests/fixtures are included in the copy plan;
 - third-party nested terms are tracked separately;
 - every truly greenfield component is SafeEvidence-specific.
+
+
+## 16. Copy matrix — evidence synthesis
+
+| Capability | Ready source | Copy strategy |
+|---|---|---|
+| study/report surveillance and trial-review links | `evidence-surveillance/es3` | COPY_BOUNDED |
+| living RCT ingestion/PICO patterns | `ijmarshall/trialstreamer` | COPY_BOUNDED / RESEARCH_WORKER |
+| RCT PICO/risk-of-bias automation | `ijmarshall/robotreviewer` | COPY/WORKER only with exact permission and third-party record |
+| EBM NLP models/patterns | `bwallace/RRnlp` | COPY_BOUNDED |
+| treatment-result/evidence extraction | `jayded/evidence-inference` | COPY_BOUNDED / BENCHMARK |
+| overlapping PICO extraction | `WengLab-InformaticsResearch/PICOX` | COPY_BOUNDED / BENCHMARK |
+| meta-analysis/effect-size calculations | `statsmodels.stats.meta_analysis` | DEPEND / VENDOR_SELECTED |
+| screening/dedup | ASReview | COPY/WORKER |
+| PRISMA flow/accounting | existing review tooling + official PRISMA reference | COPY_BOUNDED / STANDARD_REFERENCE |
+
+SafeEvidence must not independently reimplement standard meta-analysis formulas,
+systematic-review screening engines, PICO extraction models, living-RCT update
+machinery, or generic PRISMA counting when ready authorized code exists.
+
+SafeEvidence-specific work is limited to the canonical Study/Report/Outcome/
+EffectEstimate semantics, provenance/admission, rights, clinician-facing
+workflow, and integration with SafeEvidence decision assurance.
