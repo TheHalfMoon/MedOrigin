@@ -303,3 +303,31 @@ snapshots.
 `AbdulazizShehri/SafeOCR` is currently empty and therefore is **not** an
 implementation donor. Its healthcare OCR safety thesis may inform SafeEvidence
 tests, but no code reuse may be claimed until source exists.
+
+
+## Evidence-synthesis sources promoted 2026-10-07
+
+Exact live revision and controlling terms must be reverified at adoption.
+
+| Source | Observed revision | Role | Disposition |
+|---|---|---|---|
+| `evidence-surveillance/es3` | `fa845217690e179d3f8151e97773aabc035d6cfe` | trial↔review links and living-surveillance patterns | `COPY_BOUNDED / REFERENCE` |
+| `ijmarshall/trialstreamer` | `a97cb8332c039e228ef42188c9d966440894e354` | living RCT acquisition, classification, PICO extraction | `COPY_BOUNDED / RESEARCH_WORKER` |
+| `ijmarshall/robotreviewer` | `9a2781974c3edc6322b4fb329b1ea0348af7b8a1` | RCT PICO/risk-of-bias automation oracle | `RESEARCH_WORKER / COPY` only with exact permission/licensing record |
+| `bwallace/RRnlp` | `e1a26b4ed1c8d65f2c2e2558dc9f0918572306d0` | evidence-based-medicine NLP implementation research | `COPY_BOUNDED / BENCHMARK` |
+| `jayded/evidence-inference` | `a661e8c14f973398380c8865cf2f27a535aaaf6d` | intervention/comparator/outcome result and evidence extraction | `COPY_BOUNDED / BENCHMARK` |
+| `WengLab-InformaticsResearch/PICOX` | `f3351c4786bf197efacfcefc1c1e66c36c245842` | overlapping PICO extraction | `COPY_BOUNDED / BENCHMARK` |
+| `statsmodels/statsmodels` | `8278e2d218cc85bac2c7af02feb9a19a0e499b04` | meta-analysis/effect-size/statistical synthesis | `DEPEND / VENDOR_SELECTED` |
+
+Method/standard references:
+
+- PRISMA 2020 for systematic-review reporting and deterministic flow accounting;
+- current Cochrane Handbook for study-vs-report linkage, multiplicity, unit-of-analysis and synthesis methodology;
+- RoB 2 for randomized trials;
+- ROBINS-I / ROBINS-E where applicable and version-pinned;
+- current QUADAS family for diagnostic-accuracy appraisal;
+- AMSTAR 2 for systematic-review appraisal.
+
+These method sources do not automatically authorize redistribution of their
+tool content. SafeEvidence may implement compatible internal structures and
+link/reference the methods subject to their exact terms.
