@@ -957,3 +957,74 @@ Binding corrections:
 Internal review status after this amendment: no known unresolved P0 planning gap.
 This status is not implementation authority. P00 still requires independent
 Codex and Claude/Opus review and reconciliation on the exact post-audit commit.
+
+
+# P00R — Independent review reconciliation
+
+Authority:
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
+- `docs/DONOR_RIGHTS_REGISTER.md`
+
+The prior internal "no known P0" statement is superseded by two independent
+reviews. Their P0 findings are now resolved as planning decisions; P1 findings
+are bound to owning phases.
+
+Before P01 close:
+- donor-rights register and source-admission mechanics exist;
+- initial intended-use wedge is frozen;
+- public/private data-plane placement is frozen;
+- no broad product implementation begins outside that wedge.
+
+P02 now owns:
+- ottari-vs-alternative private vault qualification;
+- key custody and crash/backup semantics;
+- StudyArm/AnalysisPopulation/Result/Comparison/overlap contracts;
+- ControlAction/TerminalOutcome contracts;
+- AnswerProofManifest;
+- source coordinate and privacy exposure contracts.
+
+P03 additionally owns:
+- default corpus scope and measured distribution/build budget;
+- PubMed ordered-update completeness and replay;
+- correction/retraction/expression-of-concern/version semantics;
+- item/field rights and publication states.
+
+P06 reuses SafeOCR critical-value verification where qualified and treats
+research extraction stacks as proposals/oracles until admitted.
+
+P08 incumbent is deterministic sufficiency + verifier evidence. Learned
+decision models must beat it on a fresh SafeEvidence holdout. DAL negative
+Study-0 results are prior evidence.
+
+P09 cannot ship a user-facing clinical confidence percentage in V1.
+
+P10 production pack consumers require qualified production trust; synthetic
+signing seeds are test-only.
+
+P11 shell remains OPEN_TOURNAMENT.
+
+P12 uses narrow offline parser builds with network/download/telemetry features
+disabled unless explicitly admitted, and process-level hostile-input limits.
+
+P13 CQL validation never substitutes for guideline semantic/jurisdiction
+validation.
+
+P17 does not assume a ready sibling pairing engine.
+
+P18 refuses pooling when independence/covariance/method support is not
+qualified. ASReview prioritization is not proof of review completeness.
+
+P20 evaluation planning prerequisites move earlier: intended-use population,
+human adjudication, bilingual/Arabic expertise, split policy and label budget.
+
+P21/P22 include OS residual surfaces, worker/socket confinement, production
+TUF-style trust and safe diagnostic receipts.
+
+P23 claims remain narrower than the roadmap.
+
+P00R status:
+`P00_RECONCILED_PENDING_INDEPENDENT_RECHECK`.
+
+P00 closes only after Codex and Opus independently re-check the exact
+reconciliation head and report zero unresolved P0.

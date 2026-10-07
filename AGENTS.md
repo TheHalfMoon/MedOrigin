@@ -27,10 +27,13 @@ Read in this order before planning or changing architecture:
 8. `docs/DONOR_TRANSPLANT_PROTOCOL.md`
 9. `docs/RUNTIME_BUDGET.md`
 10. `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
-11. `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`
-12. `docs/MASTER_PLAN.md`
-13. `docs/GAP_REVIEW.md`
-14. active specs/decision records once created
+11. `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
+12. `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
+13. `docs/DONOR_RIGHTS_REGISTER.md`
+14. `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`
+15. `docs/MASTER_PLAN.md`
+16. `docs/GAP_REVIEW.md`
+17. active specs/decision records once created
 
 If documents conflict, stop treating the conflict as resolved and record it explicitly.
 
@@ -200,3 +203,26 @@ effect-extraction provenance, and use design-specific appraisal profiles.
 Do not implement generic systematic-review, meta-analysis, PICO extraction,
 study-screening, or evidence-surveillance machinery from scratch when the
 copy-first source plan identifies a qualified donor.
+
+
+## P00 independent-review reconciliation authority
+
+The independent Opus and Codex reviews of
+`136cdffc2cd14133e01018ca56833241dd50bc4e` found the foundation not ready.
+
+Agents MUST follow:
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`;
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`;
+- `docs/DONOR_RIGHTS_REGISTER.md`.
+
+Binding consequences:
+- public/rebuildable evidence and private authority are separate data planes;
+- MedScale whole-file EncryptedVault is not the default SafeEvidence vault;
+- report/study/result independence is explicit;
+- ControlAction and TerminalOutcome are separate;
+- generated text is not committed until AnswerProofManifest admission;
+- V1 shows no clinical confidence percentage;
+- SafeOCR is a real donor candidate and must not be described as empty;
+- founder permission assertions do not bypass per-source rights records;
+- no product implementation begins until post-reconciliation Codex and Opus
+  re-checks close P00.

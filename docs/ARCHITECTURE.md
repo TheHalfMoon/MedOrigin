@@ -635,3 +635,66 @@ The foundation review must explicitly select or reject:
 - release signing/distribution strategy.
 
 No open decision may be silently resolved by an agent choosing its favorite framework.
+
+# P00 reconciliation architecture amendment
+
+Canonical details: `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`.
+
+## Data planes
+
+SafeEvidence separates:
+1. a public/rebuildable evidence plane for rights-admitted corpus material,
+   signed packs and projections; and
+2. an encrypted private authority plane for questions, patient context, private
+   documents, saved reviews, answers and private projections.
+
+Private records cannot enter distributable public packs. Cross-plane references
+use immutable IDs/digests plus source version and rights identity.
+
+## Private authority
+
+The current MedScale whole-file EncryptedVault lifecycle is not a canonical
+SafeEvidence storage decision. P02 qualifies the ottari SQLCipher/WAL vault
+slice as the primary hypothesis, with compatible MedScale writer-lock/path
+claims only after integrated crash/backup tests.
+
+## Evidence independence
+
+The canonical model includes StudyArm, AnalysisPopulation, ArmObservation,
+Result/OutcomeReport, Comparison, ReportVersionLink,
+SystematicReviewIncludedStudy and ParticipantOverlapGroup.
+
+Distinct reports do not imply distinct studies. Distinct results within a study
+do not imply statistically independent evidence.
+
+## Assurance semantics
+
+Orchestration actions are not terminal outcomes.
+
+```text
+ControlAction:
+  RETRIEVE_EVIDENCE | USE_TOOL | REQUEST_CONTEXT
+
+TerminalOutcome:
+  ANSWER | ANSWER_WITH_CAUTION | ASK_MORE | CONFLICT |
+  ABSTAIN | ESCALATE | BLOCKED | EMERGENCY_NOTICE
+```
+
+EMERGENCY_NOTICE is not autonomous triage.
+
+## Atomic proof admission
+
+Generated text is a draft until post-answer verification creates an
+AnswerProofManifest. User-visible streaming must not masquerade as committed
+evidence.
+
+AnswerProofManifest binds source/version/span, current-validity, rights,
+study/result identity, claim support, applicability, tools/models/policy and the
+terminal outcome.
+
+Historical answers are immutable; current-validity overlays may change.
+
+## Confidence
+
+V1 exposes categorical evidence/support/applicability states and reasons. It
+does not expose a clinical truth-confidence percentage.

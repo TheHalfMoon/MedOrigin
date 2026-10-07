@@ -4,12 +4,13 @@ Status: `P00_BINDING`
 
 ## 1. Founder authorization
 
-The founder has explicitly authorized SafeEvidence to copy, modify, combine,
-adapt, vendor, and rebrand the source code from the source universe discussed
-for this project.
+The founder has explicitly asserted permission to copy, modify, combine,
+adapt, vendor, and rebrand the discussed source-code donors.
 
-This removes "do we have permission to copy the donor implementation?" as a
-planning blocker for those authorized sources.
+This assertion is preserved, but SafeEvidence does not infer external copyright
+rights from a blanket statement. Every adopted source must have an allowed
+entry in `docs/DONOR_RIGHTS_REGISTER.md` based on a public license, founder
+ownership, or a recorded separate permission reference.
 
 It does **not** erase obligations attached to embedded third-party code,
 datasets, terminology, model weights, fonts, documents, or other separately
@@ -18,7 +19,7 @@ licensed material. Those remain tracked independently.
 ## 2. Engineering rule
 
 SafeEvidence MUST NOT reimplement an already-good capability from scratch when
-an authorized source already contains a usable implementation.
+a rights-admitted source already contains a usable implementation.
 
 Default decision order:
 
@@ -311,3 +312,20 @@ machinery, or generic PRISMA counting when ready authorized code exists.
 SafeEvidence-specific work is limited to the canonical Study/Report/Outcome/
 EffectEstimate semantics, provenance/admission, rights, clinician-facing
 workflow, and integration with SafeEvidence decision assurance.
+
+
+## 17. Reconciliation corrections
+
+- Private vault default hypothesis changes from MedScale EncryptedVault to the
+  ottari SQLCipher/WAL vault slice. MedScale lock/path/key helpers remain
+  candidates, not a coherent vault by themselves.
+- SafeOCR is a live critical-value verification donor candidate.
+- Trialstreamer is reference-only until its asserted separate permission is
+  documented in the donor-rights register.
+- RobotReviewer and Signthos follow their public copyleft terms unless a
+  separately verified permission/relicense record is attached.
+- statsmodels is a restricted statistical implementation/oracle; broader
+  synthesis methods should use mature existing implementations such as metafor
+  where rights/runtime qualification permits.
+- commandMed decision mechanics are reusable; its patient lexical policy content
+  is not copied unchanged for clinician evidence questions.

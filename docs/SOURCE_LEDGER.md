@@ -300,9 +300,10 @@ snapshots.
 
 ### SafeOCR status
 
-`AbdulazizShehri/SafeOCR` is currently empty and therefore is **not** an
-implementation donor. Its healthcare OCR safety thesis may inform SafeEvidence
-tests, but no code reuse may be claimed until source exists.
+`AbdulazizShehri/SafeOCR` is no longer empty. Independent review inspected a
+live critical-value verification implementation and tests. It is now a
+`COPY_BOUNDED / BENCHMARK` candidate for critical OCR verification, subject
+to exact pin, dependency/model rights and clinical/Arabic qualification.
 
 
 ## Evidence-synthesis sources promoted 2026-10-07
@@ -331,3 +332,27 @@ Method/standard references:
 These method sources do not automatically authorize redistribution of their
 tool content. SafeEvidence may implement compatible internal structures and
 link/reference the methods subject to their exact terms.
+
+
+## Independent-review donor corrections
+
+The Opus and Codex reviews supersede donor assumptions that were based only on
+repository availability.
+
+- private vault: ottari SQLCipher/WAL is the primary P02 hypothesis; MedScale
+  EncryptedVault whole-file sealing is not copied as canonical authority;
+- SafeOCR: live donor candidate;
+- commandMed: mechanics/oracle only; patient lexical rules require SafeEvidence
+  clinician policy;
+- DAL: metrics reusable; negative Study-0 results are prior evidence;
+- statsmodels meta-analysis: restricted supported-method source, not a complete
+  synthesis engine;
+- metafor: stronger statistical oracle/optional worker candidate subject to
+  copyleft/runtime decision;
+- trialstreamer: reference-only until separate permission reference is recorded;
+- ProtocolWISE: no implementation readiness claim until exact source can be
+  inspected;
+- parser/model dependencies: default network/download/telemetry features are not
+  admitted implicitly.
+
+Rights disposition is canonical in `docs/DONOR_RIGHTS_REGISTER.md`.
