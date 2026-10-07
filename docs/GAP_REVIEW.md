@@ -460,3 +460,21 @@ Any future material review finding must additionally record:
 
 P00 may close only after Codex and Opus independently re-check the exact
 post-reconciliation head and no unresolved P0 remains.
+
+## P00 binding contract and acceptance review
+
+The P00 repair is specified in:
+- `docs/P00_REPAIR_CLOSEOUT_PLAN_2026-10-08.md`;
+- `docs/P00_DATA_PLACEMENT_CONTRACT.md`;
+- `docs/P00_VAULT_DURABILITY_CONTRACT.md`;
+- `docs/P00_STUDY_INDEPENDENCE_CONTRACT.md`;
+- `docs/P00_DECISION_ASSURANCE_CONTRACT.md`;
+- `docs/P00_PROOF_ADMISSION_CONTRACT.md`;
+- `docs/DONOR_RIGHTS_REGISTER.md`;
+- `docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md`;
+- `docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md`.
+
+A P0 may be labelled CLOSED only by an independent reviewer who verifies
+the repaired **exact head**, not by a document author. A P1 may be labelled
+PRECISELY_PHASE_BOUND only if owner, phase-entry block, expected evidence and
+unavailable-resource behavior are explicit. No clinical validation is implied.

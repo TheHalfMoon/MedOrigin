@@ -54,3 +54,14 @@ Code rights do not automatically cover:
 
 Copyleft/custom sources remain under their actual terms unless a separately
 verified permission/relicense record is attached.
+
+## P00 repair admission freeze
+
+The discovery table in the source ledger is not an allowlist. The exact
+component import ledger in `docs/DONOR_RIGHTS_REGISTER.md` is empty at P00:
+no third-party component is claimed to have been copied as part of this
+documentation repair.
+
+A founder-stated permission alone does not certify other rightsholders'
+code or nested assets. If permission evidence is pending, code copying and
+distribution must wait. No source is silently relicensed into Apache-2.0.
