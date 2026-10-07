@@ -924,3 +924,36 @@ copy ready implementation
 -> qualify under SafeEvidence
 -> build only the missing SafeEvidence-specific semantics
 ```
+
+
+# P00B — Pre-build kill review amendment
+
+Canonical authority: `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`.
+
+Binding corrections:
+
+- P02 adds Study, StudyReportLink, OutcomeDefinition, EffectEstimate,
+  ReviewProtocol, SynthesisProtocol and SynthesisResult contracts.
+- P03 adds publication-state classification, trial/registry linkage,
+  funding/COI provenance, living-surveillance triggers, and study/report
+  reconciliation.
+- P04/P05 measure report retrieval and study-level recall separately.
+- P06 adds structured effect extraction using Evidence Inference/PICOX/RRnlp
+  donors/benchmarks where appropriate.
+- P07 uses versioned design-specific appraisal profiles instead of a universal
+  quality score.
+- P18 owns review protocol, screening audit, study-level dedup/linkage,
+  extraction, appraisal, PRISMA-compatible accounting, living surveillance, and
+  optional quantitative synthesis.
+- P20 adds study-linkage, extraction, double-counting, multiplicity,
+  meta-analysis golden fixtures, appraisal-agreement, and surveillance tests.
+- statsmodels or an equivalently qualified existing statistical implementation
+  is reused for synthesis; SafeEvidence does not rewrite standard meta-analysis
+  formulas.
+- preprints, protocols, registry results, regulatory reports, corrections and
+  retraction notices remain distinct publication states.
+- failure/partial/unavailable states never collapse into "no evidence."
+
+Internal review status after this amendment: no known unresolved P0 planning gap.
+This status is not implementation authority. P00 still requires independent
+Codex and Claude/Opus review and reconciliation on the exact post-audit commit.
