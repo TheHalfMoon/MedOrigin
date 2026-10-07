@@ -1,6 +1,6 @@
 # SafeEvidence P00 Independent Review Reconciliation — 2026-10-07
 
-Status: `P00_RECONCILED_PENDING_INDEPENDENT_RECHECK`
+Status: `SUPERSEDED_BY_2026_10_08_REPAIR` (historical reconciliation)
 
 Frozen review base: `136cdffc2cd14133e01018ca56833241dd50bc4e`.
 
@@ -82,10 +82,15 @@ critical-value OCR verification donor candidate, subject to qualification.
 
 ## Status
 
-Known P0 findings are addressed by explicit planning decisions, but P00 is not
-closed.
+The initial reconciliation was found insufficient on 2026-10-08. The binding
+repair is `docs/P00_REPAIR_CLOSEOUT_PLAN_2026-10-08.md`. No original P0 is
+closed until independent reviewer re-checks accept the exact repaired head.
 
 Next: update authority documents, freeze the reconciliation head, obtain
 independent Codex and Opus re-checks on that exact head, require zero unresolved
 P0, then merge closeout normally to main. No product implementation starts
 before P00 closeout.
+
+## Binding P1 acceptance correction
+
+The phase bullets in this historical reconciliation are not executable acceptance criteria. They are superseded by `docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md` (24 P1) and `docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md` (17 P1). Each phase gate requires named owner and evidence.

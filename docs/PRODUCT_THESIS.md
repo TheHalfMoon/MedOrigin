@@ -249,3 +249,21 @@ patient-specific recommendation authority, mandatory meta-analysis, mandatory
 executable guideline authority, voice authority, or full mobile parity.
 
 SafeEvidence V1 does not display a clinical truth-confidence percentage.
+
+## P00 initial evaluation scope decision
+
+The first evaluation target is a CPU-only 16 GB-class Windows desktop evidence
+workstation for clinicians/researchers reviewing **population-level medical
+evidence on adult treatments, benefits, harms and contradictions**. English and
+Arabic query, UI and citation pathways are evaluation scope, not validated.
+
+It is an evidence-research setting, not autonomous point-of-care diagnosis,
+prescribing or emergency triage. No specialty-wide, Saudi-guideline, global
+jurisdictional or regulatory conformity claim is made by P00. Pregnancy,
+pediatrics, individual dosing and unqualified interaction authority are out of
+initial scope. P01 product/clinical owners must approve the exact question
+taxonomy, care setting, target release jurisdiction, gold-review protocol and
+risk/useful-coverage goals before model or UX promotion.
+
+If qualified clinical reviewers or evaluation funding are unavailable, clinical
+validation is blocked rather than silently replaced by model-generated gold.

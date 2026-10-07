@@ -18,6 +18,8 @@ in the default build:
 | lexical search | one local index engine |
 | vector projection | one local vector backend |
 | embeddings | one admitted default model/runtime |
+| tensor/ONNX execution | one admitted runtime; ORT candidate vs bounded alternatives |
+| local generative LLM | one admitted generator runtime per device profile; no cloud fallback |
 | reranking | one admitted default model/runtime |
 | document parsing | one primary document engine |
 | OCR | one primary OCR route plus a justified fallback only |
@@ -144,3 +146,15 @@ the owning phase explicitly qualifies them.
 
 A worker library's URL validation is not equivalent to OS-level network
 confinement.
+
+## P00 inference and distribution admission
+
+ORT is a candidate primary tensor runtime because donors already use it, not an
+automatic winner. One generator runtime is qualified separately. Disable
+unnecessary cloud, model-download and telemetry features; pin source/runtime,
+tokenizer and model artifacts; workers remain removable.
+
+A CPU-only 16 GB-class Windows desktop is the first measured target, not a
+claim of achieved performance. P03 binds corpus build/update/distribution cost
+and P05/P10/P12 must measure cold offline start, peak memory, disk, latency,
+thermal/cancellation and network silence before promotion.
