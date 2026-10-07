@@ -121,6 +121,7 @@ The initial planning authority will live under `docs/`:
 - `docs/DONOR_TRANSPLANT_PROTOCOL.md`
 - `docs/RUNTIME_BUDGET.md`
 - `docs/FOUNDATION_GAP_AUDIT_2026-10-07.md`
+- `docs/PREBUILD_KILL_REVIEW_2026-10-07.md`
 
 `AGENTS.md` defines the planning/review contract for Codex, Claude/Opus, and other engineering agents.
 
