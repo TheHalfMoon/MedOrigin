@@ -68,6 +68,10 @@ distribution chosen explicitly, never an implicit per-query founder cloud cost.
 
 ## Mandatory re-check
 
+The status of this documentation repair is provisional. Prior review failures
+cannot be declared closed merely by adding these contracts. The new exact head
+must be frozen and verified by each independent original reviewer.
+
 1. Verify live main and repair branch exact SHA; do not silently replace review
    base with a different revision.
 2. Have **Codex and Claude/Opus separately** review the same repair head.

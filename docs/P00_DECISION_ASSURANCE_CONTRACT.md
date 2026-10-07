@@ -20,19 +20,37 @@ not be triaged. EMERGENCY_NOTICE may be re-enabled only under a separately
 approved clinician-facing notice policy and bilingual intent evaluation. It
 is NOT diagnostic triage or an emergency protocol replacement.
 
-## Precedence (highest first, after bounded actions finish)
+## Terminal decision precedence (guarded and deterministic)
 
-1. BLOCKED: security, rights, source integrity or proof admission fails.
-2. ESCALATE: question asks for unsupported patient-specific action or
-   regulated/out-of-scope authority requiring qualified human pathway.
-3. EMERGENCY_NOTICE: disabled in V1, reserved for separately qualified notice.
-4. CONFLICT: unresolved material contradictions affect a requested claim.
-5. ABSTAIN: evidence/sufficiency, supported applicability or verifier fails.
-6. ASK_MORE: a user-suppliable required context variable is missing and
-   requesting it is safe and can plausibly change the answer.
-7. ANSWER_WITH_CAUTION: all included claims are individually supported, but
-   meaningful scoped limits/currentness/applicability are disclosed.
-8. ANSWER: all included claims sufficiently supported within declared scope.
+Evaluate the following guards in order, **after** bounded permitted actions
+have completed. The first applicable guard returns exactly one terminal state:
+
+1. BLOCKED: security/rights/integrity or proof-admission authority denies
+   presentation. An unsupported rights grant is not just weak evidence.
+2. ESCALATE: a user explicitly requests patient-specific treatment/clinical
+   action that is out of V1 scope, where a qualified clinician pathway is
+   necessary; do not use lexical symptom triggers.
+3. CONFLICT: independently supported *material* evidence contradictions
+   prevent a single supported answer to the requested population claim.
+4. ASK_MORE: a **specific, answer-changing, user-suppliable** context field is
+   missing, disclosure is safe, and no prior unanswered ASK_MORE was exhausted.
+   Missing context is checked BEFORE generic insufficiency/ABSTAIN to avoid
+   making legitimate clarification unreachable.
+5. ABSTAIN: after available clarification, evidence/source freshness, claim
+   verification or applicability still prevents a defensible claim.
+6. ANSWER_WITH_CAUTION: admitted supported claims only, with explicit bounded
+   applicability, source-currentness or methodological limits.
+7. ANSWER: admitted supported claims with no material unresolved limits.
+
+EMERGENCY_NOTICE remains DISABLED in V1. If separately qualified in a future
+policy, its scope/guard must be versioned and re-enter this precedence table
+through review rather than relying on symptom substrings.
+
+A BLOCKED proof admission may supersede an otherwise valid candidate ANSWER.
+`CURRENTNESS_UNKNOWN` is not by itself proof of a retraction: the separate
+freshness policy either forces ABSTAIN or admits a narrowly dated, qualified
+caution with its local watermark. Unsupported material claims are always
+refused, even when ANSWER_WITH_CAUTION is selected.
 
 For unrelated claims, material conflict does not suppress fully independent
 supported claims; a request-level terminal outcome is derived from the material

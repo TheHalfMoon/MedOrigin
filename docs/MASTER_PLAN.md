@@ -40,7 +40,7 @@ A phase is not implementation-ready if it says only "build X" while known code a
 
 Examples already confirmed during P00:
 
-- P02 starts from MedScale key/vault/storage/source-contract code rather than a blank storage design;
+- P02 starts with an ottari SQLCipher/WAL vault bake-off and reuses only compatible, independently qualified MedScale key/writer-lock/path/source-contract helpers; the MedScale whole-file EncryptedVault is NOT canonical;
 - P04 starts from MedScale lexical retrieval contracts/baseline and then promotes FTS5/BM25;
 - P08 starts from commandMed's deterministic safety scaffold and DAL's evaluation harness;
 - P09 starts from DAL calibration/selective-risk code;
@@ -893,11 +893,11 @@ Binding additions:
   biomedical/systematic-review benchmarks.
 - P06 adds SciFact-style rationale evaluation, a MultiVerS research oracle, and
   a clinician-adjudicated SafeEvidence claim/span holdout.
-- P09 freezes the user-facing confidence estimand and calibration/final split
-  policy before any percentage UI.
+- P09 freezes the estimand, calibration/final split and change-invalidating
+  policy as research prerequisites; V1 has NO clinical confidence percentage UI.
 - P12 chooses one primary document engine through Xberg vs docling.rs medical
-  qualification; SafeOCR cannot be cited as implementation code while its repo
-  is empty.
+  qualification; SafeOCR is a live critical-value verification code donor candidate,
+  with exact pin/rights/tests/Arabic qualification required before adoption.
 - P13 uses ProtocolWISE semantics plus CQL/CQF tooling as bounded conformance
   validation where appropriate.
 - P15 evaluates UniFFI as the default Rust-to-Swift/Kotlin binding strategy.
@@ -1031,8 +1031,8 @@ TUF-style trust and safe diagnostic receipts.
 
 P23 claims remain narrower than the roadmap.
 
-P00R status:
-`P00_RECONCILED_PENDING_INDEPENDENT_RECHECK`.
+P00R status (historical, now superseded):
+`SUPERSEDED_BY_P00_REPAIR_2026_10_08`.
 
 P00 closes only after Codex and Opus independently re-check the exact
 reconciliation head and report zero unresolved P0.
