@@ -192,6 +192,38 @@ The structure must remain extensible and provenance-aware rather than becoming a
 
 Binds question, claims, source spans, contradictions, evidence profile, missing context, decision result, model/runtime identities, and calibration identity.
 
+## 4A. Study-level evidence model
+
+SafeEvidence distinguishes a source/report from the underlying study.
+
+Canonical additions:
+
+```text
+Study
+StudyReportLink
+OutcomeDefinition
+EffectEstimate
+ReviewProtocol
+SynthesisProtocol
+SynthesisResult
+```
+
+A single Study may link to multiple SourceArtifact records. Retrieval, appraisal,
+and synthesis must not count multiple reports of the same study as independent
+studies.
+
+Study/report linkage is evidence-bearing and may be exact, proposed, confirmed,
+overridden, or unresolved. Registry identifiers, publication identifiers,
+investigators, sites, intervention details, sample size, and dates may support
+linkage, but ambiguous fuzzy matches require review.
+
+EffectEstimate records are source-span backed and preserve outcome definition,
+timepoint, analysis population, comparison, effect measure, estimate,
+uncertainty, and transformation provenance.
+
+Deep Review owns ReviewProtocol and optional quantitative synthesis. Meta-analysis
+is never mandatory when pooling is inappropriate.
+
 ## 5. Question pipeline
 
 ```text
