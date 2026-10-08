@@ -94,7 +94,7 @@ def check(root: Path) -> dict[str, object]:
             errors.append(f"Entry {i}: unexpected candidate")
         if not isinstance(oid, str) or not HEX40.fullmatch(oid):
             errors.append(f"Entry {i}: invalid Git blob")
-        elif f"| {short} | \`{path}\` | \`{oid}\` |" not in source:
+        elif f"| {short} | `{path}` | `{oid}` |" not in source:
             errors.append(f"Entry {i}: Git blob differs from source ledger")
         if not isinstance(commit, str) or not HEX40.fullmatch(commit):
             errors.append(f"Entry {i}: invalid source commit")
@@ -113,7 +113,7 @@ def check(root: Path) -> dict[str, object]:
                 errors.append(f"Entry {i}: invalid/empty-byte SHA256")
             elif not isinstance(size, int) or isinstance(size, bool) or size <= 0:
                 errors.append(f"Entry {i}: invalid byte count")
-            elif f"\`{sha}\`" not in source or f"| {size} |" not in source:
+            elif f"`{sha}`" not in source or f"| {size} |" not in source:
                 errors.append(f"Entry {i}: raw fingerprint not in written evidence")
             sha_count += 1
     if seen != EXPECTED:
