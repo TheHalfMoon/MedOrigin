@@ -21,7 +21,7 @@ EXPECTED = {
     ("ottari", "tools/provenance.py"),
     ("ottari", "tools/provenance_gate.py"),
     ("ottari", ".github/workflows/ci.yml"),
-    ("Kernux", ".github/workflows/ci.yml"),
+    ("kernux", ".github/workflows/ci.yml"),
     ("Ascout", ".github/workflows/self-verify.yml"),
     ("MESC", "src/medscale/provenance.py"),
     ("MESC", "tests/test_provenance.py"),
