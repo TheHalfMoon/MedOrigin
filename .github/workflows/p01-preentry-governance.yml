@@ -1,0 +1,39 @@
+name: P01 Pre-entry Documentary Guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  preentry-structure:
+    name: preentry structure (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout exact event revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # pinned v4 from reviewed MedScale CI
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Validate original review tracker and explicit BLOCKED state
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          python --version
+          python tools/governance/p01_preentry_check.py --root . --expected-sha "$EXPECTED_SHA" --json
+      - name: Run negative and positive synthetic gate tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tools/governance/tests -v
