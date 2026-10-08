@@ -44,6 +44,11 @@ FINGERPRINT_LABELS = {
     ("MESC", "src/medscale/provenance.py"): "MESC `provenance.py`",
     ("ottari", "tools/provenance_gate.py"): "ottari `tools/provenance_gate.py`",
     ("ottari", "tools/provenance.py"): "ottari `tools/provenance.py`",
+    ("MedScale", "scripts/generate-release-sbom.ps1"): "MedScale `generate-release-sbom.ps1`",
+    ("MedScale", ".github/workflows/ci.yml"): "MedScale `.github/workflows/ci.yml`",
+    ("ottari", ".github/workflows/ci.yml"): "ottari `.github/workflows/ci.yml`",
+    ("kernux", ".github/workflows/ci.yml"): "kernux `.github/workflows/ci.yml`",
+    ("MESC", "tests/test_provenance.py"): "MESC `test_provenance.py`",
 }
 
 
@@ -162,8 +167,8 @@ def check(root: Path) -> dict[str, object]:
         errors.append("Fingerprint table has missing or unexpected source rows")
     if seen != EXPECTED:
         errors.append(f"Candidate set differs: missing={len(EXPECTED - seen)} extra={len(seen - EXPECTED)}")
-    if sha_count != 6:
-        errors.append("Exactly six verified fingerprints expected; others unverified")
+    if sha_count != 11:
+        errors.append("Exactly eleven verified fingerprints expected; none unverified")
     if "NO_ADMISSIONS" not in source or "REFERENCE_ONLY" not in source:
         errors.append("Source ledger fails closed markers")
     return {

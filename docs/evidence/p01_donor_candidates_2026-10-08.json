@@ -29,8 +29,8 @@
       "source_commit": "37f5ae8a965c1e49d961010c3135a5b5dde12d67",
       "path": "scripts/generate-release-sbom.ps1",
       "git_blob_oid": "5c0db999609c89bcca583099a2f36fd6bd80848e",
-      "byte_count": null,
-      "raw_sha256": null,
+      "byte_count": 9262,
+      "raw_sha256": "a8068de158d9b673a2c9b33e31cef93856cf3d41749a3b6f20c7909e0d61e6ce",
       "admission_state": "REFERENCE_ONLY",
       "copy_authorized": false
     },
@@ -39,8 +39,8 @@
       "source_commit": "37f5ae8a965c1e49d961010c3135a5b5dde12d67",
       "path": ".github/workflows/ci.yml",
       "git_blob_oid": "0e13351067c2070045a2b816ebf0c3a8c7fe9f82",
-      "byte_count": null,
-      "raw_sha256": null,
+      "byte_count": 5122,
+      "raw_sha256": "aaeaed50d0a651d716bbe5d449c279bcb20fca6b7ab95409ffa529bbd1f85863",
       "admission_state": "REFERENCE_ONLY",
       "copy_authorized": false
     },
@@ -69,8 +69,8 @@
       "source_commit": "73706029849bcbe51243624e37f03a1969dc74ca",
       "path": ".github/workflows/ci.yml",
       "git_blob_oid": "9224672e49022c85d217cb06de7a40ba54274a13",
-      "byte_count": null,
-      "raw_sha256": null,
+      "byte_count": 22171,
+      "raw_sha256": "067c97d65043bfd7653141eef423c6b61bf3e6670401802586cefb7ce13e28bc",
       "admission_state": "REFERENCE_ONLY",
       "copy_authorized": false
     },
@@ -79,8 +79,8 @@
       "source_commit": "2085b6ed1121b1a94c66c076bdd6b578da4dad0d",
       "path": ".github/workflows/ci.yml",
       "git_blob_oid": "372e34bf2591d9885d09888c4eb1e291455019b6",
-      "byte_count": null,
-      "raw_sha256": null,
+      "byte_count": 5846,
+      "raw_sha256": "bcda6ccffe0beb88cac793287235d69c13797f7d0b88c41c4f6217426fa50a2b",
       "admission_state": "REFERENCE_ONLY",
       "copy_authorized": false
     },
@@ -109,8 +109,8 @@
       "source_commit": "f9b7579189b77b06379d1a71d104d4b0267cf500",
       "path": "tests/test_provenance.py",
       "git_blob_oid": "b5da9a4a5d8d2de7dc3d50ff3ff9463611b9dfe3",
-      "byte_count": null,
-      "raw_sha256": null,
+      "byte_count": 1583,
+      "raw_sha256": "27f38a69fa9366171bce611f244298a8d297b76188dee3439d607bc273df32a3",
       "admission_state": "REFERENCE_ONLY",
       "copy_authorized": false
     }
