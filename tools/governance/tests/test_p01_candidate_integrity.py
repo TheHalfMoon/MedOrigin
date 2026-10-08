@@ -84,6 +84,56 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         obj["entries"][0]["git_blob_oid"] = "a" * 40
         self.deny(obj, "Git blob differs")
 
+    def test_displaced_blob_row_is_not_replaced_by_unbound_prose(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        line = "| MedScale | `crates/medscale-core/src/release_sbom.rs` | `" + (
+            self.original["entries"][0]["git_blob_oid"]
+        ) + "` |"
+        self.assertEqual(body.count(line), 1)
+        body = body.replace(line + "\n", "", 1)
+        p.write_text(body + "\nUnbound source note: " + line + "\n", encoding="utf-8")
+        result = check(self.root)
+        self.assertEqual("FAIL", result["structure"], result)
+        self.assertTrue(any("Git blob differs" in e for e in result["errors"]), result["errors"])
+
+    def test_duplicate_blob_row_is_rejected(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        line = "| MedScale | `crates/medscale-core/src/release_sbom.rs` | `" + (
+            self.original["entries"][0]["git_blob_oid"]
+        ) + "` |"
+        self.assertEqual(body.count(line), 1)
+        p.write_text(body.replace(line, line + "\n" + line, 1), encoding="utf-8")
+        result = check(self.root)
+        self.assertEqual("FAIL", result["structure"], result)
+        self.assertIs(result["copy_authorized"], False)
+
+    def test_swapped_blob_rows_are_rejected(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        first, second = self.original["entries"][:2]
+        needle1 = "| MedScale | `" + first["path"] + "` | `" + first["git_blob_oid"] + "` |"
+        needle2 = "| MedScale | `" + second["path"] + "` | `" + second["git_blob_oid"] + "` |"
+        self.assertIn(needle1, body)
+        self.assertIn(needle2, body)
+        changed = body.replace(needle1, "__FIRST_BLOB__", 1)
+        changed = changed.replace(needle2, needle2.replace(second["git_blob_oid"], first["git_blob_oid"]), 1)
+        changed = changed.replace("__FIRST_BLOB__", needle1.replace(first["git_blob_oid"], second["git_blob_oid"]), 1)
+        p.write_text(changed, encoding="utf-8")
+        self.assertEqual("FAIL", check(self.root)["structure"])
+
+    def test_unexpected_blob_table_source_is_rejected(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        existing = "| MedScale | `crates/medscale-core/src/release_sbom.rs` |"
+        injected = "| Unknown | `example.py` | `" + "a" * 40 + "` |"
+        self.assertIn(existing, body)
+        p.write_text(body.replace(existing, injected + "\n" + existing, 1), encoding="utf-8")
+        result = check(self.root)
+        self.assertEqual("FAIL", result["structure"])
+        self.assertTrue(any("Blob table" in e for e in result["errors"]), result["errors"])
+
     def test_changed_commit_is_detected(self):
         obj = copy.deepcopy(self.original)
         obj["entries"][0]["source_commit"] = "f" * 40

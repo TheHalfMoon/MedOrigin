@@ -35,7 +35,7 @@ ENTRY_KEYS = {
 }
 
 
-# Exact table labels are the source-specific binding for six recorded fingerprints.
+# Exact table labels are the source-specific binding for eleven recorded fingerprints.
 # These are documentary observations, not verified rights or byte re-hashing.
 FINGERPRINT_LABELS = {
     ("MedScale", "crates/medscale-core/src/release_sbom.rs"): "MedScale `release_sbom.rs`",
@@ -50,6 +50,28 @@ FINGERPRINT_LABELS = {
     ("kernux", ".github/workflows/ci.yml"): "kernux `.github/workflows/ci.yml`",
     ("MESC", "tests/test_provenance.py"): "MESC `test_provenance.py`",
 }
+
+
+def blob_table_rows(source: str) -> dict[tuple[str, str], list[str]]:
+    """Bind blob OIDs to exactly one source/path row in the scoped evidence table."""
+    active = False
+    rows: dict[tuple[str, str], list[str]] = {}
+    for line in source.splitlines():
+        if line == "## Candidate exact file identities (Git blob OIDs)":
+            active = True
+            continue
+        if active and line.startswith("## "):
+            break
+        if not active or not line.startswith("|"):
+            continue
+        columns = [part.strip() for part in line.strip().strip("|").split("|")]
+        if columns == ["Source", "Path", "Blob OID"] or columns == ["---", "---", "---"]:
+            continue
+        if len(columns) != 3:
+            rows.setdefault(("<MALFORMED_ROW>", ""), []).append("")
+            continue
+        rows.setdefault((columns[0], columns[1]), []).append(columns[2])
+    return rows
 
 
 def fingerprint_table_rows(source: str) -> dict[str, list[tuple[str, str]]]:
@@ -107,6 +129,9 @@ def check(root: Path) -> dict[str, object]:
     sha_count = 0
     commits: dict[str, str] = {}
     fingerprint_rows = fingerprint_table_rows(source)
+    blob_rows = blob_table_rows(source)
+    if source.splitlines().count("## Candidate exact file identities (Git blob OIDs)") != 1:
+        errors.append("Exactly one blob identity section required")
     for i, entry in enumerate(entries):
         if not isinstance(entry, dict) or set(entry) != ENTRY_KEYS:
             errors.append(f"Entry {i}: schema mismatch")
@@ -136,8 +161,8 @@ def check(root: Path) -> dict[str, object]:
             errors.append(f"Entry {i}: unexpected candidate")
         if not isinstance(oid, str) or not HEX40.fullmatch(oid):
             errors.append(f"Entry {i}: invalid Git blob")
-        elif f"| {short} | `{path}` | `{oid}` |" not in source:
-            errors.append(f"Entry {i}: Git blob differs from source ledger")
+        elif blob_rows.get((short, f"`{path}`")) != [f"`{oid}`"]:
+            errors.append(f"Entry {i}: Git blob differs from exact source ledger row")
         if not isinstance(commit, str) or not HEX40.fullmatch(commit):
             errors.append(f"Entry {i}: invalid source commit")
         else:
@@ -163,6 +188,9 @@ def check(root: Path) -> dict[str, object]:
                 errors.append(f"Entry {i}: raw fingerprint not in written evidence for exact source row")
             else:
                 sha_count += 1
+    expected_blob_rows = {(repo, f"`{path}`") for repo, path in EXPECTED}
+    if set(blob_rows) != expected_blob_rows:
+        errors.append("Blob table has missing or unexpected source rows")
     if set(fingerprint_rows) != set(FINGERPRINT_LABELS.values()):
         errors.append("Fingerprint table has missing or unexpected source rows")
     if seen != EXPECTED:
