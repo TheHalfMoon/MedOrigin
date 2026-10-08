@@ -75,7 +75,7 @@
       "copy_authorized": false
     },
     {
-      "repo": "TheHalfMoon/Kernux",
+      "repo": "TheHalfMoon/kernux",
       "source_commit": "2085b6ed1121b1a94c66c076bdd6b578da4dad0d",
       "path": ".github/workflows/ci.yml",
       "git_blob_oid": "372e34bf2591d9885d09888c4eb1e291455019b6",
