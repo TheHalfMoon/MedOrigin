@@ -49,8 +49,8 @@
       "source_commit": "73706029849bcbe51243624e37f03a1969dc74ca",
       "path": "tools/provenance.py",
       "git_blob_oid": "a36568be1b789a34222de76fd25e88f13a768332",
-      "byte_count": null,
-      "raw_sha256": null,
+      "byte_count": 23492,
+      "raw_sha256": "b4644897846a41043c3d5f7bee8a37db606e4ce7beae1c4b49ad56ec8b080cb4",
       "admission_state": "REFERENCE_ONLY",
       "copy_authorized": false
     },
@@ -59,8 +59,8 @@
       "source_commit": "73706029849bcbe51243624e37f03a1969dc74ca",
       "path": "tools/provenance_gate.py",
       "git_blob_oid": "8dffa32146529bbdd3e3026a0fceff4bce58c24e",
-      "byte_count": null,
-      "raw_sha256": null,
+      "byte_count": 18516,
+      "raw_sha256": "988b084a3d90ca002661ea88c134f15c082513f7ffb2a4d90c4d8d66f7f7b409",
       "admission_state": "REFERENCE_ONLY",
       "copy_authorized": false
     },
