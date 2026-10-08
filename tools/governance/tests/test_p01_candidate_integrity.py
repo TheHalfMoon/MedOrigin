@@ -45,7 +45,7 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         result = check(self.root)
         self.assertEqual("PASS", result["structure"], result)
         self.assertEqual(11, result["candidate_count"])
-        self.assertEqual(4, result["raw_fingerprints_recorded"])
+        self.assertEqual(6, result["raw_fingerprints_recorded"])
         self.assertIs(result["copy_authorized"], False)
         self.assertEqual("BLOCKED", result["source_imports"])
 
