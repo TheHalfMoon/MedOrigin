@@ -1,0 +1,67 @@
+name: P00 Foundation Documentation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  foundation-documents:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact evaluated head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Validate exact SHA and planning contracts
+        env:
+          EXPECTED_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, re, subprocess
+          from pathlib import Path
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          assert head == os.environ['EXPECTED_SHA'], (head, os.environ['EXPECTED_SHA'])
+          required = [
+              'AGENTS.md', 'docs/MASTER_PLAN.md', 'docs/PRODUCT_THESIS.md',
+              'docs/P00_DATA_PLACEMENT_CONTRACT.md',
+              'docs/P00_VAULT_DURABILITY_CONTRACT.md',
+              'docs/P00_STUDY_INDEPENDENCE_CONTRACT.md',
+              'docs/P00_DECISION_ASSURANCE_CONTRACT.md',
+              'docs/P00_PROOF_ADMISSION_CONTRACT.md',
+              'docs/DONOR_RIGHTS_REGISTER.md',
+              'docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md',
+              'docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md',
+              'docs/P00_REPAIR_CLOSEOUT_PLAN_2026-10-08.md',
+              'docs/reviews/CODEX_P00_GENUINE_FINAL_RECHECK_2026-10-08.md',
+          ]
+          for f in required:
+              assert Path(f).is_file(), f'Missing mandatory document: {f}'
+          codex = Path('docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md').read_text(encoding='utf-8')
+          opus = Path('docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md').read_text(encoding='utf-8')
+          codex_ids = re.findall(r'^\|\s*CODEX-P00-(\d{2})\s*\|', codex, re.M)
+          opus_ids = re.findall(r'^\|\s*OPUS-P00-(\d{3})\s*\|', opus, re.M)
+          assert sorted(codex_ids) == [f'{i:02}' for i in range(7, 31)], codex_ids
+          assert sorted(opus_ids) == [f'{i:03}' for i in range(3, 20)], opus_ids
+          thesis = Path('docs/PRODUCT_THESIS.md').read_text(encoding='utf-8')
+          assert 'ControlAction:' in thesis and 'TerminalOutcome:' in thesis
+          assert 'EMERGENCY_NOTICE' in thesis
+          assert 'REFERENCE_ONLY; no code copy' in Path('docs/COPY_FIRST_SOURCE_PLAN.md').read_text(encoding='utf-8')
+          assert 'SUPERSEDED_BY_P00_REPAIR_2026_10_08' in Path('docs/PREBUILD_KILL_REVIEW_2026-10-07.md').read_text(encoding='utf-8')
+          rights = Path('docs/DONOR_RIGHTS_REGISTER.md').read_text(encoding='utf-8')
+          assert 'NO_ADMISSIONS' in rights and 'VERIFIED_ALLOWED' in rights
+          evidence = Path('docs/reviews/CODEX_P00_GENUINE_FINAL_RECHECK_2026-10-08.md').read_text(encoding='utf-8')
+          assert '9368e09e3e31df3176404e7b2b86b54a6a5aac08' in evidence
+          assert 'P00_READY_TO_CLOSE' in evidence
+          print('P00 foundation document check PASS at', head)
+          print('Codex P1:', len(codex_ids), 'Opus P1:', len(opus_ids))
+          print('NOTE: Not a clinical, security, licensing or product-code qualification.')
+          PY
