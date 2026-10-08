@@ -66,7 +66,7 @@ Raw file hashing does not establish contributor licensing, imported
 third-party rights, NOTICE obligations, or production approval.
 
 
-## Additional immutable byte observations — 2026-10-09
+### Additional immutable byte observations — 2026-10-09
 
 The remaining five reference-only candidates were checked against their pinned
 Git blob OIDs. Three blobs (MedScale and MESC) were read through `gh api`
