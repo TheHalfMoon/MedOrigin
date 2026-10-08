@@ -96,7 +96,7 @@ def validate(root: Path, expected_sha: str | None = None) -> dict[str, object]:
             if original[orig_index] != tracked[tracker_index]:
                 problems.append(f"{key}: drift in {field} from original review")
         if not re.fullmatch(
-            r"\[#(?:3|4|5)\]\(https://github\.com/TheHalfMoon/SafeEvidence/issues/(?:3|4|5)\)",
+            r"\[#(?P<issue>[345])\]\(https://github\.com/TheHalfMoon/SafeEvidence/issues/(?P=issue)\)",
             tracked[3],
         ):
             problems.append(f"{key}: missing durable issue #3/#4/#5")
