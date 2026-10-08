@@ -6,7 +6,7 @@ This reviewable gate checks the 41 original P1 IDs, immutable evidence/role/
 phase mappings, durable issue references and explicit unresolved clinical/
 rights/ownership markers in the current source. It runs on Windows and Linux,
 with no external Python packages, no model, no patient data and no network calls
-from the checker. Its 11 synthetic tests include ID loss/duplication, evidence
+from the checker. Its 12 synthetic tests include ID loss/duplication, evidence
 drift, phase and role drift, fabricated approval and lost denial markers.
 
 It is intentionally **impossible** for this gate to declare P01 activated.
