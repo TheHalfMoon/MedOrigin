@@ -65,6 +65,26 @@ qualification or release authorization follows from either hash.
 Raw file hashing does not establish contributor licensing, imported
 third-party rights, NOTICE obligations, or production approval.
 
+
+### Additional immutable byte observations — 2026-10-09
+
+The remaining five reference-only candidates were checked against their pinned
+Git blob OIDs. Three blobs (MedScale and MESC) were read through `gh api`
+on the authorized Windows host, with SHA-256 and Git blob identities independently
+recomputed from their decoded bytes. The `ottari` and `kernux` workflow blobs
+were read through the connected GitHub repository interface and hashed from
+their complete UTF-8 byte sequences. Both computed Git blob OIDs matched
+their existing frozen object identities. These findings do not admit source
+bytes or certify rights, security, test behavior, or release readiness.
+
+| Candidate | Bytes | Raw SHA-256 |
+|---|---:|---|
+| MedScale `generate-release-sbom.ps1` | 9262 | `a8068de158d9b673a2c9b33e31cef93856cf3d41749a3b6f20c7909e0d61e6ce` |
+| MedScale `.github/workflows/ci.yml` | 5122 | `aaeaed50d0a651d716bbe5d449c279bcb20fca6b7ab95409ffa529bbd1f85863` |
+| ottari `.github/workflows/ci.yml` | 22171 | `067c97d65043bfd7653141eef423c6b61bf3e6670401802586cefb7ce13e28bc` |
+| kernux `.github/workflows/ci.yml` | 5846 | `bcda6ccffe0beb88cac793287235d69c13797f7d0b88c41c4f6217426fa50a2b` |
+| MESC `test_provenance.py` | 1583 | `27f38a69fa9366171bce611f244298a8d297b76188dee3439d607bc273df32a3` |
+
 ## Bounded copy-first preference after qualified authorization
 
 Prefer the MedScale `release_sbom.rs` implementation and negative fixtures for

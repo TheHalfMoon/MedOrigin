@@ -45,7 +45,7 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         result = check(self.root)
         self.assertEqual("PASS", result["structure"], result)
         self.assertEqual(11, result["candidate_count"])
-        self.assertEqual(6, result["raw_fingerprints_recorded"])
+        self.assertEqual(11, result["raw_fingerprints_recorded"])
         self.assertIs(result["copy_authorized"], False)
         self.assertEqual("BLOCKED", result["source_imports"])
 
@@ -101,7 +101,7 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         obj["entries"][0]["byte_count"] = None
         self.deny(obj, "fingerprint and byte size")
 
-    def test_unverified_blob_cannot_gain_unobserved_hash(self):
+    def test_altered_recorded_hash_cannot_gain_unobserved_value(self):
         obj = copy.deepcopy(self.original)
         obj["entries"][2]["raw_sha256"] = "a" * 64
         obj["entries"][2]["byte_count"] = 12
@@ -155,6 +155,12 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         result = check(self.root)
         self.assertEqual("FAIL", result["structure"], result)
         self.assertEqual("BLOCKED", result["source_imports"])
+
+    def test_missing_recorded_digest_is_denied(self):
+        obj = copy.deepcopy(self.original)
+        obj["entries"][2]["raw_sha256"] = None
+        obj["entries"][2]["byte_count"] = None
+        self.deny(obj, "Exactly eleven verified fingerprints expected")
 
     def test_unapproved_phase_is_not_silently_promoted(self):
         obj = copy.deepcopy(self.original)

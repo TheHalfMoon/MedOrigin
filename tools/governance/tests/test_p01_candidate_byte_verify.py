@@ -68,8 +68,11 @@ class ExternalByteCheckTests(unittest.TestCase):
         self.blob.write_bytes(b"short")
         self.assert_status(self.result(), "MISMATCH")
 
-    def test_null_fingerprint(self):
-        self.assert_status(self.result("scripts/generate-release-sbom.ps1"), "BLOCKED")
+    def test_other_fingerprinted_candidate_mismatches_synthetic_bytes(self):
+        self.assert_status(self.result("scripts/generate-release-sbom.ps1"), "MISMATCH")
+
+    def test_unknown_candidate_remains_blocked(self):
+        self.assert_status(self.result("scripts/unknown-source.ps1"), "BLOCKED")
 
     def test_nonexistent_blob(self):
         self.assert_status(self.result(blob=self.workspace / "missing"), "BLOCKED")
