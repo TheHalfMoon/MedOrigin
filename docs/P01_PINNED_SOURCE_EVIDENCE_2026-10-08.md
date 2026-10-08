@@ -38,7 +38,7 @@ update owner and exit plan remain mandatory.
 
 Decoded GitHub blob bytes were inspected using `gh api` and SHA-256
 computed in the local Windows PowerShell environment on 2026-10-08.
-These are content digests, distinct from the Git blob OIDs listed above.
+These are content digests, distinct from the Git blob OIDs listed above. The two ottari entries immediately below were obtained through a separately authorized owner-account read.
 
 | Candidate | Bytes | Raw SHA-256 |
 |---|---:|---|
@@ -47,12 +47,20 @@ These are content digests, distinct from the Git blob OIDs listed above.
 | Ascout `self-verify.yml` | 2733 | `0ad849d2a6c94588d6762fa6925916a1fd521a25602b123e74baeb9c03e5817a` |
 | MESC `provenance.py` | 2297 | `c156eeac2facc42f1bcb7e89e50ac47ec5a3df3d287575b7a95bd37ca7d65ecf` |
 
-The active `gh` CLI authentication returned HTTP 404 when directly
-requesting two ottari blob URLs. **No ottari raw SHA-256 was verified**,
-and the empty-byte SHA-256 must never be accepted as evidence for those
-files. Git object IDs were separately observed through the connected
-GitHub repository reader. Confirm byte digests with access to the exact
-repository blobs before choosing any ottari transplant.
+The initial active `gh` account returned HTTP 404 for two ottari blob
+URLs. On 2026-10-08, a separately authenticated repository-owner account
+was used for a **single scoped read** of each immutable Git blob; neither
+the active account nor GitHub permissions were modified. Both returned
+the expected blob OIDs and Base64 content. Raw byte digests:
+
+| Candidate | Bytes | Raw SHA-256 |
+|---|---:|---|
+| ottari `tools/provenance_gate.py` | 18516 | `988b084a3d90ca002661ea88c134f15c082513f7ffb2a4d90c4d8d66f7f7b409` |
+| ottari `tools/provenance.py` | 23492 | `b4644897846a41043c3d5f7bee8a37db606e4ce7beae1c4b49ad56ec8b080cb4` |
+
+This resolves **byte access and identity only**. No contributor-level
+rights, dependency terms, signed admission, copied code, security
+qualification or release authorization follows from either hash.
 
 Raw file hashing does not establish contributor licensing, imported
 third-party rights, NOTICE obligations, or production approval.
