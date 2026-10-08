@@ -96,21 +96,34 @@ Mobile is not required to mirror full desktop research analytics.
 
 ## 5. Behavioral outcomes
 
-The interaction state is explicit:
+SafeEvidence distinguishes bounded internal orchestration actions from final
+clinician-facing assurance outcomes:
 
 ```text
-ANSWER
-ANSWER_WITH_CAUTION
-ASK_MORE
-RETRIEVE_EVIDENCE
-USE_TOOL
-CONFLICT
-ABSTAIN
-ESCALATE
-EMERGENCY
+ControlAction:
+  RETRIEVE_EVIDENCE
+  USE_TOOL
+  REQUEST_CONTEXT
+
+TerminalOutcome:
+  ANSWER
+  ANSWER_WITH_CAUTION
+  ASK_MORE
+  CONFLICT
+  ABSTAIN
+  ESCALATE
+  BLOCKED
+  EMERGENCY_NOTICE
 ```
 
-The exact final state machine must be qualified before clinical claims. The key invariant is that `ABSTAIN`, `ASK_MORE`, and `CONFLICT` are successful outcomes when the evidence/context does not justify commitment.
+A ControlAction is never an answer commitment. `EMERGENCY_NOTICE` is disabled
+in V1 pending a separately qualified clinician-facing notice policy; it is not
+autonomous emergency triage. `ABSTAIN`, `ASK_MORE`, and `CONFLICT` are
+valid terminal outcomes when the evidence or context does not justify a
+supported answer. Final-text assurance additionally requires atomic proof
+admission. The binding precedence, action limits, reason codes, and
+commit/abstention definitions are in
+`docs/P00_DECISION_ASSURANCE_CONTRACT.md`.
 
 ## 6. Trust semantics
 
@@ -233,3 +246,37 @@ Release claims must be scoped to exact evidence. The repository must be able to 
 ## 13. Success definition
 
 SafeEvidence succeeds when a clinician can locally ask a clinical question, inspect the exact evidence behind the answer, see what is uncertain or conflicting, understand whether the evidence applies to the supplied patient context, and trust that the system will decline to overstate what the evidence does not establish.
+
+## P00 reconciliation — initial qualified wedge
+
+The roadmap remains broad, but the first qualification target is intentionally
+narrower:
+
+> A desktop clinician evidence workstation for population-level medical
+> evidence questions with exact provenance, claim-to-span verification,
+> current-validity state, conflict visibility, and fail-closed abstention.
+
+This initial claim does not include autonomous diagnosis, autonomous treatment
+ordering, autonomous emergency triage, medication-dose execution, broad
+patient-specific recommendation authority, mandatory meta-analysis, mandatory
+executable guideline authority, voice authority, or full mobile parity.
+
+SafeEvidence V1 does not display a clinical truth-confidence percentage.
+
+## P00 initial evaluation scope decision
+
+The first evaluation target is a CPU-only 16 GB-class Windows desktop evidence
+workstation for clinicians/researchers reviewing **population-level medical
+evidence on adult treatments, benefits, harms and contradictions**. English and
+Arabic query, UI and citation pathways are evaluation scope, not validated.
+
+It is an evidence-research setting, not autonomous point-of-care diagnosis,
+prescribing or emergency triage. No specialty-wide, Saudi-guideline, global
+jurisdictional or regulatory conformity claim is made by P00. Pregnancy,
+pediatrics, individual dosing and unqualified interaction authority are out of
+initial scope. P01 product/clinical owners must approve the exact question
+taxonomy, care setting, target release jurisdiction, gold-review protocol and
+risk/useful-coverage goals before model or UX promotion.
+
+If qualified clinical reviewers or evaluation funding are unavailable, clinical
+validation is blocked rather than silently replaced by model-generated gold.

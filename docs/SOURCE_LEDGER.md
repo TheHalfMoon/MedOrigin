@@ -35,7 +35,7 @@ The following public repositories are the strongest internal sources discovered 
 | `TheHalfMoon/Morize` | temporal truth, contradiction/supersession, evidence graph, explainable recall, rebuildable indexes, typed promotion decisions | `ADAPT / COPY_BOUNDED / REFERENCE` |
 | `TheHalfMoon/ottari` | Rust-first local desktop/mobile architecture; document IR; evidence refs; OCR/document boundaries; capture/voice; local model runtime isolation; vault/search/sync patterns; broad donor registry | `ADAPT / COPY_BOUNDED / REFERENCE` |
 | `TheHalfMoon/kernux` | capability kernel; permission-before-power; explicit local/remote boundaries; replay/evidence; provider-neutral workers; no silent cloud fallback | `ADAPT / COPY_BOUNDED / REFERENCE` |
-| `TheHalfMoon/Signthos` | Tauri/native desktop-mobile boundary; mobile capture; secure local storage; QR pairing/handoff security; offline queue semantics | `ADAPT / COPY_BOUNDED / REFERENCE` |
+| `TheHalfMoon/Signthos` | QR/mobile reference patterns; AGPL public tree and founder-asserted separate permission require exact clearance | `REFERENCE_ONLY_PENDING_RIGHTS` |
 | `TheHalfMoon/Wispral` | future voice interaction; interruption/steering; command-vs-context semantics; local speech evaluation methodology | `REFERENCE / COPY_BOUNDED` |
 | `TheHalfMoon/Inercative` | CLM research; deterministic-vs-decision-vs-generative routing; source-adoption discipline; qualification harness patterns | `REFERENCE / COPY_BOUNDED` |
 | `TheHalfMoon/Ecra` | browser/search/agent capability routing and execution-receipt patterns when governed external evidence acquisition is added | `REFERENCE` |
@@ -300,9 +300,10 @@ snapshots.
 
 ### SafeOCR status
 
-`AbdulazizShehri/SafeOCR` is currently empty and therefore is **not** an
-implementation donor. Its healthcare OCR safety thesis may inform SafeEvidence
-tests, but no code reuse may be claimed until source exists.
+`AbdulazizShehri/SafeOCR` is no longer empty. Independent review inspected a
+live critical-value verification implementation and tests. It is now a
+`COPY_BOUNDED / BENCHMARK` candidate for critical OCR verification, subject
+to exact pin, dependency/model rights and clinical/Arabic qualification.
 
 
 ## Evidence-synthesis sources promoted 2026-10-07
@@ -312,8 +313,8 @@ Exact live revision and controlling terms must be reverified at adoption.
 | Source | Observed revision | Role | Disposition |
 |---|---|---|---|
 | `evidence-surveillance/es3` | `fa845217690e179d3f8151e97773aabc035d6cfe` | trial↔review links and living-surveillance patterns | `COPY_BOUNDED / REFERENCE` |
-| `ijmarshall/trialstreamer` | `a97cb8332c039e228ef42188c9d966440894e354` | living RCT acquisition, classification, PICO extraction | `COPY_BOUNDED / RESEARCH_WORKER` |
-| `ijmarshall/robotreviewer` | `9a2781974c3edc6322b4fb329b1ea0348af7b8a1` | RCT PICO/risk-of-bias automation oracle | `RESEARCH_WORKER / COPY` only with exact permission/licensing record |
+| `ijmarshall/trialstreamer` | `a97cb8332c039e228ef42188c9d966440894e354` | living RCT acquisition, classification, PICO extraction | `REFERENCE_ONLY_PENDING_RIGHTS` |
+| `ijmarshall/robotreviewer` | `9a2781974c3edc6322b4fb329b1ea0348af7b8a1` | RCT PICO/risk-of-bias automation oracle | `REFERENCE / BENCHMARK`, distribution under GPL-compatible decision or verified alternate grant only |
 | `bwallace/RRnlp` | `e1a26b4ed1c8d65f2c2e2558dc9f0918572306d0` | evidence-based-medicine NLP implementation research | `COPY_BOUNDED / BENCHMARK` |
 | `jayded/evidence-inference` | `a661e8c14f973398380c8865cf2f27a535aaaf6d` | intervention/comparator/outcome result and evidence extraction | `COPY_BOUNDED / BENCHMARK` |
 | `WengLab-InformaticsResearch/PICOX` | `f3351c4786bf197efacfcefc1c1e66c36c245842` | overlapping PICO extraction | `COPY_BOUNDED / BENCHMARK` |
@@ -331,3 +332,44 @@ Method/standard references:
 These method sources do not automatically authorize redistribution of their
 tool content. SafeEvidence may implement compatible internal structures and
 link/reference the methods subject to their exact terms.
+
+
+## Independent-review donor corrections
+
+The Opus and Codex reviews supersede donor assumptions that were based only on
+repository availability.
+
+- private vault: ottari SQLCipher/WAL is the primary P02 hypothesis; MedScale
+  EncryptedVault whole-file sealing is not copied as canonical authority;
+- SafeOCR: live donor candidate;
+- commandMed: mechanics/oracle only; patient lexical rules require SafeEvidence
+  clinician policy;
+- DAL: metrics reusable; negative Study-0 results are prior evidence;
+- statsmodels meta-analysis: restricted supported-method source, not a complete
+  synthesis engine;
+- metafor: stronger statistical oracle/optional worker candidate subject to
+  copyleft/runtime decision;
+- trialstreamer: reference-only until separate permission reference is recorded;
+- Non-public guideline-verification research reference: identity withheld
+  from public documentation; research-only, no assumed code admission or
+  implementation readiness; exact source inspection and an appropriate
+  permission basis are required before adoption;
+- parser/model dependencies: default network/download/telemetry features are not
+  admitted implicitly.
+
+Rights disposition is canonical in `docs/DONOR_RIGHTS_REGISTER.md`.
+
+## Binding source eligibility for P00 repair
+
+All adoption-mode hints in this ledger are **discovery only**. Before any
+copy/vendor/worker distribution, the exact repo, commit, selected file hashes,
+SPDX/grant and separated model/data/terminology/native/asset terms must appear
+as VERIFIED_ALLOWED in `docs/DONOR_RIGHTS_REGISTER.md`. Unknown and
+SEPARATE_PERMISSION_ASSERTED are **not** permission to import bytes. Ready
+source code is preferred after rights admission, not before.
+
+The ottari SQLCipher/WAL private vault is a P02 qualification candidate;
+MedScale whole-file EncryptedVault is not eligible for canonical private
+authority as-is. SafeOCR is a real critical OCR field-verification donor
+candidate subject to qualification; DAL's negative abstention results are
+prior evidence, not a promotion claim.

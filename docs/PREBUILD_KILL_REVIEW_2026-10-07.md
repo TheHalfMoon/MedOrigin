@@ -4,7 +4,7 @@ Status: P00_INTERNAL_REVIEW_COMPLETE
 
 ## Executive verdict
 
-After the copy-first source audit, evidence-lifecycle audit, and evidence-synthesis kill review, no known unresolved P0 planning gap remains in the SafeEvidence foundation from this internal review.
+An internal review previously found no known P0 planning gap. Two later independent reviews found material P0 gaps. That earlier statement is superseded by `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`.
 
 This is not implementation authority and is not a clinical, safety, security, or compliance claim. The remaining P00 gate is independent adversarial review by Codex and Claude/Opus against the exact post-audit commit.
 
@@ -355,8 +355,8 @@ A generated answer alone is not a complete evidence export.
 | Source | Observed head | Role | Default disposition |
 |---|---|---|---|
 | evidence-surveillance/es3 | fa845217690e179d3f8151e97773aabc035d6cfe | trial-review linkage, surveillance/update patterns | COPY_BOUNDED / REFERENCE |
-| ijmarshall/trialstreamer | a97cb8332c039e228ef42188c9d966440894e354 | living RCT acquisition/PICO/quality patterns | COPY_BOUNDED / RESEARCH_WORKER |
-| ijmarshall/robotreviewer | 9a2781974c3edc6322b4fb329b1ea0348af7b8a1 | RCT PICO/risk-of-bias automation oracle | RESEARCH_WORKER / COPY subject to adoption record |
+| ijmarshall/trialstreamer | a97cb8332c039e228ef42188c9d966440894e354 | living RCT acquisition/PICO/quality patterns | REFERENCE_ONLY_PENDING_RIGHTS; no copy without verified grant |
+| ijmarshall/robotreviewer | 9a2781974c3edc6322b4fb329b1ea0348af7b8a1 | RCT PICO/risk-of-bias automation oracle | REFERENCE / BENCHMARK; GPL compliance or verified separate grant before distribution |
 | bwallace/RRnlp | e1a26b4ed1c8d65f2c2e2558dc9f0918572306d0 | EBM NLP implementation/model research | COPY_BOUNDED / BENCHMARK |
 | jayded/evidence-inference | a661e8c14f973398380c8865cf2f27a535aaaf6d | intervention-comparator-outcome result and evidence extraction | COPY_BOUNDED / BENCHMARK |
 | WengLab-InformaticsResearch/PICOX | f3351c4786bf197efacfcefc1c1e66c36c245842 | overlapping PICO extraction | COPY_BOUNDED / BENCHMARK |
@@ -383,6 +383,12 @@ P18 Deep Review owns ReviewProtocol, screening audit, study-level linkage, struc
 P20 SafeEvidenceBench adds study-linkage precision/recall, false merge/miss rates, outcome/effect extraction accuracy, numeric span faithfulness, appraisal agreement, meta-analysis golden fixtures, double-counting adversarial cases, review-screening recall/workload, living-update detection delay, and funding/COI extraction coverage.
 
 ## Internal P00 readiness matrix
+
+**SUPERSEDED_BY_P00_REPAIR_2026_10_08.** This table preserves only the
+historical internal planning assessment. Its `RESOLVED` entries do not close
+independent P0/P1 findings, authorize copying, or indicate tested clinical
+capabilities. Current P00 authority is the repaired contracts, per-finding
+acceptance registers, and subsequent independent exact-head re-checks.
 
 | Dimension | Internal status |
 |---|---|
@@ -424,3 +430,16 @@ Broad implementation begins only after:
 4. no unresolved P0 remains;
 5. every P1 is resolved or phase-bound with owner;
 6. the exact post-reconciliation commit becomes the P01 base.
+
+
+## Supersession notice
+
+Do not use the internal readiness matrix in this file as current closure
+authority.
+
+The independent Codex and Claude/Opus reviews found P0/P1 issues that supersede
+several `RESOLVED` rows, including storage/data planes, evidence/result
+identity, decision semantics, donor rights and proof admission.
+
+Current status is defined only by the reconciliation documents and subsequent
+independent re-checks.

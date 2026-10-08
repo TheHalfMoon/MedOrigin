@@ -59,7 +59,7 @@ These are review anchors, not permanent update locks. Reverify live heads before
 
 | Source | Observed review head | Main value |
 |---|---|---|
-| `TheHalfMoon/MedScale` | `1e2b7d94e970256b38bda15fa91f62bc397e825a` | strongest direct Rust donor: vault, keys, source/evidence contracts, network broker, FHIR, Packs, local model runtime |
+| `TheHalfMoon/MedScale` | `1e2b7d94e970256b38bda15fa91f62bc397e825a` | valuable Rust donor: keys, source/evidence contracts, network broker, FHIR, packs, runtime and selected vault tests; **not canonical whole-file private vault** |
 | `TheHalfMoon/DAL` | `8fcf29f2e0c1b6cf78661acd2f5e1340a578ac03` | calibration/selective-risk/abstention benchmark code |
 | `TheHalfMoon/commandMed` | `51f73ec05750137e5bd94ffa0765f6383f475fee` | implemented deterministic safety policy/scaffold |
 | `TheHalfMoon/Morize` | `62fc04d01d398da93b4dacf0ab2f33e3f1440462` | temporal/evidence-graph semantics, mostly reference at this stage |
@@ -75,7 +75,7 @@ Private source identities remain outside this public file unless separately auth
 
 MedScale is not merely a conceptual reference. It contains real reusable Rust code. SafeEvidence should begin by transplanting/adapting qualified slices instead of recreating them.
 
-### 4.1 Local vault and keys — COPY/ADAPT first
+### 4.1 Local vault and keys — HISTORICAL CANDIDATES, NOT ADOPTED
 
 Candidate source paths:
 
@@ -104,7 +104,7 @@ Existing useful behavior includes:
 - source metadata and durable authority rows;
 - single-writer/exclusive-writer work and tests.
 
-**SafeEvidence direction:** transplant the smallest coherent storage/key slice, rename/adapt contracts, preserve tests, then re-qualify privacy and crash semantics. Do not write a new encryption/vault stack first.
+**Current binding decision (supersedes the historical path list above):** Do **not** adopt MedScale whole-file `EncryptedVault` / `encrypted_vault.rs` as SafeEvidence authority. P02 qualifies ottari's persistent SQLCipher/WAL vault as the primary coherent lifecycle candidate and may selectively transplant independently qualified MedScale writer-lock, path-claim and key/recovery helpers/tests. See `docs/P00_VAULT_DURABILITY_CONTRACT.md`. No code transplant is authorized by the historical list.
 
 ### 4.2 Source and evidence contracts — COPY/ADAPT first
 
@@ -380,7 +380,7 @@ Do not build ASR from scratch.
 | SafeEvidence phase | Reuse-first default |
 |---|---|
 | P01 repo/governance | transplant sibling CI/provenance/governance patterns; SpecGrain/Diffcipline process |
-| P02 contracts/vault | **MedScale keys + storage + source contracts** |
+| P02 contracts/vault | **ottari SQLCipher/WAL vault primary qualification hypothesis**; selected MedScale keys/lock/path claims and source contracts only after coherent crash/durability qualification |
 | P03 evidence acquisition | MedScale evidence identities + OpenMed provenance/snapshot patterns; write only source-specific adapters/glue |
 | P04 lexical retrieval | MedScale lexical baseline + SQLite FTS5 |
 | P05 semantic/rerank | **fastembed-rs** + sqlite-vec/USearch tournament |
@@ -411,7 +411,7 @@ Reuse does not remove the product's novel integration work. Likely SafeEvidence-
 - clinical query decomposition and source-family strategy;
 - exact claim-to-evidence support verifier integrated with product UX;
 - evidence-quality/applicability presentation;
-- calibrated end-to-end commitment probability with explicit estimand;
+- categorical commitment/abstention states with explicit reasons; any future probability requires a separately validated estimand;
 - integration of deterministic safety + typed decision models + retrieval sufficiency;
 - contradiction-first synthesis;
 - clinician evidence workstation UX;
@@ -432,3 +432,21 @@ P00 cannot close until:
 - every accepted greenfield subsystem has a `GREENFIELD_JUSTIFIED` record.
 
 The objective is not maximum copying. The objective is **minimum unnecessary rebuilding** while keeping SafeEvidence coherent, local, secure, auditable, and independently testable.
+
+
+## Independent-review reconciliation corrections
+
+This map is subordinate to:
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`;
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`;
+- `docs/DONOR_RIGHTS_REGISTER.md`.
+
+Corrections:
+- private vault default hypothesis is ottari SQLCipher/WAL, not MedScale
+  whole-file EncryptedVault;
+- SafeOCR is a live critical-value donor candidate;
+- commandMed policy mechanics are reusable, but its patient lexical policy is
+  not copied unchanged;
+- DAL negative Study-0 evidence must be retained;
+- V1 has no user-facing clinical confidence percentage;
+- every donor is copied only when its rights register allows the exact mode.

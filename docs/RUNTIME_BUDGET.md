@@ -18,6 +18,8 @@ in the default build:
 | lexical search | one local index engine |
 | vector projection | one local vector backend |
 | embeddings | one admitted default model/runtime |
+| tensor/ONNX execution | one admitted runtime; ORT candidate vs bounded alternatives |
+| local generative LLM | one admitted generator runtime per device profile; no cloud fallback |
 | reranking | one admitted default model/runtime |
 | document parsing | one primary document engine |
 | OCR | one primary OCR route plus a justified fallback only |
@@ -108,3 +110,51 @@ Winner selection is workload-specific.
 
 Every optional engine or worker must have an exit strategy. SafeEvidence must be
 able to remove a donor/runtime without rewriting canonical evidence records.
+
+
+## 10. Corpus and distribution budget
+
+The public/rebuildable evidence plane and the encrypted private authority plane
+have separate budgets.
+
+Before P03, freeze and measure:
+- default corpus scope;
+- metadata/content pack size;
+- lexical/vector index size;
+- embedding dimensions/precision/quantization;
+- model-pack sizes;
+- build workspace;
+- update/delta size;
+- builder ownership and frequency;
+- distribution bandwidth/storage scenario.
+
+A PubMed-scale corpus is not assumed to fit the private vault, mobile device, or
+default desktop profile.
+
+Large population corpora may be optional. User-built or institution-built packs
+are valid strategies when they better satisfy rights or zero-founder-COGS goals.
+
+No first clinical question may silently trigger a model or corpus download.
+
+## 11. Network and model feature closure
+
+Parser, OCR, embedding and generation dependencies are admitted with explicit
+feature closure.
+
+Default network/model-download/telemetry/service features are disabled unless
+the owning phase explicitly qualifies them.
+
+A worker library's URL validation is not equivalent to OS-level network
+confinement.
+
+## P00 inference and distribution admission
+
+ORT is a candidate primary tensor runtime because donors already use it, not an
+automatic winner. One generator runtime is qualified separately. Disable
+unnecessary cloud, model-download and telemetry features; pin source/runtime,
+tokenizer and model artifacts; workers remain removable.
+
+A CPU-only 16 GB-class Windows desktop is the first measured target, not a
+claim of achieved performance. P03 binds corpus build/update/distribution cost
+and P05/P10/P12 must measure cold offline start, peak memory, disk, latency,
+thermal/cancellation and network silence before promotion.

@@ -4,12 +4,13 @@ Status: `P00_BINDING`
 
 ## 1. Founder authorization
 
-The founder has explicitly authorized SafeEvidence to copy, modify, combine,
-adapt, vendor, and rebrand the source code from the source universe discussed
-for this project.
+The founder has explicitly asserted permission to copy, modify, combine,
+adapt, vendor, and rebrand the discussed source-code donors.
 
-This removes "do we have permission to copy the donor implementation?" as a
-planning blocker for those authorized sources.
+This assertion is preserved, but SafeEvidence does not infer external copyright
+rights from a blanket statement. Every adopted source must have an allowed
+entry in `docs/DONOR_RIGHTS_REGISTER.md` based on a public license, founder
+ownership, or a recorded separate permission reference.
 
 It does **not** erase obligations attached to embedded third-party code,
 datasets, terminology, model weights, fonts, documents, or other separately
@@ -18,7 +19,7 @@ licensed material. Those remain tracked independently.
 ## 2. Engineering rule
 
 SafeEvidence MUST NOT reimplement an already-good capability from scratch when
-an authorized source already contains a usable implementation.
+a rights-admitted source already contains a usable implementation.
 
 Default decision order:
 
@@ -75,11 +76,11 @@ would waste time.
 | Capability | Primary source | Observed head | Copy strategy | SafeEvidence destination |
 |---|---|---|---|---|
 | cryptographic key handling | `TheHalfMoon/MedScale` | `1e2b7d94e970256b38bda15fa91f62bc397e825a` | COHERENT_COPY | `crates/safeevidence-keys/` |
-| SQLCipher vault | MedScale | same | COHERENT_COPY + strip unrelated schemas | `crates/safeevidence-vault/` |
-| sealed blobs | MedScale | same | COHERENT_COPY | vault/storage modules |
+| private SQLCipher vault | ottari `himsat-core` (primary hypothesis) + selected MedScale lock/claim helpers | exact adopted revisions at P02 | COPY_BOUNDED after crash/backup bake-off | `crates/safeevidence-vault/` |
+| private blob/storage primitives | ottari + selected MedScale helpers | exact adopted revisions at P02 | COPY_BOUNDED after threat-model qualification | vault/storage modules |
 | path claims / local custody | MedScale | same | COHERENT_COPY | vault/core |
 | writer ownership | MedScale `writer_lock.rs` | same | COHERENT_COPY incl. cross-process tests | vault |
-| migrations/restart integrity | MedScale | same | COPY selected migration framework/tests | vault |
+| migrations/restart integrity | ottari primary + compatible donor tests | exact adopted revisions at P02 | COPY_BOUNDED after kill/recovery qualification | vault |
 | source identity | MedScale contracts | same | COHERENT_COPY + extend | `safeevidence-contracts` |
 | evidence corpus contracts | MedScale | same | COHERENT_COPY + extend | contracts/evidence |
 | network broker | MedScale | same | COHERENT_COPY | `safeevidence-network` |
@@ -212,7 +213,7 @@ SafeEvidence should not rebuild generic active-learning screening.
 |---|---|---|
 | Rust↔Swift/Kotlin bindings | UniFFI @ `bc9fb385...` | DEPEND or VENDOR |
 | mobile security contracts | MedScale | COPY |
-| QR pairing threat model/patterns | Signthos @ `f945f12...` | COPY/ADAPT |
+| QR pairing threat model/patterns | Signthos (AGPL public tree; separate permission asserted but not verified) | REFERENCE_ONLY_PENDING_RIGHTS; no transplant until per-slice grant/license decision |
 | platform architecture patterns | ottari @ `b7948b5...` | COPY/ADAPT |
 | iOS/Android document bridge ideas | Xberg | COPY/REFERENCE |
 
@@ -222,7 +223,7 @@ Do not hand-write two complete FFI layers if UniFFI qualifies.
 
 | Capability | Source | Strategy |
 |---|---|---|
-| guideline verification semantics | ProtocolWISE | COPY/ADAPT |
+| guideline verification research patterns | Non-public, unqualified research reference (identity withheld from public documentation) | REFERENCE_ONLY; no code copy, adaptation or implementation readiness asserted |
 | CQL translation/conformance | `cqframework/clinical_quality_language` @ `c41c21...` | VENDOR/WORKER_COPY |
 | evidence interoperability | HL7/EBMonFHIR | COPY schemas/examples as reference/export mappings |
 | FHIR patient context | MedScale + OpenMed tests | COPY |
@@ -295,8 +296,8 @@ P00 cannot close until Codex and Opus independently verify that:
 | Capability | Ready source | Copy strategy |
 |---|---|---|
 | study/report surveillance and trial-review links | `evidence-surveillance/es3` | COPY_BOUNDED |
-| living RCT ingestion/PICO patterns | `ijmarshall/trialstreamer` | COPY_BOUNDED / RESEARCH_WORKER |
-| RCT PICO/risk-of-bias automation | `ijmarshall/robotreviewer` | COPY/WORKER only with exact permission and third-party record |
+| living RCT ingestion/PICO patterns | `ijmarshall/trialstreamer` | REFERENCE_ONLY_PENDING_RIGHTS (no observed public license; documented grant needed before copy) |
+| RCT PICO/risk-of-bias automation | `ijmarshall/robotreviewer` | REFERENCE / BENCHMARK; GPL-compliant distribution or separately verified grant required to ship code/worker |
 | EBM NLP models/patterns | `bwallace/RRnlp` | COPY_BOUNDED |
 | treatment-result/evidence extraction | `jayded/evidence-inference` | COPY_BOUNDED / BENCHMARK |
 | overlapping PICO extraction | `WengLab-InformaticsResearch/PICOX` | COPY_BOUNDED / BENCHMARK |
@@ -311,3 +312,20 @@ machinery, or generic PRISMA counting when ready authorized code exists.
 SafeEvidence-specific work is limited to the canonical Study/Report/Outcome/
 EffectEstimate semantics, provenance/admission, rights, clinician-facing
 workflow, and integration with SafeEvidence decision assurance.
+
+
+## 17. Reconciliation corrections
+
+- Private vault default hypothesis changes from MedScale EncryptedVault to the
+  ottari SQLCipher/WAL vault slice. MedScale lock/path/key helpers remain
+  candidates, not a coherent vault by themselves.
+- SafeOCR is a live critical-value verification donor candidate.
+- Trialstreamer is reference-only until its asserted separate permission is
+  documented in the donor-rights register.
+- RobotReviewer and Signthos follow their public copyleft terms unless a
+  separately verified permission/relicense record is attached.
+- statsmodels is a restricted statistical implementation/oracle; broader
+  synthesis methods should use mature existing implementations such as metafor
+  where rights/runtime qualification permits.
+- commandMed decision mechanics are reusable; its patient lexical policy content
+  is not copied unchanged for clinician evidence questions.

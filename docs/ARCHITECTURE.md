@@ -281,19 +281,18 @@ guideline conflict
 worker availability
 ```
 
-Candidate output:
+Typed control and terminal outcomes:
 
 ```text
-ANSWER
-ANSWER_WITH_CAUTION
-ASK_MORE
-RETRIEVE_EVIDENCE
-USE_TOOL
-CONFLICT
-ABSTAIN
-ESCALATE
-EMERGENCY
+ControlAction = RETRIEVE_EVIDENCE | USE_TOOL | REQUEST_CONTEXT
+TerminalOutcome = ANSWER | ANSWER_WITH_CAUTION | ASK_MORE | CONFLICT |
+                  ABSTAIN | ESCALATE | BLOCKED | EMERGENCY_NOTICE
 ```
+
+The terminal precedence, finite action budgets, reason codes and commit
+metrics are binding in `docs/P00_DECISION_ASSURANCE_CONTRACT.md`.
+EMERGENCY_NOTICE is disabled in V1 absent separate qualified policy; symptom
+substrings are never a triage gate.
 
 Model-assisted typed decisions may contribute, but deterministic rules may override them when a frozen policy/tool applies.
 
@@ -635,3 +634,80 @@ The foundation review must explicitly select or reject:
 - release signing/distribution strategy.
 
 No open decision may be silently resolved by an agent choosing its favorite framework.
+
+# P00 reconciliation architecture amendment
+
+Canonical details: `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`.
+
+## Data planes
+
+SafeEvidence separates:
+1. a public/rebuildable evidence plane for rights-admitted corpus material,
+   signed packs and projections; and
+2. an encrypted private authority plane for questions, patient context, private
+   documents, saved reviews, answers and private projections.
+
+Private records cannot enter distributable public packs. Cross-plane references
+use immutable IDs/digests plus source version and rights identity.
+
+## Private authority
+
+The current MedScale whole-file EncryptedVault lifecycle is not a canonical
+SafeEvidence storage decision. P02 qualifies the ottari SQLCipher/WAL vault
+slice as the primary hypothesis, with compatible MedScale writer-lock/path
+claims only after integrated crash/backup tests.
+
+## Evidence independence
+
+The canonical model includes StudyArm, AnalysisPopulation, ArmObservation,
+Result/OutcomeReport, Comparison, ReportVersionLink,
+SystematicReviewIncludedStudy and ParticipantOverlapGroup.
+
+Distinct reports do not imply distinct studies. Distinct results within a study
+do not imply statistically independent evidence.
+
+## Assurance semantics
+
+Orchestration actions are not terminal outcomes.
+
+```text
+ControlAction:
+  RETRIEVE_EVIDENCE | USE_TOOL | REQUEST_CONTEXT
+
+TerminalOutcome:
+  ANSWER | ANSWER_WITH_CAUTION | ASK_MORE | CONFLICT |
+  ABSTAIN | ESCALATE | BLOCKED | EMERGENCY_NOTICE
+```
+
+EMERGENCY_NOTICE is not autonomous triage.
+
+## Atomic proof admission
+
+Generated text is a draft until post-answer verification creates an
+AnswerProofManifest. User-visible streaming must not masquerade as committed
+evidence.
+
+AnswerProofManifest binds source/version/span, current-validity, rights,
+study/result identity, claim support, applicability, tools/models/policy and the
+terminal outcome.
+
+Historical answers are immutable; current-validity overlays may change.
+
+## Confidence
+
+V1 exposes categorical evidence/support/applicability states and reasons. It
+does not expose a clinical truth-confidence percentage.
+
+## Canonical P00 contract references
+
+The older narrative architecture is subordinate to:
+- `docs/P00_DATA_PLACEMENT_CONTRACT.md` (store/grant/backup/export/sync/delete);
+- `docs/P00_VAULT_DURABILITY_CONTRACT.md` (commit/lock/WAL/backup);
+- `docs/P00_STUDY_INDEPENDENCE_CONTRACT.md` (typed result and overlap);
+- `docs/P00_DECISION_ASSURANCE_CONTRACT.md` (control vs terminal precedence);
+- `docs/P00_PROOF_ADMISSION_CONTRACT.md` (atomic assured answer);
+- `docs/DONOR_RIGHTS_REGISTER.md` (per-slice admission).
+
+Any older text suggesting a competing vault, nine interchangeable terminal
+states or a clinical confidence percentage in V1 is superseded. Real
+qualification still belongs to the owning phase.

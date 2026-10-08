@@ -189,18 +189,18 @@ TUF roots mean it must pass a SafeEvidence/TUF conformance qualification first.
 `rust-tuf` is also explicitly beta. TUF is the required security model; the
 Rust implementation remains a tournament.
 
-### SE-G008 — SafeOCR is not a usable code donor today
+### SE-G008 — SafeOCR donor status changed after the original audit
 
-`AbdulazizShehri/SafeOCR` is currently an empty repository.
+`AbdulazizShehri/SafeOCR` was later verified by both independent reviews as
+non-empty and containing a critical-value verification implementation and
+tests. The earlier empty-repository statement is superseded.
 
-SafeEvidence must not claim SafeOCR implementation reuse.
+SafeOCR is now a donor candidate, not a clinically qualified component.
 
-Keep the healthcare OCR safety thesis, but source implementation from:
-
-- Xberg;
-- docling.rs;
-- PaddleOCR/qualified OCR models;
-- OpenMed document/OCR tests where useful.
+Use SafeOCR as a bounded critical-value verification donor candidate alongside:
+- Xberg/docling.rs for document parsing;
+- qualified OCR backends/models;
+- OpenMed offset/document tests where useful.
 
 SafeEvidence owns the critical medical OCR benchmark for decimals, doses, units,
 lab values, negation, tables, Arabic/Latin mixtures, and source-region lineage.
@@ -253,7 +253,10 @@ to store the entire internal database as FHIR.
 
 ### SE-G012 — Guideline execution needs a reference validator
 
-ProtocolWISE remains the SafeEvidence-specific verification research source.
+A non-public guideline-verification research source was previously considered,
+but its identity is intentionally withheld in the public repository. It is
+REFERENCE_ONLY, not an implementation donor; no code reuse or clinical
+verification claim is made from that source.
 
 Add the official CQL toolchain as an external validator/reference worker:
 
@@ -296,8 +299,9 @@ Tauri/React
 Measure privacy surfaces, accessibility, startup/RAM, developer velocity,
 rendering quality, and platform packaging.
 
-Given reuse-first and PHI/privacy concerns, Slint is the stronger default
-hypothesis; Tauri must win evidence rather than familiarity.
+Neither Slint nor Tauri is a preferred or qualified shell. Both remain unranked
+candidates in an OPEN_TOURNAMENT requiring licensing, accessibility,
+Arabic/bidi, privacy residuals, startup/RAM and packaging evidence.
 
 ### SE-G015 — Query privacy during public evidence search is underspecified
 
@@ -423,3 +427,15 @@ P00 cannot close until:
 The canonical product name is **SafeEvidence**. The GitHub repository slug
 remains `TheHalfMoon/MedOrigin` until separately renamed; repository content
 must use SafeEvidence as the product name.
+
+
+## Independent-review supersession
+
+This foundation audit remains useful historical context but is no longer the
+highest P00 authority. Independent Codex and Claude/Opus reviews found
+additional P0/P1 gaps.
+
+Canonical current authority:
+- `docs/P00_INDEPENDENT_REVIEW_RECONCILIATION_2026-10-07.md`
+- `docs/P00_FOUNDATION_DECISIONS_2026-10-07.md`
+- `docs/DONOR_RIGHTS_REGISTER.md`
