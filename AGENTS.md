@@ -9,9 +9,9 @@ These rules apply to Codex, Claude/Opus, Cursor, and any other engineering agent
 
 ## Current project state
 
-SafeEvidence is in **P00 — Foundation challenge and freeze**.
+P00 is **CLOSED_CANONICAL** at main `ad9f7b972d4d0cb3dc388ce4caa6c18e369e3b22`, with real Codex/Opus reviews and exact-head/post-merge documentation CI. This closes the foundation **planning** gate only.
 
-Do **not** begin broad implementation merely because the repository exists. The current job is to challenge, refine, and close the foundation plan.
+P01 is **PRE_ENTRY_GATES_PENDING**. A broad request to finish the project does not substitute for a qualified clinical safety owner, clinical evaluation plan, signed source rights, or approved scientific acceptance. Document and research the pending gates without beginning unapproved implementation. Current entry authority: `docs/P01_ENTRY_READINESS_2026-10-08.md`.
 
 ## Authority order
 
@@ -42,6 +42,9 @@ Read in this order before planning or changing architecture:
 23. `docs/MASTER_PLAN.md`
 24. `docs/GAP_REVIEW.md`
 25. active specs/decision records once created
+26. `docs/P01_ENTRY_READINESS_2026-10-08.md` (current P01 entry state)
+27. `docs/P01_CLINICAL_EVALUATION_CHARTER_DRAFT_2026-10-08.md` (unapproved)
+28. `docs/P01_P1_GATE_TRACKER_2026-10-08.md` (41 original gates, unassigned)
 
 If documents conflict, stop treating the conflict as resolved and record it explicitly.
 
@@ -241,10 +244,10 @@ The binding P00 contract sheets take precedence over older donor hypotheses and
 generic roadmap statements. If a conflict remains, stop; do not resolve by
 ignoring the new contract or copying code.
 
-This is a documentation-repair phase, not P01. A P00 finding is not closed
-solely by creating a document: its own reviewer must re-check the new exact
-head. P1 items are OPEN_PHASE_GATES and require named owner plus acceptance
-fixtures before the relevant phase begins.
+This paragraph was written during P00 repair and is retained as history:
+P00 has now been independently closed as a planning phase. Its binding contracts
+remain in force. P1 items are still OPEN_PHASE_GATES; a documented owner role
+does not constitute a named individual or actual sign-off.
 
 No production import without VERIFIED_ALLOWED rights-admission row. No
 MedScale whole-file EncryptedVault adoption. No V1 clinical confidence

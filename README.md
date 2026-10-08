@@ -157,10 +157,12 @@ SafeEvidence-owned code is licensed under Apache-2.0. Third-party code, model we
 Two independent reviews (Codex and Claude/Opus) evaluated the same frozen
 foundation SHA and both returned `P00_NOT_READY`.
 
-Their first reconciliation failed document re-check. A subsequent isolated
-documentation repair binds the six P0 contracts and all original P1 acceptance
-gates. Status: `P00_REPAIR_PREPARED_PENDING_INDEPENDENT_RECHECK`, NOT
-P00-closed or P01-ready.
+Their first reconciliation failed document re-check. The repaired foundation
+was independently rechecked by Codex and Claude Opus on exact SHA
+`9368e09e3e31df3176404e7b2b86b54a6a5aac08`. PR #2 merged normally;
+post-merge GitHub Actions passed at main
+`ad9f7b972d4d0cb3dc388ce4caa6c18e369e3b22`.
 
-No product implementation begins until both reviewers re-check the exact
-reconciliation head and no unresolved P0 remains.
+**P00: CLOSED_CANONICAL (planning only). P01: PRE_ENTRY_GATES_PENDING.**
+See `docs/P01_ENTRY_READINESS_2026-10-08.md` and the original P1 registers.
+No clinical qualification, live medical device or finished product is implied.
