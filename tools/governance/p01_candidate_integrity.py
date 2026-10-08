@@ -35,6 +35,42 @@ ENTRY_KEYS = {
 }
 
 
+# Exact table labels are the source-specific binding for six recorded fingerprints.
+# These are documentary observations, not verified rights or byte re-hashing.
+FINGERPRINT_LABELS = {
+    ("MedScale", "crates/medscale-core/src/release_sbom.rs"): "MedScale `release_sbom.rs`",
+    ("MedScale", "crates/medscale-core/tests/release_sbom_054.rs"): "MedScale `release_sbom_054.rs` test",
+    ("Ascout", ".github/workflows/self-verify.yml"): "Ascout `self-verify.yml`",
+    ("MESC", "src/medscale/provenance.py"): "MESC `provenance.py`",
+    ("ottari", "tools/provenance_gate.py"): "ottari `tools/provenance_gate.py`",
+    ("ottari", "tools/provenance.py"): "ottari `tools/provenance.py`",
+}
+
+
+def fingerprint_table_rows(source: str) -> dict[str, list[tuple[str, str]]]:
+    """Read only the fingerprint evidence section, preserving duplicate rows."""
+    active = False
+    rows: dict[str, list[tuple[str, str]]] = {}
+    for line in source.splitlines():
+        if line.startswith("## Byte-level SHA-256 observations"):
+            active = True
+            continue
+        if active and line.startswith("## "):
+            break
+        if not active or not line.startswith("|"):
+            continue
+        columns = [part.strip() for part in line.strip().strip("|").split("|")]
+        if len(columns) == 3 and (
+            columns[0] == "Candidate" or columns[0].startswith("---")
+        ):
+            continue
+        if len(columns) != 3:
+            rows.setdefault("<MALFORMED_ROW>", []).append(("", ""))
+            continue
+        rows.setdefault(columns[0], []).append((columns[1], columns[2]))
+    return rows
+
+
 def check(root: Path) -> dict[str, object]:
     errors: list[str] = []
     manifest_path = root / MANIFEST
@@ -65,6 +101,7 @@ def check(root: Path) -> dict[str, object]:
     seen: set[tuple[str, str]] = set()
     sha_count = 0
     commits: dict[str, str] = {}
+    fingerprint_rows = fingerprint_table_rows(source)
     for i, entry in enumerate(entries):
         if not isinstance(entry, dict) or set(entry) != ENTRY_KEYS:
             errors.append(f"Entry {i}: schema mismatch")
@@ -113,9 +150,16 @@ def check(root: Path) -> dict[str, object]:
                 errors.append(f"Entry {i}: invalid/empty-byte SHA256")
             elif not isinstance(size, int) or isinstance(size, bool) or size <= 0:
                 errors.append(f"Entry {i}: invalid byte count")
-            elif f"`{sha}`" not in source or f"| {size} |" not in source:
-                errors.append(f"Entry {i}: raw fingerprint not in written evidence")
-            sha_count += 1
+            elif (
+                (short, path) not in FINGERPRINT_LABELS
+                or fingerprint_rows.get(FINGERPRINT_LABELS[(short, path)])
+                != [(str(size), f"`{sha}`")]
+            ):
+                errors.append(f"Entry {i}: raw fingerprint not in written evidence for exact source row")
+            else:
+                sha_count += 1
+    if set(fingerprint_rows) != set(FINGERPRINT_LABELS.values()):
+        errors.append("Fingerprint table has missing or unexpected source rows")
     if seen != EXPECTED:
         errors.append(f"Candidate set differs: missing={len(EXPECTED - seen)} extra={len(seen - EXPECTED)}")
     if sha_count != 6:

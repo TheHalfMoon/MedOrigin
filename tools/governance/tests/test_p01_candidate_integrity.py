@@ -107,6 +107,55 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         obj["entries"][2]["byte_count"] = 12
         self.deny(obj, "raw fingerprint not in written evidence")
 
+    def test_displaced_fingerprint_is_not_accepted_from_unbound_prose(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        line = next(row for row in body.splitlines()
+                    if row.startswith("| MedScale `release_sbom.rs` |"))
+        body = body.replace(line + "\n", "", 1)
+        body += "\nUnbound note: " + self.original["entries"][0]["raw_sha256"] + " | 17423 |\n"
+        p.write_text(body, encoding="utf-8")
+        result = check(self.root)
+        self.assertEqual("FAIL", result["structure"], result)
+        self.assertTrue(any("fingerprint" in e for e in result["errors"]), result["errors"])
+
+    def test_duplicate_fingerprint_evidence_row_is_rejected(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        line = next(row for row in body.splitlines()
+                    if row.startswith("| MedScale `release_sbom.rs` |"))
+        p.write_text(body.replace(line, line + "\n" + line, 1), encoding="utf-8")
+        result = check(self.root)
+        self.assertEqual("FAIL", result["structure"], result)
+        self.assertEqual("BLOCKED", result["source_imports"])
+
+    def test_fingerprint_on_wrong_source_row_is_rejected(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        row1 = next(row for row in body.splitlines()
+                    if row.startswith("| MedScale `release_sbom.rs` |"))
+        row2 = next(row for row in body.splitlines()
+                    if row.startswith("| MedScale `release_sbom_054.rs` test |"))
+        parts1 = row1.split("|")
+        parts2 = row2.split("|")
+        parts1[3], parts2[3] = parts2[3], parts1[3]
+        altered = body.replace(row1, "__ROW1__", 1).replace(row2, "|".join(parts2), 1)
+        p.write_text(altered.replace("__ROW1__", "|".join(parts1), 1), encoding="utf-8")
+        result = check(self.root)
+        self.assertEqual("FAIL", result["structure"], result)
+        self.assertTrue(any("exact source row" in e for e in result["errors"]), result["errors"])
+
+    def test_unexpected_fingerprint_source_row_is_rejected(self):
+        p = self.root / SOURCE
+        body = p.read_text(encoding="utf-8")
+        row = next(line for line in body.splitlines()
+                   if line.startswith("| MedScale `release_sbom.rs` |"))
+        injected = "| UnknownDonor `unexpected.py` | 100 | `" + "f" * 64 + "` |"
+        p.write_text(body.replace(row, row + "\n" + injected, 1), encoding="utf-8")
+        result = check(self.root)
+        self.assertEqual("FAIL", result["structure"], result)
+        self.assertEqual("BLOCKED", result["source_imports"])
+
     def test_unapproved_phase_is_not_silently_promoted(self):
         obj = copy.deepcopy(self.original)
         obj["phase"] = "P01_G01_ACTIVE"
