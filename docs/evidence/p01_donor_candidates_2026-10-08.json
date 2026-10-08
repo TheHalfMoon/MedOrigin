@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "purpose": "P01 offline donor candidate metadata only; never an import allowlist",
+  "phase": "P01_PRE_ENTRY_GATES_PENDING",
+  "admissions": [],
+  "entries": [
+    {
+      "repo": "TheHalfMoon/MedScale",
+      "source_commit": "37f5ae8a965c1e49d961010c3135a5b5dde12d67",
+      "path": "crates/medscale-core/src/release_sbom.rs",
+      "git_blob_oid": "97f5165b20db16f1bd3212e594ba8fa672e8300f",
+      "byte_count": 17423,
+      "raw_sha256": "62dd80af240c543a03bcc9e37a6cbdc768c5084067facde75d5ff310d1110233",
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/MedScale",
+      "source_commit": "37f5ae8a965c1e49d961010c3135a5b5dde12d67",
+      "path": "crates/medscale-core/tests/release_sbom_054.rs",
+      "git_blob_oid": "79bb1bfbfc99bc470227d5deef96e72b73501f06",
+      "byte_count": 9131,
+      "raw_sha256": "b7ee8328c516a15f86ba9fef0379ba1b9dba2dd4a47e1596bfae70130da804ea",
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/MedScale",
+      "source_commit": "37f5ae8a965c1e49d961010c3135a5b5dde12d67",
+      "path": "scripts/generate-release-sbom.ps1",
+      "git_blob_oid": "5c0db999609c89bcca583099a2f36fd6bd80848e",
+      "byte_count": null,
+      "raw_sha256": null,
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/MedScale",
+      "source_commit": "37f5ae8a965c1e49d961010c3135a5b5dde12d67",
+      "path": ".github/workflows/ci.yml",
+      "git_blob_oid": "0e13351067c2070045a2b816ebf0c3a8c7fe9f82",
+      "byte_count": null,
+      "raw_sha256": null,
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/ottari",
+      "source_commit": "73706029849bcbe51243624e37f03a1969dc74ca",
+      "path": "tools/provenance.py",
+      "git_blob_oid": "a36568be1b789a34222de76fd25e88f13a768332",
+      "byte_count": null,
+      "raw_sha256": null,
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/ottari",
+      "source_commit": "73706029849bcbe51243624e37f03a1969dc74ca",
+      "path": "tools/provenance_gate.py",
+      "git_blob_oid": "8dffa32146529bbdd3e3026a0fceff4bce58c24e",
+      "byte_count": null,
+      "raw_sha256": null,
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/ottari",
+      "source_commit": "73706029849bcbe51243624e37f03a1969dc74ca",
+      "path": ".github/workflows/ci.yml",
+      "git_blob_oid": "9224672e49022c85d217cb06de7a40ba54274a13",
+      "byte_count": null,
+      "raw_sha256": null,
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/kernux",
+      "source_commit": "2085b6ed1121b1a94c66c076bdd6b578da4dad0d",
+      "path": ".github/workflows/ci.yml",
+      "git_blob_oid": "372e34bf2591d9885d09888c4eb1e291455019b6",
+      "byte_count": null,
+      "raw_sha256": null,
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/Ascout",
+      "source_commit": "ca6b6f514e5a8881e2cfa2789b5e5ea43e3aaaad",
+      "path": ".github/workflows/self-verify.yml",
+      "git_blob_oid": "fffb70fa00b8152063e7ad9b3062988d6b0c04c2",
+      "byte_count": 2733,
+      "raw_sha256": "0ad849d2a6c94588d6762fa6925916a1fd521a25602b123e74baeb9c03e5817a",
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/MESC",
+      "source_commit": "f9b7579189b77b06379d1a71d104d4b0267cf500",
+      "path": "src/medscale/provenance.py",
+      "git_blob_oid": "242aad5871261bdb242977e11bfb4b680209379d",
+      "byte_count": 2297,
+      "raw_sha256": "c156eeac2facc42f1bcb7e89e50ac47ec5a3df3d287575b7a95bd37ca7d65ecf",
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    },
+    {
+      "repo": "TheHalfMoon/MESC",
+      "source_commit": "f9b7579189b77b06379d1a71d104d4b0267cf500",
+      "path": "tests/test_provenance.py",
+      "git_blob_oid": "b5da9a4a5d8d2de7dc3d50ff3ff9463611b9dfe3",
+      "byte_count": null,
+      "raw_sha256": null,
+      "admission_state": "REFERENCE_ONLY",
+      "copy_authorized": false
+    }
+  ]
+}

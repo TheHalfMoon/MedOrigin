@@ -29,7 +29,7 @@ update owner and exit plan remain mandatory.
 | ottari | `tools/provenance.py` | `a36568be1b789a34222de76fd25e88f13a768332` |
 | ottari | `tools/provenance_gate.py` | `8dffa32146529bbdd3e3026a0fceff4bce58c24e` |
 | ottari | `.github/workflows/ci.yml` | `9224672e49022c85d217cb06de7a40ba54274a13` |
-| Kernux | `.github/workflows/ci.yml` | `372e34bf2591d9885d09888c4eb1e291455019b6` |
+| kernux | `.github/workflows/ci.yml` | `372e34bf2591d9885d09888c4eb1e291455019b6` |
 | Ascout | `.github/workflows/self-verify.yml` | `fffb70fa00b8152063e7ad9b3062988d6b0c04c2` |
 | MESC | `src/medscale/provenance.py` | `242aad5871261bdb242977e11bfb4b680209379d` |
 | MESC | `tests/test_provenance.py` | `b5da9a4a5d8d2de7dc3d50ff3ff9463611b9dfe3` |

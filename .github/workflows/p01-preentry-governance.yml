@@ -32,6 +32,11 @@ jobs:
           set -euo pipefail
           python --version
           python tools/governance/p01_preentry_check.py --root . --expected-sha "$EXPECTED_SHA" --json
+      - name: Validate pinned donor candidate metadata without import authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/governance/p01_candidate_integrity.py --root .
       - name: Run negative and positive synthetic gate tests
         shell: bash
         run: |
