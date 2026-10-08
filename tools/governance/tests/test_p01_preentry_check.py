@@ -97,6 +97,12 @@ class GateFixtures(unittest.TestCase):
         self.edit(check.TRACKER, "issues/3", "issues/99")
         self.assert_deny("missing durable issue")
 
+    def test_issue_label_url_mismatch_rejected(self):
+        self.edit(check.TRACKER,
+                  "[#3](https://github.com/TheHalfMoon/SafeEvidence/issues/3)",
+                  "[#5](https://github.com/TheHalfMoon/SafeEvidence/issues/3)")
+        self.assert_deny("missing durable issue")
+
     def test_source_finding_missing_rejected(self):
         p = check.ORIGINAL_PATHS["CODEX"]
         self.edit(p, "| CODEX-P00-07 |", "| NON-P1-07 |")
