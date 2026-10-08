@@ -118,8 +118,8 @@ def check(root: Path) -> dict[str, object]:
             sha_count += 1
     if seen != EXPECTED:
         errors.append(f"Candidate set differs: missing={len(EXPECTED - seen)} extra={len(seen - EXPECTED)}")
-    if sha_count != 4:
-        errors.append("Exactly four verified fingerprints expected; others unverified")
+    if sha_count != 6:
+        errors.append("Exactly six verified fingerprints expected; others unverified")
     if "NO_ADMISSIONS" not in source or "REFERENCE_ONLY" not in source:
         errors.append("Source ledger fails closed markers")
     return {
