@@ -20,15 +20,15 @@ class GateFixtures(unittest.TestCase):
             (self.root / path).parent.mkdir(parents=True, exist_ok=True)
         for reviewer, path in check.ORIGINAL_PATHS.items():
             content = "".join(
-                f"| {ident} | Phase-{ident} | Reviewer-{reviewer} | Required decision | Evidence-{ident} |\\n"
+                f"| {ident} | Phase-{ident} | Reviewer-{reviewer} | Required decision | Evidence-{ident} |\n"
                 for ident in sorted(check.EXPECTED[reviewer])
             )
             self.write(path, content)
         all_ids = sorted(set().union(*check.EXPECTED.values()))
-        content = "Status: OPEN_OWNER_ASSIGNMENT; unassigned\\n" + "".join(
+        content = "Status: OPEN_OWNER_ASSIGNMENT; unassigned\n" + "".join(
             f"| {ident} | Phase-{ident} | Reviewer-{ident.split('-')[0]} | "
             f"[#3](https://github.com/TheHalfMoon/SafeEvidence/issues/3) | "
-            f"OPEN — owner unassigned | Evidence-{ident} |\\n"
+            f"OPEN — owner unassigned | Evidence-{ident} |\n"
             for ident in all_ids
         )
         self.write(check.TRACKER, content)
@@ -66,7 +66,7 @@ class GateFixtures(unittest.TestCase):
     def test_duplicate_id_rejected(self):
         p = self.root / check.TRACKER
         lines = p.read_text(encoding="utf-8").splitlines()
-        p.write_text("\\n".join([*lines, lines[1], ""]), encoding="utf-8")
+        p.write_text("\n".join([*lines, lines[1], ""]), encoding="utf-8")
         self.assert_deny("Duplicate P1 ID")
 
     def test_evidence_drift_rejected(self):
