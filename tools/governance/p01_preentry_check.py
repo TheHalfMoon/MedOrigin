@@ -13,7 +13,7 @@ import re
 import subprocess
 from pathlib import Path
 
-ID_RE = re.compile(r"^\\|\\s*(CODEX-P00-\\d{2}|OPUS-P00-\\d{3})\\s*\\|")
+ID_RE = re.compile(r"^\|\s*(CODEX-P00-\d{2}|OPUS-P00-\d{3})\s*\|")
 EXPECTED = {
     "CODEX": {f"CODEX-P00-{n:02d}" for n in range(7, 31)},
     "OPUS": {f"OPUS-P00-{n:03d}" for n in range(3, 20)},
@@ -96,7 +96,7 @@ def validate(root: Path, expected_sha: str | None = None) -> dict[str, object]:
             if original[orig_index] != tracked[tracker_index]:
                 problems.append(f"{key}: drift in {field} from original review")
         if not re.fullmatch(
-            r"\\[#(?:3|4|5)\\]\\(https://github\\.com/TheHalfMoon/SafeEvidence/issues/(?:3|4|5)\\)",
+            r"\[#(?:3|4|5)\]\(https://github\.com/TheHalfMoon/SafeEvidence/issues/(?:3|4|5)\)",
             tracked[3],
         ):
             problems.append(f"{key}: missing durable issue #3/#4/#5")
