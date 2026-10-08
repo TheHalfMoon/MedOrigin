@@ -34,6 +34,29 @@ update owner and exit plan remain mandatory.
 | MESC | `src/medscale/provenance.py` | `242aad5871261bdb242977e11bfb4b680209379d` |
 | MESC | `tests/test_provenance.py` | `b5da9a4a5d8d2de7dc3d50ff3ff9463611b9dfe3` |
 
+## Byte-level SHA-256 observations (independently computed, not approvals)
+
+Decoded GitHub blob bytes were inspected using `gh api` and SHA-256
+computed in the local Windows PowerShell environment on 2026-10-08.
+These are content digests, distinct from the Git blob OIDs listed above.
+
+| Candidate | Bytes | Raw SHA-256 |
+|---|---:|---|
+| MedScale `release_sbom.rs` | 17423 | `62dd80af240c543a03bcc9e37a6cbdc768c5084067facde75d5ff310d1110233` |
+| MedScale `release_sbom_054.rs` test | 9131 | `b7ee8328c516a15f86ba9fef0379ba1b9dba2dd4a47e1596bfae70130da804ea` |
+| Ascout `self-verify.yml` | 2733 | `0ad849d2a6c94588d6762fa6925916a1fd521a25602b123e74baeb9c03e5817a` |
+| MESC `provenance.py` | 2297 | `c156eeac2facc42f1bcb7e89e50ac47ec5a3df3d287575b7a95bd37ca7d65ecf` |
+
+The active `gh` CLI authentication returned HTTP 404 when directly
+requesting two ottari blob URLs. **No ottari raw SHA-256 was verified**,
+and the empty-byte SHA-256 must never be accepted as evidence for those
+files. Git object IDs were separately observed through the connected
+GitHub repository reader. Confirm byte digests with access to the exact
+repository blobs before choosing any ottari transplant.
+
+Raw file hashing does not establish contributor licensing, imported
+third-party rights, NOTICE obligations, or production approval.
+
 ## Bounded copy-first preference after qualified authorization
 
 Prefer the MedScale `release_sbom.rs` implementation and negative fixtures for
