@@ -38,18 +38,45 @@ def read(root: Path, relative: str, problems: list[str]) -> str:
 
 
 def rows(text: str, path: str, problems: list[str]) -> dict[str, list[str]]:
+    """Read P1 findings only from the single canonical Markdown table.
+
+    Rows in notes, fenced examples or detached tables are not authority.
+    """
+    expected_header = "ID" if path == TRACKER else "Finding"
     found: dict[str, list[str]] = {}
+    in_table = False
+    header_count = 0
     for line in text.splitlines():
-        if not ID_RE.match(line):
+        if line.startswith("|"):
+            columns = [value.strip() for value in line.split("|")[1:-1]]
+            if columns and columns[0] == expected_header:
+                header_count += 1
+                if header_count > 1:
+                    problems.append(f"Duplicate P1 table header in {path}")
+                in_table = header_count == 1
+                continue
+        if not in_table:
             continue
-        cols = [v.strip() for v in line.split("|")[1:-1]]
-        key = cols[0]
+        if not line.startswith("|"):
+            in_table = False
+            continue
+        if not line.endswith("|"):
+            problems.append(f"Malformed P1 row in {path}")
+            continue
+        columns = [value.strip() for value in line.split("|")[1:-1]]
+        if columns and columns[0] == "---":
+            continue
+        if not ID_RE.match(line):
+            problems.append(f"Unexpected row in P1 table {path}")
+            continue
+        key = columns[0]
         if key in found:
             problems.append(f"Duplicate P1 ID {key} in {path}")
         else:
-            found[key] = cols
+            found[key] = columns
+    if header_count != 1:
+        problems.append(f"Missing or duplicated P1 table in {path}")
     return found
-
 
 def validate(root: Path, expected_sha: str | None = None) -> dict[str, object]:
     """Return structural status and explicit BLOCKED activation separately."""
