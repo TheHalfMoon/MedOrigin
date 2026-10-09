@@ -8,6 +8,7 @@ Successful structural checks mean the evidence register is intact, NOT approved.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -21,6 +22,14 @@ EXPECTED = {
 ORIGINAL_PATHS = {
     "CODEX": "docs/P00_CODEX_P1_ACCEPTANCE_REGISTER.md",
     "OPUS": "docs/P00_OPUS_P1_ACCEPTANCE_REGISTER.md",
+}
+
+# SHA-256 of the two accepted original P00 registers (UTF-8, LF-normalized).
+# A coordinated change to both the source and tracker must not become evidence.
+# Any legitimate source-register amendment requires separately reviewed re-pinning.
+PINNED_ORIGINAL_SHA256 = {
+    "CODEX": "a1aaf875f74f4a6bdd78e3ce3ce97460b52a536476c7ad4c14115e289d8fc904",
+    "OPUS": "fdfa024719daebfb3c7e5b89302407cc684e99a95697a4a5e146390f7435336e",
 }
 TRACKER = "docs/P01_P1_GATE_TRACKER_2026-10-08.md"
 ENTRY = "docs/P01_ENTRY_READINESS_2026-10-08.md"
@@ -101,8 +110,13 @@ def rows(text: str, path: str, problems: list[str]) -> dict[str, list[str]]:
         problems.append(f"Missing or duplicated P1 table in {path}")
     return found
 
-def validate(root: Path, expected_sha: str | None = None) -> dict[str, object]:
-    """Return structural status and explicit BLOCKED activation separately."""
+def validate(
+    root: Path,
+    expected_sha: str | None = None,
+    *,
+    expected_register_hashes: dict[str, str] | None = None,
+) -> dict[str, object]:
+    """Validate fixed P00 authorities and report the still-BLOCKED P01 gate."""
     problems: list[str] = []
     if expected_sha:
         try:
@@ -116,9 +130,14 @@ def validate(root: Path, expected_sha: str | None = None) -> dict[str, object]:
             if head != expected_sha:
                 problems.append("Git HEAD does not match expected exact SHA")
     expected_all = set().union(*EXPECTED.values())
+    original_pins = PINNED_ORIGINAL_SHA256 if expected_register_hashes is None else expected_register_hashes
     originals: dict[str, list[str]] = {}
     for reviewer, path in ORIGINAL_PATHS.items():
-        found = rows(read(root, path, problems), path, problems)
+        content = read(root, path, problems)
+        digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
+        if digest != original_pins.get(reviewer):
+            problems.append(f"{reviewer}: original P00 register changed from reviewed baseline")
+        found = rows(content, path, problems)
         missing = sorted(EXPECTED[reviewer] - set(found))
         extra = sorted(set(found) - EXPECTED[reviewer])
         if missing:

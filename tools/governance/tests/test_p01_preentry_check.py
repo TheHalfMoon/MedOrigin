@@ -1,6 +1,7 @@
 """Fail-closed P01 pre-entry register regression fixtures; all synthetic."""
 from __future__ import annotations
 
+import hashlib
 import sys
 import tempfile
 import unittest
@@ -43,6 +44,17 @@ class GateFixtures(unittest.TestCase):
         self.write(check.ENTRY, "P01_PRE_ENTRY_GATES_PENDING; PREPARED_NOT_ACTIVATED; UNAPPROVED; BLOCKED")
         self.write(check.CHARTER, "DRAFT_UNAPPROVED; NOT_SIGNED; NOT_IDENTIFIED")
         self.write(check.RIGHTS, "NO_ADMISSIONS, VERIFIED_ALLOWED (deny by default)")
+        # Synthetic fixtures have different source text; pin their original snapshot
+        # before mutation, just like production pins its accepted P00 review packet.
+        self.source_pins = {
+            reviewer: hashlib.sha256(
+                (self.root / path).read_text(encoding="utf-8").encode("utf-8")
+            ).hexdigest()
+            for reviewer, path in check.ORIGINAL_PATHS.items()
+        }
+
+    def validate_fixture(self) -> dict[str, object]:
+        return check.validate(self.root, expected_register_hashes=self.source_pins)
 
     def write(self, path: str, text: str) -> None:
         (self.root / path).write_text(text, encoding="utf-8")
@@ -54,13 +66,13 @@ class GateFixtures(unittest.TestCase):
         self.write(path, t.replace(old, new, 1))
 
     def assert_deny(self, explanation: str) -> None:
-        out = check.validate(self.root)
+        out = self.validate_fixture()
         self.assertEqual(out["structure"], "FAIL")
         self.assertEqual(out["p01_g01_activation"], "BLOCKED")
         self.assertTrue(any(explanation in e for e in out["errors"]), out["errors"])
 
     def test_valid_register_is_still_not_authorized(self):
-        out = check.validate(self.root)
+        out = self.validate_fixture()
         self.assertEqual(out["structure"], "PASS", out["errors"])
         self.assertEqual(out["original_codex_p1"], 24)
         self.assertEqual(out["original_opus_p1"], 17)
@@ -106,7 +118,35 @@ class GateFixtures(unittest.TestCase):
         examples = (chr(96) * 3 + "markdown\n" + fake + chr(96) * 3 + "\n"
                     + "<!--\n" + fake + "-->\n")
         self.write(path, examples + original)
-        self.assertEqual(check.validate(self.root)["structure"], "PASS")
+        self.assertEqual(self.validate_fixture()["structure"], "PASS")
+
+    def test_coordinated_source_and_tracker_rewrite_denied(self):
+        key = "CODEX-P00-07"
+        for path in (check.ORIGINAL_PATHS["CODEX"], check.TRACKER):
+            self.edit(path, "Evidence-" + key, "FABRICATED-EVIDENCE-" + key)
+        self.assert_deny("original P00 register changed from reviewed baseline")
+
+    def test_extra_source_prose_is_immutable(self):
+        p = self.root / check.ORIGINAL_PATHS["OPUS"]
+        p.write_text(p.read_text(encoding="utf-8") + "\nUnchecked claim.\n",
+                     encoding="utf-8")
+        self.assert_deny("original P00 register changed from reviewed baseline")
+
+    def test_crlf_checkout_preserves_pinned_original_content(self):
+        path = self.root / check.ORIGINAL_PATHS["CODEX"]
+        # Write exactly one CRLF per logical line even when running on Windows,
+        # where write_text() may already have produced CRLF in the fixture.
+        normalized = path.read_text(encoding="utf-8")
+        path.write_bytes(normalized.replace("\n", "\r\n").encode("utf-8"))
+        self.assertEqual(self.validate_fixture()["structure"], "PASS")
+
+    def test_canonical_repository_registers_match_accepted_hashes(self):
+        for reviewer, path in check.ORIGINAL_PATHS.items():
+            digest = hashlib.sha256(
+                (Path(__file__).resolve().parents[3] / path)
+                .read_text(encoding="utf-8").encode("utf-8")
+            ).hexdigest()
+            self.assertEqual(digest, check.PINNED_ORIGINAL_SHA256[reviewer])
 
     def test_unbound_tracker_row_cannot_replace_canonical_row(self):
         p = self.root / check.TRACKER
