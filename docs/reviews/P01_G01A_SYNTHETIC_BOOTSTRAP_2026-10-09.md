@@ -19,6 +19,8 @@ The single crate uses Rust's standard library only. It is marked
 
 That identity is repeated in `docs/evidence/g01a_synthetic_manifest.json` and
 the stdlib-only fail-closed verifier, **not** a signed supply-chain guarantee.
+The `.gitattributes` policy forces this fixture to LF on both Windows and Linux;
+otherwise checkout-level CRLF conversion can silently invalidate its digest.
 
 ## Reproduce on a clean Windows or Linux checkout
 

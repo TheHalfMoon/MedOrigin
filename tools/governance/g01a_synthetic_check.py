@@ -59,6 +59,13 @@ def check(root: Path) -> dict[str, object]:
     except OSError:
         errors.append("Fixture is unreadable")
 
+    try:
+        attributes = (root / ".gitattributes").read_text(encoding="utf-8")
+        if attributes.splitlines() != ["fixtures/g01a_synthetic_v1.txt text eol=lf"]:
+            errors.append("Synthetic fixture checkout must enforce LF line endings")
+    except (OSError, UnicodeError):
+        errors.append("Missing synthetic fixture LF checkout policy")
+
     pkgs = lock.get("package", []) if isinstance(lock, dict) else []
     if not isinstance(pkgs, list) or len(pkgs) != 1 or not isinstance(pkgs[0], dict) or (
         pkgs[0].get("name") != "safeevidence-g01a-synthetic"

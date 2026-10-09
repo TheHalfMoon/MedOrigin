@@ -15,7 +15,7 @@ import g01a_synthetic_check as guard
 ROOT = Path(__file__).resolve().parents[3]
 INPUTS = (
     guard.MANIFEST, guard.FIXTURE, "Cargo.lock", "Cargo.toml",
-    "rust-toolchain.toml", "crates/g01a-synthetic/Cargo.toml",
+    "rust-toolchain.toml", ".gitattributes", "crates/g01a-synthetic/Cargo.toml",
 )
 
 
@@ -78,6 +78,13 @@ class SyntheticOnlyChecks(unittest.TestCase):
         lock.write_text(
             lock.read_text(encoding="utf-8")
             + '\n[[package]]\nname = "unreviewed"\nversion = "1.0.0"\n',
+            encoding="utf-8",
+        )
+        self.denied()
+
+    def test_checkout_line_ending_policy_denied(self):
+        (self.root / ".gitattributes").write_text(
+            "fixtures/g01a_synthetic_v1.txt text eol=crlf\n",
             encoding="utf-8",
         )
         self.denied()
