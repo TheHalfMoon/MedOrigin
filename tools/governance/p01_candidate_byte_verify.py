@@ -7,6 +7,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import stat
 from pathlib import Path
 from p01_candidate_integrity import MANIFEST, check
 
@@ -45,19 +47,32 @@ def verify(root: Path, repo: str, path: str, blob: Path) -> dict[str, object]:
         actual = blob.resolve(strict=True)
         if actual.is_relative_to(root) or not actual.is_file():
             return deny("Input must be an external regular file")
-        if actual.stat().st_size != size:
+        before = actual.stat()
+        if before.st_size != size:
             return deny("Byte count mismatch", "MISMATCH")
+        # A matching digest only describes a stable observed file. Checking
+        # length alone would accept same-sized in-place changes during a read.
+        def identity(info: os.stat_result) -> tuple[int, int, int, int, int]:
+            return (info.st_dev, info.st_ino, info.st_size,
+                    info.st_mtime_ns, info.st_ctime_ns)
+
         sha = hashlib.sha256()
         git_oid = hashlib.sha1(usedforsecurity=False)
         git_oid.update(b"blob " + str(size).encode("ascii") + b"\0")
         count = 0
         with actual.open("rb") as stream:
+            opened = os.fstat(stream.fileno())
+            if not stat.S_ISREG(opened.st_mode) or identity(before) != identity(opened):
+                return deny("Input changed before read", "MISMATCH")
             for chunk in iter(lambda: stream.read(1024 * 1024), b""):
                 count += len(chunk)
                 sha.update(chunk)
                 git_oid.update(chunk)
-        if count != size or actual.stat().st_size != size:
-            return deny("Input changed size", "MISMATCH")
+            finished = os.fstat(stream.fileno())
+        after = actual.stat()
+        if (count != size or identity(before) != identity(finished)
+                or identity(before) != identity(after)):
+            return deny("Input changed during read or replaced on disk", "MISMATCH")
     except (OSError, UnicodeError, ValueError, TypeError, KeyError, RuntimeError) as exc:
         return deny("Input unavailable or unsafe: " + type(exc).__name__)
     if sha.hexdigest() != expected_sha or git_oid.hexdigest() != expected_oid:

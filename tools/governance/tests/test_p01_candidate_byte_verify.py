@@ -5,6 +5,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from p01_candidate_byte_verify import verify
@@ -63,6 +64,44 @@ class ExternalByteCheckTests(unittest.TestCase):
     def test_same_size_tamper(self):
         self.blob.write_bytes(b"X" + self.blob.read_bytes()[1:])
         self.assert_status(self.result(), "MISMATCH")
+
+    def test_same_size_mutation_during_read_is_not_a_match(self):
+        """A file altered after its original bytes are read cannot claim MATCH."""
+        original = self.blob.read_bytes()
+        changed = b"!" + original[1:]
+        real_open = Path.open
+        target = self.blob.resolve()
+
+        class MutatingStream:
+            def __init__(self, stream):
+                self.stream = stream
+                self.mutated = False
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return self.stream.__exit__(*args)
+
+            def fileno(self):
+                return self.stream.fileno()
+
+            def read(self, *args, **kwargs):
+                chunk = self.stream.read(*args, **kwargs)
+                if chunk and not self.mutated:
+                    self.mutated = True
+                    target.write_bytes(changed)
+                return chunk
+
+        def mutating_open(path, mode="r", *args, **kwargs):
+            handle = real_open(path, mode, *args, **kwargs)
+            if path == target and mode == "rb":
+                return MutatingStream(handle)
+            return handle
+
+        with patch.object(Path, "open", mutating_open):
+            self.assert_status(self.result(), "MISMATCH")
+        self.assertEqual(self.blob.read_bytes(), changed)
 
     def test_wrong_size(self):
         self.blob.write_bytes(b"short")
