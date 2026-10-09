@@ -67,6 +67,47 @@ class GateFixtures(unittest.TestCase):
         self.assertEqual(out["p01_g01_activation"], "BLOCKED")
         self.assertFalse(out["clinical_evaluation_verified"])
 
+    def test_fenced_tracker_table_cannot_supply_all_41_rows(self):
+        path = self.root / check.TRACKER
+        original = path.read_text(encoding="utf-8")
+        marker = "| ID | Original phase entry"
+        self.assertIn(marker, original)
+        for opener, closer in ((chr(96) * 3 + "markdown", chr(96) * 3),
+                               ("~~~~markdown", "~~~~")):
+            with self.subTest(opener=opener):
+                pos = original.index(marker)
+                self.write(check.TRACKER, original[:pos] + opener + "\n"
+                           + original[pos:] + "\n" + closer + "\n")
+                self.assert_deny("P01 tracker missing IDs")
+
+    def test_commented_tracker_table_cannot_supply_41_rows(self):
+        path = self.root / check.TRACKER
+        original = path.read_text(encoding="utf-8")
+        marker = "| ID | Original phase entry"
+        pos = original.index(marker)
+        self.write(check.TRACKER, original[:pos] + "<!--\n"
+                   + original[pos:] + "\n-->\n")
+        self.assert_deny("P01 tracker missing IDs")
+
+    def test_fenced_original_table_cannot_supply_review_findings(self):
+        path = check.ORIGINAL_PATHS["CODEX"]
+        original = (self.root / path).read_text(encoding="utf-8")
+        marker = "| Finding | Binding phase/entry gate"
+        pos = original.index(marker)
+        self.write(path, original[:pos] + chr(96) * 3 + "md\n"
+                   + original[pos:] + "\n" + chr(96) * 3 + "\n")
+        self.assert_deny("CODEX source IDs missing")
+
+    def test_hidden_examples_do_not_create_phantom_duplicate_tables(self):
+        path = check.TRACKER
+        original = (self.root / path).read_text(encoding="utf-8")
+        header = next(line for line in original.splitlines() if line.startswith("| ID |"))
+        fake = header + "\n|---|---|---|---|---|---|\n"
+        examples = (chr(96) * 3 + "markdown\n" + fake + chr(96) * 3 + "\n"
+                    + "<!--\n" + fake + "-->\n")
+        self.write(path, examples + original)
+        self.assertEqual(check.validate(self.root)["structure"], "PASS")
+
     def test_unbound_tracker_row_cannot_replace_canonical_row(self):
         p = self.root / check.TRACKER
         original = p.read_text(encoding="utf-8")

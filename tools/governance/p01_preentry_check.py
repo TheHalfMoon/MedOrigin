@@ -46,7 +46,30 @@ def rows(text: str, path: str, problems: list[str]) -> dict[str, list[str]]:
     found: dict[str, list[str]] = {}
     in_table = False
     header_count = 0
+    fence: tuple[str, int] | None = None
+    html_comment = False
     for line in text.splitlines():
+        # A hidden or illustrative Markdown table must never supply P01 evidence.
+        if html_comment:
+            if "-->" in line:
+                html_comment = False
+            continue
+        if fence is not None:
+            char, minimum = fence
+            closing = rf"^ {{0,3}}{re.escape(char)}{{{minimum},}}[ \t]*$"
+            if re.fullmatch(closing, line):
+                fence = None
+            continue
+        opening = re.match(r"^ {0,3}((?:\x60{3,}|~{3,}))(.*)$", line)
+        if opening and (opening.group(1)[0] == "~"
+                        or chr(96) not in opening.group(2)):
+            fence = (opening.group(1)[0], len(opening.group(1)))
+            in_table = False
+            continue
+        if "<!--" in line:
+            html_comment = "-->" not in line.split("<!--", 1)[1]
+            in_table = False
+            continue
         if line.startswith("|"):
             columns = [value.strip() for value in line.split("|")[1:-1]]
             if columns and columns[0] == expected_header:
