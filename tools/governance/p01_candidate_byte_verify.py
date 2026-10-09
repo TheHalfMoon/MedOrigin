@@ -62,15 +62,18 @@ def verify(root: Path, repo: str, path: str, blob: Path) -> dict[str, object]:
         count = 0
         with actual.open("rb") as stream:
             opened = os.fstat(stream.fileno())
-            if not stat.S_ISREG(opened.st_mode) or identity(before) != identity(opened):
-                return deny("Input changed before read", "MISMATCH")
+            # On Windows, path stat and descriptor fstat can expose distinct
+            # metadata representations for an unchanged underlying file.
+            # Compare observations from the same interface, not across APIs.
+            if not stat.S_ISREG(opened.st_mode) or opened.st_size != size:
+                return deny("Input is no longer the expected regular file", "MISMATCH")
             for chunk in iter(lambda: stream.read(1024 * 1024), b""):
                 count += len(chunk)
                 sha.update(chunk)
                 git_oid.update(chunk)
             finished = os.fstat(stream.fileno())
         after = actual.stat()
-        if (count != size or identity(before) != identity(finished)
+        if (count != size or identity(opened) != identity(finished)
                 or identity(before) != identity(after)):
             return deny("Input changed during read or replaced on disk", "MISMATCH")
     except (OSError, UnicodeError, ValueError, TypeError, KeyError, RuntimeError) as exc:
