@@ -87,25 +87,27 @@ Turn the initial thesis into a challenged, gap-tracked, implementation-ready fou
 
 # P01 — Repository, governance and reproducibility foundation
 
-## Founder-selected engineering sequencing — canonical ratification required
+## G01a synthetic engineering qualified — full P01 remains pending
 
-FOUNDER_OPTION_B_SELECTED. The founder approved synthetic-only G01a and personally accepted its accountable engineering ownership in https://github.com/TheHalfMoon/SafeEvidence/issues/17#issuecomment-6073274935. This approval grants no clinical, source-rights or release authority. G01A_NOT_ACTIVATED until signed governance is merged and a separately tested G01a implementation is admitted.
+FOUNDER_OPTION_B_RATIFIED / G01A_SYNTHETIC_QUALIFIED / INDEPENDENT_REVIEW_PENDING / NO_ADMISSIONS.
 
-Default full-P01 entry conditions remain in force until canonical ratification.
-Under proposed Option B, a founder's explicit exact-revision choice in
-https://github.com/TheHalfMoon/SafeEvidence/issues/17 and acceptance
-by a named engineering owner may authorize only an isolated G01a:
-stdlib-only Rust workspace, synthetic-only nonmedical fixtures, local
-offline locked format/lint/test, and Windows/Linux exact-head CI.
-The proposal does not itself activate the lane or allow product work.
+The founder selected bounded Option B and accepted G01a engineering ownership (Issue #17).
+Signed governance PR #19 merged at 5f1623c9cdd11cf43989efe37f638cba230e7ff2;
+synthetic implementation PR #20 merged at 91bd597e377a8b902499a6e0b66e567e89ba7bd5;
+build-target hardening PR #21 merged at d6645e169d643b6b6eae7ad06e17a605edcb0687.
+Post-main P00, P01 and G01a CI passed, including Windows and Ubuntu.
+Founder record: https://github.com/TheHalfMoon/SafeEvidence/issues/17
 
-No donor source or third-party import (NO_ADMISSIONS), patient or clinical
-data, medical response/UI, AI/model weights, article text, signed evidence
-packs, remote runtime service, production distribution or P02 work belongs
-to G01a. The remaining G01b and full P01 completion remain subject to
-Issue #4 clinical intended-use and independent evaluation signoffs, Issue #5
-rights/pack/release trust decisions, and the 41 original P1 phase gates.
-A successful G01a synthetic CI result is engineering evidence only.
+Only the standard-library-only, synthetic fixture, offline format/test/lint
+and exact-revision CI engineering baseline is qualified. Independent technical
+review remains pending. This is not full P01-G01 authorization or P01 closure.
+
+NO_ADMISSIONS and the original 41 P1 findings remain in force. Issue #3
+continues to require phase owner decisions; Issue #4 requires qualified
+clinical intended-use and evaluation authority; Issue #5 requires exact
+source/contributor rights, pack and release-trust decisions. These gates
+are BLOCKED for dependent clinical/product/source work. No patient data,
+models, donor sources, signed packs, production release, or P02 are admitted.
 
 ## Goal
 

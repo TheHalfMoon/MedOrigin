@@ -13,35 +13,27 @@ P00 is **CLOSED_CANONICAL** at main `ad9f7b972d4d0cb3dc388ce4caa6c18e369e3b22`, 
 
 P01 is **PRE_ENTRY_GATES_PENDING**. A broad request to finish the project does not substitute for a qualified clinical safety owner, clinical evaluation plan, signed source rights, or approved scientific acceptance. Document and research the pending gates without beginning unapproved implementation. Current entry authority: `docs/P01_ENTRY_READINESS_2026-10-08.md`.
 
-## Founder-selected G01a engineering split — signed ratification required
+## G01a synthetic engineering qualified — independent review pending
 
-FOUNDER_OPTION_B_SELECTED. The founder approved synthetic-only G01a and personally accepted its accountable engineering ownership in https://github.com/TheHalfMoon/SafeEvidence/issues/17#issuecomment-6073274935. This approval grants no clinical, source-rights or release authority. G01A_NOT_ACTIVATED until signed governance is merged and a separately tested G01a implementation is admitted.
+FOUNDER_OPTION_B_RATIFIED / G01A_SYNTHETIC_QUALIFIED / INDEPENDENT_REVIEW_PENDING / NO_ADMISSIONS.
 
-Founder decision issue:
-https://github.com/TheHalfMoon/SafeEvidence/issues/17.
-Draft evidence packet: https://github.com/TheHalfMoon/SafeEvidence/pull/18.
+The founder selected bounded Option B and accepted G01a engineering ownership (Issue #17).
+Signed governance PR #19 merged at 5f1623c9cdd11cf43989efe37f638cba230e7ff2;
+synthetic implementation PR #20 merged at 91bd597e377a8b902499a6e0b66e567e89ba7bd5;
+build-target hardening PR #21 merged at d6645e169d643b6b6eae7ad06e17a605edcb0687.
+Post-main P00, P01 and G01a CI passed, including Windows and Ubuntu.
+Founder record: https://github.com/TheHalfMoon/SafeEvidence/issues/17
 
-The current unified P01 entry gate remains binding. Only a separate,
-attributable founder selection of Option B at an exact governance revision,
-acceptance by a named accountable engineering owner, and ratification of the
-governing documents can authorize a **synthetic-only G01a**. An agent's
-interpretation of "go ahead" cannot itself issue clinical, legal or release
-approvals. If the founder selects Option A or decision evidence is absent,
-G01a remains BLOCKED.
+Only the standard-library-only, synthetic fixture, offline format/test/lint
+and exact-revision CI engineering baseline is qualified. Independent technical
+review remains pending. This is not full P01-G01 authorization or P01 closure.
 
-After such ratification, G01a may contain only a pinned, standard-library-only
-Rust workspace, deterministic non-medical synthetic fixtures, offline locked
-fmt/test/clippy, exact-head Windows/Linux CI and non-production reproducibility
-receipts. No donor source import, patient/clinical data, source article text,
-model weights, clinical inference or UI, licensed terminology, network runtime,
-evidence-pack signing/verification or production release is permitted in G01a.
-
-G01b and subsequent phases continue to require the independently qualified
-clinical intended-use/evaluation approvals in Issue #4 and exact-source rights,
-third-party attribution, dependency and release-trust approvals in Issue #5.
-Original 41 P1 phase-entry obligations remain in force; G01a is not P01
-completion, scientific validation or an authorization for P02. NO_ADMISSIONS
-remains the only source import state until exact component rights are verified.
+NO_ADMISSIONS and the original 41 P1 findings remain in force. Issue #3
+continues to require phase owner decisions; Issue #4 requires qualified
+clinical intended-use and evaluation authority; Issue #5 requires exact
+source/contributor rights, pack and release-trust decisions. These gates
+are BLOCKED for dependent clinical/product/source work. No patient data,
+models, donor sources, signed packs, production release, or P02 are admitted.
 
 ## Authority order
 
