@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[3]
 INPUTS = (
     guard.MANIFEST, guard.FIXTURE, "Cargo.lock", "Cargo.toml",
     "rust-toolchain.toml", ".gitattributes", "crates/g01a-synthetic/Cargo.toml",
+    "crates/g01a-synthetic/src/lib.rs",
 )
 
 
@@ -65,10 +66,38 @@ class SyntheticOnlyChecks(unittest.TestCase):
         self.edit_manifest(fixture_path="../elsewhere.txt")
         self.denied()
 
+    def test_unreviewed_build_script_denied(self):
+        script = self.root / "crates/g01a-synthetic/build.rs"
+        script.write_text("fn main() {}\n", encoding="utf-8")
+        self.denied()
+
+    def test_unreviewed_binary_target_denied(self):
+        binary = self.root / "crates/g01a-synthetic/src/main.rs"
+        binary.write_text("fn main() {}\n", encoding="utf-8")
+        self.denied()
+
     def test_new_dependency_denied(self):
         manifest = self.root / "crates/g01a-synthetic/Cargo.toml"
         manifest.write_text(
             manifest.read_text(encoding="utf-8") + '\nserde = "1"\n',
+            encoding="utf-8",
+        )
+        self.denied()
+
+    def test_custom_build_path_denied(self):
+        manifest = self.root / "crates/g01a-synthetic/Cargo.toml"
+        content = manifest.read_text(encoding="utf-8")
+        manifest.write_text(
+            content.replace("publish = false", 'publish = false\nbuild = "custom.rs"'),
+            encoding="utf-8",
+        )
+        self.denied()
+
+    def test_unreviewed_manifest_target_denied(self):
+        manifest = self.root / "crates/g01a-synthetic/Cargo.toml"
+        manifest.write_text(
+            manifest.read_text(encoding="utf-8")
+            + '\n[[example]]\nname = "extra"\npath = "src/lib.rs"\n',
             encoding="utf-8",
         )
         self.denied()
@@ -85,6 +114,19 @@ class SyntheticOnlyChecks(unittest.TestCase):
     def test_checkout_line_ending_policy_denied(self):
         (self.root / ".gitattributes").write_text(
             "fixtures/g01a_synthetic_v1.txt text eol=crlf\n",
+            encoding="utf-8",
+        )
+        self.denied()
+
+    def test_unlisted_source_module_denied(self):
+        module = self.root / "crates/g01a-synthetic/src/extra.rs"
+        module.write_text("pub fn extra() {}\n", encoding="utf-8")
+        self.denied()
+
+    def test_unreviewed_workspace_section_denied(self):
+        manifest = self.root / "Cargo.toml"
+        manifest.write_text(
+            manifest.read_text(encoding="utf-8") + "\n[patch.crates-io]\n",
             encoding="utf-8",
         )
         self.denied()
