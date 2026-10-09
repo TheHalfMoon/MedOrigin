@@ -1,6 +1,8 @@
 """Synthetic tests: no donor bytes, model calls, network or source admission."""
 import hashlib
 import json
+import os
+from types import SimpleNamespace
 import sys
 import tempfile
 import unittest
@@ -64,6 +66,24 @@ class ExternalByteCheckTests(unittest.TestCase):
     def test_same_size_tamper(self):
         self.blob.write_bytes(b"X" + self.blob.read_bytes()[1:])
         self.assert_status(self.result(), "MISMATCH")
+
+    def test_stable_file_does_not_require_identical_path_and_handle_metadata(self):
+        """Path stat and handle fstat may differ on Windows without file mutation."""
+        real_fstat = os.fstat
+
+        def alternate_fstat(fd):
+            record = real_fstat(fd)
+            return SimpleNamespace(
+                st_mode=record.st_mode,
+                st_dev=record.st_dev,
+                st_ino=record.st_ino,
+                st_size=record.st_size,
+                st_mtime_ns=record.st_mtime_ns,
+                st_ctime_ns=record.st_ctime_ns + 123_456,
+            )
+
+        with patch("p01_candidate_byte_verify.os.fstat", side_effect=alternate_fstat):
+            self.assert_status(self.result(), "MATCH")
 
     def test_same_size_mutation_during_read_is_not_a_match(self):
         """A file altered after its original bytes are read cannot claim MATCH."""
