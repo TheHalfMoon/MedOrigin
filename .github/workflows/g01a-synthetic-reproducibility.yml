@@ -34,6 +34,12 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+      - name: Gate frozen source and cargo configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/governance/g01a_synthetic_check.py --root . --json
+          python -c 'import hashlib, pathlib, sys; expected="35356b0c9d5bcd70231fd6c038574ebc5951530f03c50235d4a0447049761860"; actual=hashlib.sha256(pathlib.Path("crates/g01a-synthetic/src/lib.rs").read_bytes()).hexdigest(); sys.exit(0 if actual == expected else 3)'
       - name: Install explicitly pinned development toolchain
         shell: bash
         run: |

@@ -10,11 +10,13 @@ from pathlib import Path
 
 MANIFEST = "docs/evidence/g01a_synthetic_manifest.json"
 FIXTURE = "fixtures/g01a_synthetic_v1.txt"
+SOURCE = "crates/g01a-synthetic/src/lib.rs"
+SOURCE_SHA256 = "35356b0c9d5bcd70231fd6c038574ebc5951530f03c50235d4a0447049761860"
 SHA256 = "6d7d7070cb270e830b5d232f1aa127c0d5fa0eac1fdf1677c3de2898a417c3dd"
 FIELDS = {
     "schema_version", "phase", "classification", "clinical_validation",
     "source_imports", "copy_authorized", "fixture_path", "fixture_sha256",
-    "dependencies",
+    "dependencies", "source_path", "source_sha256",
 }
 
 
@@ -44,6 +46,8 @@ def check(root: Path) -> dict[str, object]:
         "fixture_path": FIXTURE,
         "fixture_sha256": SHA256,
         "dependencies": "STANDARD_LIBRARY_ONLY",
+        "source_path": SOURCE,
+        "source_sha256": SOURCE_SHA256,
     }
     if not isinstance(manifest, dict) or set(manifest) != FIELDS or manifest != expected:
         errors.append("Synthetic manifest schema or immutable denial values differ")
@@ -59,9 +63,29 @@ def check(root: Path) -> dict[str, object]:
     except OSError:
         errors.append("Fixture is unreadable")
 
+    source = root / SOURCE
+    try:
+        if source.is_symlink() or not source.is_file():
+            errors.append("Reviewed Rust source absent or symbolic link")
+        elif hashlib.sha256(source.read_bytes()).hexdigest() != SOURCE_SHA256:
+            errors.append("Frozen reviewed Rust source digest mismatch")
+    except OSError:
+        errors.append("Reviewed Rust source is unreadable")
+
+    for config_dir in (
+        root / ".cargo",
+        root / "crates/.cargo",
+        root / "crates/g01a-synthetic/.cargo",
+    ):
+        if config_dir.exists() or config_dir.is_symlink():
+            errors.append("Unreviewed Cargo configuration directory exists")
+
     try:
         attributes = (root / ".gitattributes").read_text(encoding="utf-8")
-        if attributes.splitlines() != ["fixtures/g01a_synthetic_v1.txt text eol=lf"]:
+        if attributes.splitlines() != [
+            "fixtures/g01a_synthetic_v1.txt text eol=lf",
+            "crates/g01a-synthetic/src/lib.rs text eol=lf",
+        ]:
             errors.append("Synthetic fixture checkout must enforce LF line endings")
     except (OSError, UnicodeError):
         errors.append("Missing synthetic fixture LF checkout policy")
@@ -119,6 +143,7 @@ def check(root: Path) -> dict[str, object]:
         "source_imports": "BLOCKED",
         "copy_authorized": False,
         "frozen_fixture_sha256": SHA256,
+        "frozen_source_sha256": SOURCE_SHA256,
         "errors": errors,
     }
 

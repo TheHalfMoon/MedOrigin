@@ -1,6 +1,6 @@
 # SafeEvidence G01a — Synthetic Engineering Bootstrap
 
-Status: **G01A_SYNTHETIC_IMPLEMENTATION_CANDIDATE / NOT_A_PRODUCT_RELEASE**.
+Status: **G01A_SYNTHETIC_QUALIFIED / INDEPENDENT_REVIEW_PENDING / NOT_A_PRODUCT_RELEASE**.
 
 Founder scope: https://github.com/TheHalfMoon/SafeEvidence/issues/17
 Signed governance merge: https://github.com/TheHalfMoon/SafeEvidence/pull/19
@@ -22,6 +22,15 @@ the stdlib-only fail-closed verifier, **not** a signed supply-chain guarantee.
 The `.gitattributes` policy forces this fixture to LF on both Windows and Linux;
 otherwise checkout-level CRLF conversion can silently invalidate its digest.
 
+The single reviewed Rust source `crates/g01a-synthetic/src/lib.rs` is also
+LF-pinned with SHA-256
+`35356b0c9d5bcd70231fd6c038574ebc5951530f03c50235d4a0447049761860`.
+The JSON source identity and Python fail-closed guard must agree. Extra repository
+Cargo configuration directories are disallowed. CI runs the source/config
+admission guard **before** installing Rust tooling or executing Rust compilation.
+This mitigates accidental unreviewed execution paths; it is not a substitute
+for signed source review, trusted workflow governance or a real security audit.
+
 ## Reproduce on a clean Windows or Linux checkout
 
 Development setup may explicitly install Rust 1.97.1 and rustfmt/clippy.
@@ -29,11 +38,11 @@ The project has no third-party crate dependencies. After toolchain setup,
 run offline from the repository root:
 
 ```text
+python tools/governance/g01a_synthetic_check.py --root . --json
+python -m unittest discover -s tools/governance/tests -q
 cargo fmt --all -- --check
 cargo test --offline --locked --workspace --all-targets
 cargo clippy --offline --locked --workspace --all-targets -- -D warnings
-python tools/governance/g01a_synthetic_check.py --root . --json
-python -m unittest discover -s tools/governance/tests -q
 ```
 
 GitHub's `G01a Synthetic Reproducibility` matrix runs the same commands on
