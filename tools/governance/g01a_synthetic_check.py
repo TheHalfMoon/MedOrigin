@@ -20,10 +20,23 @@ FIELDS = {
 }
 
 
+def reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    """Reject ambiguous JSON records instead of accepting the final duplicate value."""
+    record: dict[str, object] = {}
+    for key, value in pairs:
+        if key in record:
+            raise ValueError(f"Duplicate JSON key: {key}")
+        record[key] = value
+    return record
+
+
 def check(root: Path) -> dict[str, object]:
     errors: list[str] = []
     try:
-        manifest = json.loads((root / MANIFEST).read_text(encoding="utf-8"))
+        manifest = json.loads(
+            (root / MANIFEST).read_text(encoding="utf-8"),
+            object_pairs_hook=reject_duplicate_keys,
+        )
         lock = tomllib.loads((root / "Cargo.lock").read_text(encoding="utf-8"))
         cargo = tomllib.loads((root / "Cargo.toml").read_text(encoding="utf-8"))
         crate = tomllib.loads(

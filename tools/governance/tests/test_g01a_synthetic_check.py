@@ -87,6 +87,31 @@ class SyntheticOnlyChecks(unittest.TestCase):
         self.assertLess(gate, setup)
         self.assertIn(guard.SOURCE_SHA256, workflow)
 
+    def test_duplicate_json_permission_key_denied(self):
+        path = self.root / guard.MANIFEST
+        original = path.read_text(encoding="utf-8")
+        marker = '"copy_authorized": false'
+        self.assertEqual(original.count(marker), 1)
+        for replacement in (
+            '"copy_authorized": true, "copy_authorized": false',
+            '"copy_authorized": false, "copy_authorized": false',
+        ):
+            with self.subTest(replacement=replacement):
+                path.write_text(original.replace(marker, replacement), encoding="utf-8")
+                self.denied()
+        path.write_text(original, encoding="utf-8")
+
+    def test_duplicate_json_schema_key_denied(self):
+        path = self.root / guard.MANIFEST
+        original = path.read_text(encoding="utf-8")
+        marker = '"schema_version": 1'
+        self.assertEqual(original.count(marker), 1)
+        path.write_text(
+            original.replace(marker, '"schema_version": 1, "schema_version": 1'),
+            encoding="utf-8",
+        )
+        self.denied()
+
     def test_fake_copy_permission_denied(self):
         self.edit_manifest(copy_authorized=True)
         self.denied()
