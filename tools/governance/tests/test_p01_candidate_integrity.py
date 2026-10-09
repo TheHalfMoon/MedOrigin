@@ -86,6 +86,58 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         )
         self.assertEqual(check(self.root)["structure"], "FAIL")
 
+    def test_fenced_fingerprint_evidence_is_not_authority(self):
+        p = self.root / SOURCE
+        original = p.read_text(encoding="utf-8")
+        marker = "## Byte-level SHA-256 observations"
+        start = original.index(marker)
+        end = original.find("\n## ", start + 3)
+        self.assertGreater(end, start)
+        for opener, closer in ((chr(96) * 3 + "markdown", chr(96) * 3),
+                               ("~~~~markdown", "~~~~")):
+            with self.subTest(opener=opener):
+                p.write_text(original[:start] + opener + "\n"
+                             + original[start:end] + "\n" + closer + "\n"
+                             + original[end:], encoding="utf-8")
+                report = check(self.root)
+                self.assertEqual(report["structure"], "FAIL", report)
+                self.assertEqual(report["source_imports"], "BLOCKED")
+
+    def test_commented_blob_table_is_not_authority(self):
+        p = self.root / SOURCE
+        original = p.read_text(encoding="utf-8")
+        start = original.index("## Candidate exact file identities (Git blob OIDs)")
+        end = original.find("\n## ", start + 3)
+        self.assertGreater(end, start)
+        p.write_text(original[:start] + "<!--\n" + original[start:end]
+                     + "\n-->\n" + original[end:], encoding="utf-8")
+        report = check(self.root)
+        self.assertEqual(report["structure"], "FAIL", report)
+        self.assertEqual(report["source_imports"], "BLOCKED")
+
+    def test_fenced_blob_table_is_not_authority(self):
+        p = self.root / SOURCE
+        original = p.read_text(encoding="utf-8")
+        start = original.index("## Candidate exact file identities (Git blob OIDs)")
+        end = original.find("\n## ", start + 3)
+        p.write_text(original[:start] + "~~~~\n" + original[start:end]
+                     + "\n~~~~\n" + original[end:], encoding="utf-8")
+        self.assertEqual(check(self.root)["structure"], "FAIL")
+
+    def test_hidden_duplicate_examples_do_not_override_visible_ledger(self):
+        p = self.root / SOURCE
+        original = p.read_text(encoding="utf-8")
+        fake = ("## Candidate exact file identities (Git blob OIDs)\n"
+                "| Source | Path | Blob OID |\n|---|---|---|\n")
+        p.write_text(
+            "<!--\n" + fake + "-->\n" + chr(96) * 3
+            + "md\n" + fake + chr(96) * 3 + "\n" + original,
+            encoding="utf-8",
+        )
+        report = check(self.root)
+        self.assertEqual(report["structure"], "PASS", report)
+        self.assertFalse(report["copy_authorized"])
+
     def test_missing_candidate_is_not_silent(self):
         obj = copy.deepcopy(self.original)
         obj["entries"].pop()

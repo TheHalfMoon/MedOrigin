@@ -52,6 +52,33 @@ FINGERPRINT_LABELS = {
 }
 
 
+def visible_markdown_lines(source: str) -> list[str]:
+    """Discard fenced examples and HTML comments before reading evidence authority."""
+    visible: list[str] = []
+    fence: tuple[str, int] | None = None
+    comment = False
+    for line in source.splitlines():
+        if comment:
+            if "-->" in line:
+                comment = False
+            continue
+        if fence is not None:
+            char, minimum = fence
+            if re.fullmatch(rf"^ {{0,3}}{re.escape(char)}{{{minimum},}}[ \t]*$", line):
+                fence = None
+            continue
+        opening = re.match(r"^ {0,3}((?:\x60{3,}|~{3,}))(.*)$", line)
+        if opening and (opening.group(1)[0] == "~"
+                        or chr(96) not in opening.group(2)):
+            fence = (opening.group(1)[0], len(opening.group(1)))
+            continue
+        if "<!--" in line:
+            comment = "-->" not in line.split("<!--", 1)[1]
+            continue
+        visible.append(line)
+    return visible
+
+
 def blob_table_rows(source: str) -> dict[tuple[str, str], list[str]]:
     """Bind blob OIDs to exactly one source/path row in the scoped evidence table."""
     active = False
@@ -121,6 +148,9 @@ def check(root: Path) -> dict[str, object]:
     except (OSError, UnicodeError, ValueError) as exc:
         return {"structure": "FAIL", "errors": [f"Unreadable evidence: {type(exc).__name__}"],
                 "copy_authorized": False, "source_imports": "BLOCKED"}
+    # Documentary identity must exist in visible canonical prose, not just
+    # illustrative code or HTML comments. This does not authorize source import.
+    source = "\n".join(visible_markdown_lines(source))
     if not isinstance(document, dict) or set(document) != {
         "schema_version", "purpose", "phase", "admissions", "entries",
     }:
