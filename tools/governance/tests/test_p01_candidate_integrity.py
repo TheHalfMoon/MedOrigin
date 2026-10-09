@@ -49,6 +49,43 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         self.assertIs(result["copy_authorized"], False)
         self.assertEqual("BLOCKED", result["source_imports"])
 
+    def test_conflicting_duplicate_copy_authorization_denied(self):
+        path = self.root / MANIFEST
+        original = path.read_text(encoding="utf-8")
+        marker = '"copy_authorized": false'
+        self.assertEqual(original.count(marker), 11)
+        path.write_text(
+            original.replace(
+                marker, '"copy_authorized": true, "copy_authorized": false', 1
+            ), encoding="utf-8",
+        )
+        self.assertEqual(check(self.root)["structure"], "FAIL")
+        self.assertIs(check(self.root)["copy_authorized"], False)
+
+    def test_conflicting_duplicate_admissions_denied(self):
+        path = self.root / MANIFEST
+        original = path.read_text(encoding="utf-8")
+        marker = '"admissions": []'
+        self.assertEqual(original.count(marker), 1)
+        path.write_text(
+            original.replace(marker, '"admissions": ["bad"], "admissions": []'),
+            encoding="utf-8",
+        )
+        report = check(self.root)
+        self.assertEqual(report["structure"], "FAIL")
+        self.assertEqual(report["source_imports"], "BLOCKED")
+
+    def test_identical_duplicate_fingerprint_denied(self):
+        path = self.root / MANIFEST
+        original = path.read_text(encoding="utf-8")
+        marker = '"byte_count": 17423'
+        self.assertEqual(original.count(marker), 1)
+        path.write_text(
+            original.replace(marker, '"byte_count": 17423, "byte_count": 17423'),
+            encoding="utf-8",
+        )
+        self.assertEqual(check(self.root)["structure"], "FAIL")
+
     def test_missing_candidate_is_not_silent(self):
         obj = copy.deepcopy(self.original)
         obj["entries"].pop()

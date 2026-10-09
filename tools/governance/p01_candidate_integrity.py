@@ -98,12 +98,25 @@ def fingerprint_table_rows(source: str) -> dict[str, list[tuple[str, str]]]:
     return rows
 
 
+def reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    """Reject ambiguous donor authority and identity metadata at every JSON level."""
+    record: dict[str, object] = {}
+    for key, value in pairs:
+        if key in record:
+            raise ValueError(f"Duplicate JSON key: {key}")
+        record[key] = value
+    return record
+
+
 def check(root: Path) -> dict[str, object]:
     errors: list[str] = []
     manifest_path = root / MANIFEST
     source_path = root / SOURCE
     try:
-        document = json.loads(manifest_path.read_text(encoding="utf-8"))
+        document = json.loads(
+            manifest_path.read_text(encoding="utf-8"),
+            object_pairs_hook=reject_duplicate_keys,
+        )
         source = source_path.read_text(encoding="utf-8")
     except (OSError, UnicodeError, ValueError) as exc:
         return {"structure": "FAIL", "errors": [f"Unreadable evidence: {type(exc).__name__}"],
