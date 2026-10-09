@@ -47,12 +47,45 @@ class SyntheticOnlyChecks(unittest.TestCase):
         report = guard.check(self.root)
         self.assertEqual(report["structure"], "PASS", report)
         self.assertEqual(report["classification"], "SYNTHETIC_ONLY")
+        self.assertEqual(report["frozen_source_sha256"], guard.SOURCE_SHA256)
         self.assertIs(report["copy_authorized"], False)
 
     def test_fixture_byte_tamper_denied(self):
         fixture = self.root / guard.FIXTURE
         fixture.write_bytes(fixture.read_bytes() + b"MUTATED\n")
         self.denied()
+
+    def test_rust_source_change_denied(self):
+        source = self.root / guard.SOURCE
+        source.write_bytes(source.read_bytes() + b"// unreviewed change\n")
+        self.denied()
+
+    def test_missing_rust_source_denied(self):
+        (self.root / guard.SOURCE).unlink()
+        self.denied()
+
+    def test_source_digest_elevation_denied(self):
+        self.edit_manifest(source_sha256="0" * 64)
+        self.denied()
+
+    def test_additional_cargo_configuration_denied(self):
+        for relative in (".cargo/config.toml", "crates/.cargo/config.toml"):
+            with self.subTest(path=relative):
+                config = self.root / relative
+                config.parent.mkdir(parents=True, exist_ok=True)
+                config.write_text('[build]\nrustflags = ["-Dwarnings"]\n', encoding="utf-8")
+                self.denied()
+                config.unlink()
+                config.parent.rmdir()
+
+    def test_gate_runs_before_cargo_in_ci(self):
+        workflow = (ROOT / ".github/workflows/g01a-synthetic-reproducibility.yml").read_text(
+            encoding="utf-8"
+        )
+        gate = workflow.index("- name: Gate frozen source and cargo configuration")
+        setup = workflow.index("- name: Install explicitly pinned development toolchain")
+        self.assertLess(gate, setup)
+        self.assertIn(guard.SOURCE_SHA256, workflow)
 
     def test_fake_copy_permission_denied(self):
         self.edit_manifest(copy_authorized=True)
