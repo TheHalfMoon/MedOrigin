@@ -1,20 +1,26 @@
 # SafeEvidence P01-G01a — Synthetic-Only Engineering Sequencing Decision Packet
 
 Date: 2026-10-09 (Asia/Riyadh)
-Status: **FOUNDER_OPTION_B_SELECTED / CANONICAL_SIGNATURE_AND_MERGE_PENDING / G01A_NOT_ACTIVATED**
+Status: **FOUNDER_OPTION_B_RATIFIED / G01A_SYNTHETIC_QUALIFIED / INDEPENDENT_REVIEW_PENDING / NO_ADMISSIONS**
 Owning founder decision: https://github.com/TheHalfMoon/SafeEvidence/issues/17
 Original gate tracking: https://github.com/TheHalfMoon/SafeEvidence/issues/3
 Clinical evaluation: https://github.com/TheHalfMoon/SafeEvidence/issues/4
 Rights and trust: https://github.com/TheHalfMoon/SafeEvidence/issues/5
 
-## Authority and default
+## Ratified authority and bounded result
 
-This packet neither authorizes implementation nor changes the current
-`P01_PRE_ENTRY_GATES_PENDING / P01-G01 PREPARED_NOT_ACTIVATED` state.
-The existing AGENTS, P01 Entry Readiness and G01 Prepared authority remains
-binding until an explicitly signed founder decision, named engineering owner
-acceptance, reconciled governance changes and a separately qualified PR are
-recorded. General 'continue' instructions are not clinical/legal approvals.
+The founder selected Option B and accepted G01a engineering ownership in Issue #17.
+Signed governance PR #19 merged at 5f1623c9cdd11cf43989efe37f638cba230e7ff2.
+Synthetic implementation PR #20 merged at 91bd597e377a8b902499a6e0b66e567e89ba7bd5.
+Signed hardening PR #21 merged at d6645e169d643b6b6eae7ad06e17a605edcb0687.
+Exact-main P00, P01 and G01a Windows/Ubuntu CI passed.
+
+FOUNDER_OPTION_B_RATIFIED / G01A_SYNTHETIC_QUALIFIED / INDEPENDENT_REVIEW_PENDING / NO_ADMISSIONS.
+Only the standard-library Rust synthetic reproducibility baseline is qualified.
+Independent review is not verified; no clinical, legal, source-admission or release approval exists.
+Full P01_PRE_ENTRY_GATES_PENDING and P01-G01 PREPARED_NOT_ACTIVATED continue.
+Original 41 P1 findings, accountable ownership (Issue #3), qualified clinical evaluation
+(Issue #4) and source rights/pack trust (Issue #5) remain BLOCKED for dependent work.
 
 ## Narrow decision
 
@@ -83,32 +89,34 @@ a production build, cold/offline dependency acquisition, a zero-egress
 instrumented check, clinical correctness, legal rights or release readiness.
 No executable Rust product code is submitted as part of this packet.
 
-## Required explicit founder decision and ownership
+## Actual founder decisions and remaining qualifications
 
-| Requirement | Status |
+| Requirement | Verified state |
 |---|---|
-| Named founder's A/B selection with exact governance PR revision | PENDING |
-| Signed or otherwise attributable durable approval consistent with repository policy | PENDING |
-| Named accountable engineering owner and acceptance of scoped work | PENDING |
-| Qualified review of updated AGENTS/P01 entry/G01 prepared/MASTER_PLAN conflicts | PENDING |
-| Exact-PR-head and post-main checks on governance ratification | PENDING |
-| Original #4 intended use and independent clinical evaluation | UNAPPROVED — unaffected by G01a |
-| Original #5 source/contributor rights and release/TUF trust | NO_ADMISSIONS / UNAPPROVED — unaffected by G01a |
+| Founder selection | OPTION_B_RATIFIED — Issue #17 |
+| Signed governance, DCO and normal merge | PASS — PR #19 |
+| Named G01a engineering owner | FOUNDER_ASSUMED_ACCOUNTABILITY — Issue #17 |
+| Synthetic-only Rust implementation | G01A_SYNTHETIC_QUALIFIED — PR #20 |
+| Hardened Rust source admission | PASS — PR #21 |
+| Exact-main cross-platform tests | PASS — P00/P01/G01a on Windows and Ubuntu |
+| Independent code/security review | INDEPENDENT_REVIEW_PENDING — Issue #17 |
+| Qualified clinical intended use/evaluation | UNAPPROVED — Issue #4 |
+| Third-party rights and release trust | NO_ADMISSIONS / UNAPPROVED — Issue #5 |
+| Full P01 phase entry, 41 original P1 findings | BLOCKED — Issue #3 |
 
-## Proposed ratification sequence
+## Actual ratification sequence
 
-1. Founder records A or B and names the engineering owner on Issue #17.
-2. Reviewers create a *separate* atomic governance PR reflecting that signed
-   choice across AGENTS, entry readiness, G01 prepared and MASTER_PLAN.
-3. Qualify exact PR head CI; record approval credentials/evidence; normal
-   merge and inspect post-main checks.
-4. Only then activate bounded G01a and implement synthetic Rust workspace
-   via a separately reviewed PR. Maintain G01b and all other gates.
-5. Do not promote a synthetic build result to user-facing medical safety,
-   scholarly validity, data redistribution permission or product completion.
+1. Founder selected narrow Option B for synthetic G01a and accepted ownership.
+2. Signed and DCO-trailed governance PR #19 normally merged; exact-main CI passed.
+3. Signed synthetic implementation PR #20 normally merged; cross-platform CI passed.
+4. Signed fail-closed hardening PR #21 normally merged; cross-platform CI passed.
+5. Independent technical review and P01 clinical/rights/phase gates remain open.
 
-## Exit-state invariant
+No user-facing medical product or clinical conclusion follows from this engineering milestone.
 
-Until the explicit ratification path is completed:
-`P01_PRE_ENTRY_GATES_PENDING`, `P01-G01 PREPARED_NOT_ACTIVATED`,
-`G01A_NOT_ACTIVATED`, `NO_ADMISSIONS`, no product implementation.
+## Current invariant
+
+FOUNDER_OPTION_B_RATIFIED / G01A_SYNTHETIC_QUALIFIED / INDEPENDENT_REVIEW_PENDING / NO_ADMISSIONS.
+Qualified engineering main: d6645e169d643b6b6eae7ad06e17a605edcb0687.
+Full P01_PRE_ENTRY_GATES_PENDING / P01-G01 PREPARED_NOT_ACTIVATED; source imports BLOCKED.
+No clinical product implementation, patient data, external donor admission, product release or P02.
