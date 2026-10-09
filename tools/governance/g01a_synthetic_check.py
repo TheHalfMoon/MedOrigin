@@ -66,20 +66,45 @@ def check(root: Path) -> dict[str, object]:
     except (OSError, UnicodeError):
         errors.append("Missing synthetic fixture LF checkout policy")
 
+    # A Cargo build.rs is executable even with zero dependencies. Implicit
+    # binary/example/bench targets similarly bypass manifest dependency checks.
+    # Keep G01a's source inventory limited to the reviewed synthetic lib.
+    crate_root = root / "crates/g01a-synthetic"
+    allowed_files = {"Cargo.toml", "src/lib.rs"}
+    try:
+        observed_files = {
+            path.relative_to(crate_root).as_posix()
+            for path in crate_root.rglob("*")
+            if path.is_file() or path.is_symlink()
+        }
+        if (crate_root.is_symlink() or (crate_root / "src").is_symlink()
+                or observed_files != allowed_files):
+            errors.append("Unexpected G01a crate source or executable target")
+    except OSError:
+        errors.append("Cannot inspect G01a crate source inventory")
+
     pkgs = lock.get("package", []) if isinstance(lock, dict) else []
     if not isinstance(pkgs, list) or len(pkgs) != 1 or not isinstance(pkgs[0], dict) or (
         pkgs[0].get("name") != "safeevidence-g01a-synthetic"
         or set(pkgs[0]) != {"name", "version"}
     ):
         errors.append("Cargo lockfile must contain only one local crate")
-    if cargo.get("workspace") != {
+    if set(lock) != {"version", "package"} or lock.get("version") != 4:
+        errors.append("Unexpected Cargo.lock sections or format version")
+    if set(cargo) != {"workspace"} or cargo.get("workspace") != {
         "resolver": "3", "members": ["crates/g01a-synthetic"]
     }:
         errors.append("Unexpected Rust workspace contract")
     package = crate.get("package", {}) if isinstance(crate, dict) else {}
-    if package.get("publish") is not False or package.get("rust-version") != "1.97.1":
-        errors.append("Crate must remain unpublished and Rust pinned")
-    if crate.get("dependencies") != {} or "dev-dependencies" in crate or "build-dependencies" in crate:
+    if set(crate) != {"package", "dependencies"} or package != {
+        "name": "safeevidence-g01a-synthetic",
+        "version": "0.0.0",
+        "edition": "2024",
+        "rust-version": "1.97.1",
+        "publish": False,
+    }:
+        errors.append("Unapproved crate manifest section or target configuration")
+    if crate.get("dependencies") != {}:
         errors.append("Third-party crate dependencies are forbidden in G01a")
     if toolchain.get("toolchain") != {
         "channel": "1.97.1", "profile": "minimal",
