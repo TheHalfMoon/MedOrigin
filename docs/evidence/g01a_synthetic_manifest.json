@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "phase": "G01A_ENGINEERING_ONLY",
+  "classification": "SYNTHETIC_ONLY",
+  "clinical_validation": "NOT_PERFORMED",
+  "source_imports": "BLOCKED",
+  "copy_authorized": false,
+  "fixture_path": "fixtures/g01a_synthetic_v1.txt",
+  "fixture_sha256": "6d7d7070cb270e830b5d232f1aa127c0d5fa0eac1fdf1677c3de2898a417c3dd",
+  "dependencies": "STANDARD_LIBRARY_ONLY"
+}
