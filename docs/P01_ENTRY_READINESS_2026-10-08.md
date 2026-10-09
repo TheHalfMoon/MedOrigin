@@ -48,6 +48,29 @@ clinical adjudicator source and funding are still UNDECIDED.
 | TUF/pack trust before use | Release/security owner | Key custody, root/targets roles, expiry/freeze/rollback/compromise and offline clock | UNAPPROVED — Issue #5 |
 | Original 41 P1 tracking | Named accountable phase owners | Issue/task per ID, actual approval and evidence at phase entry | ROLE_ONLY — Issue #3 |
 | P01-G01 activation | P01 governance | All applicable entry approvals above checked at exact revision | BLOCKED |
+| G01a synthetic-only proposal | Founder and named engineering owner | Explicit Option B at exact governance revision, accountable owner and separately reviewed ratification | G01A_NOT_ACTIVATED — Issue #17 |
+
+## Proposed conditional sequencing — NOT EFFECTIVE
+
+G01A_NOT_ACTIVATED. Current default is Option A: the existing full P01
+prerequisite gate remains binding. Founder decision:
+https://github.com/TheHalfMoon/SafeEvidence/issues/17.
+
+If and only if the founder formally selects Option B at an exact governance
+revision, names an accountable engineering owner, and ratifies the governing
+documents, a separately reviewed G01a implementation may be authorized for
+an offline, standard-library-only Rust workspace and nonclinical synthetic
+tests. That conditional engineering exception includes no source/admitted
+dependency imports (NO_ADMISSIONS), no patient/clinical data, no medical
+answer UI or algorithms, no model or article text, no evidence-pack verifier
+or signing, no remote runtime and no product release. It cannot itself close
+P01 or start P02. The 41 original P1 acceptance gates remain intact.
+
+Founder authorization of G01a is **not** an intended-use or clinical
+evaluation signoff. All clinical/evaluation work remains blocked by Issue #4,
+and donor/code/data/asset rights and pack/release trust by Issue #5.
+Neither a generic continuation instruction nor this proposed text records
+a qualified clinical, rights or security approval.
 
 ## Scope of authorized pre-entry activity
 

@@ -87,6 +87,24 @@ Turn the initial thesis into a challenged, gap-tracked, implementation-ready fou
 
 # P01 — Repository, governance and reproducibility foundation
 
+## Conditional entry sequencing — proposal only
+
+G01A_NOT_ACTIVATED. Default P01 entry conditions remain in force.
+Under proposed Option B, a founder's explicit exact-revision choice in
+https://github.com/TheHalfMoon/SafeEvidence/issues/17 and acceptance
+by a named engineering owner may authorize only an isolated G01a:
+stdlib-only Rust workspace, synthetic-only nonmedical fixtures, local
+offline locked format/lint/test, and Windows/Linux exact-head CI.
+The proposal does not itself activate the lane or allow product work.
+
+No donor source or third-party import (NO_ADMISSIONS), patient or clinical
+data, medical response/UI, AI/model weights, article text, signed evidence
+packs, remote runtime service, production distribution or P02 work belongs
+to G01a. The remaining G01b and full P01 completion remain subject to
+Issue #4 clinical intended-use and independent evaluation signoffs, Issue #5
+rights/pack/release trust decisions, and the 41 original P1 phase gates.
+A successful G01a synthetic CI result is engineering evidence only.
+
 ## Goal
 
 Create the minimum engineering substrate that makes later evidence trustworthy.
