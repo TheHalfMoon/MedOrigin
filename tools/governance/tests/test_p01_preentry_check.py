@@ -134,7 +134,10 @@ class GateFixtures(unittest.TestCase):
 
     def test_crlf_checkout_preserves_pinned_original_content(self):
         path = self.root / check.ORIGINAL_PATHS["CODEX"]
-        path.write_bytes(path.read_bytes().replace(b"\n", b"\r\n"))
+        # Write exactly one CRLF per logical line even when running on Windows,
+        # where write_text() may already have produced CRLF in the fixture.
+        normalized = path.read_text(encoding="utf-8")
+        path.write_bytes(normalized.replace("\n", "\r\n").encode("utf-8"))
         self.assertEqual(self.validate_fixture()["structure"], "PASS")
 
     def test_canonical_repository_registers_match_accepted_hashes(self):
