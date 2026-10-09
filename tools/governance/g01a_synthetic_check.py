@@ -123,6 +123,7 @@ def check(root: Path) -> dict[str, object]:
     pkgs = lock.get("package", []) if isinstance(lock, dict) else []
     if not isinstance(pkgs, list) or len(pkgs) != 1 or not isinstance(pkgs[0], dict) or (
         pkgs[0].get("name") != "safeevidence-g01a-synthetic"
+        or pkgs[0].get("version") != "0.0.0"
         or set(pkgs[0]) != {"name", "version"}
     ):
         errors.append("Cargo lockfile must contain only one local crate")
@@ -143,7 +144,7 @@ def check(root: Path) -> dict[str, object]:
         errors.append("Unapproved crate manifest section or target configuration")
     if crate.get("dependencies") != {}:
         errors.append("Third-party crate dependencies are forbidden in G01a")
-    if toolchain.get("toolchain") != {
+    if set(toolchain) != {"toolchain"} or toolchain.get("toolchain") != {
         "channel": "1.97.1", "profile": "minimal",
         "components": ["rustfmt", "clippy"]
     }:

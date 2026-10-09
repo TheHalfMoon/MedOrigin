@@ -169,6 +169,24 @@ class SyntheticOnlyChecks(unittest.TestCase):
         )
         self.denied()
 
+    def test_lockfile_workspace_version_change_denied(self):
+        lock = self.root / "Cargo.lock"
+        original = lock.read_text(encoding="utf-8")
+        self.assertEqual(original.count('version = "0.0.0"'), 1)
+        lock.write_text(
+            original.replace('version = "0.0.0"', 'version = "999.0.0"'),
+            encoding="utf-8",
+        )
+        self.denied()
+
+    def test_unreviewed_toolchain_section_denied(self):
+        config = self.root / "rust-toolchain.toml"
+        config.write_text(
+            config.read_text(encoding="utf-8") + '\n[unreviewed]\nentry = true\n',
+            encoding="utf-8",
+        )
+        self.denied()
+
     def test_checkout_line_ending_policy_denied(self):
         (self.root / ".gitattributes").write_text(
             "fixtures/g01a_synthetic_v1.txt text eol=crlf\n",
