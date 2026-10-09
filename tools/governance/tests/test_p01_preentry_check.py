@@ -23,6 +23,7 @@ class GateFixtures(unittest.TestCase):
                 f"| {ident} | Phase-{ident} | Reviewer-{reviewer} | Required decision | Evidence-{ident} |\n"
                 for ident in sorted(check.EXPECTED[reviewer])
             )
+            content = "| Finding | Binding phase/entry gate | Responsible owner role | Required decision BEFORE affected work | Acceptance evidence |\n|---|---|---|---|---|\n" + content
             self.write(path, content)
         all_ids = sorted(set().union(*check.EXPECTED.values()))
         content = "Status: OPEN_OWNER_ASSIGNMENT; unassigned\n" + "".join(
@@ -30,6 +31,13 @@ class GateFixtures(unittest.TestCase):
             f"[#3](https://github.com/TheHalfMoon/SafeEvidence/issues/3) | "
             f"OPEN — owner unassigned | Evidence-{ident} |\n"
             for ident in all_ids
+        )
+        content = content.replace(
+            "Status: OPEN_OWNER_ASSIGNMENT; unassigned\n",
+            "Status: OPEN_OWNER_ASSIGNMENT; unassigned\n\n"
+            "| ID | Original phase entry | Unappointed owner role | Tracking issue | State | Required objective evidence |\n"
+            "|---|---|---|---|---|---|\n",
+            1,
         )
         self.write(check.TRACKER, content)
         self.write(check.ENTRY, "P01_PRE_ENTRY_GATES_PENDING; PREPARED_NOT_ACTIVATED; UNAPPROVED; BLOCKED")
@@ -59,14 +67,48 @@ class GateFixtures(unittest.TestCase):
         self.assertEqual(out["p01_g01_activation"], "BLOCKED")
         self.assertFalse(out["clinical_evaluation_verified"])
 
+    def test_unbound_tracker_row_cannot_replace_canonical_row(self):
+        p = self.root / check.TRACKER
+        original = p.read_text(encoding="utf-8")
+        target = next(line for line in original.splitlines()
+                      if line.startswith("| CODEX-P00-07 |"))
+        changed = original.replace(target + "\n", "", 1)
+        p.write_text(changed + "\nDetached example:\n\n" + target + "\n",
+                     encoding="utf-8")
+        self.assert_deny("P01 tracker missing IDs")
+
+    def test_unbound_original_row_cannot_replace_finding(self):
+        p = self.root / check.ORIGINAL_PATHS["CODEX"]
+        original = p.read_text(encoding="utf-8")
+        target = next(line for line in original.splitlines()
+                      if line.startswith("| CODEX-P00-07 |"))
+        changed = original.replace(target + "\n", "", 1)
+        p.write_text(changed + "\nDetached note:\n" + target + "\n",
+                     encoding="utf-8")
+        self.assert_deny("CODEX source IDs missing")
+
+    def test_missing_tracker_table_header_is_rejected(self):
+        self.edit(check.TRACKER, "| ID |", "| Not-an-ID-header |")
+        self.assert_deny("Missing or duplicated P1 table")
+
+    def test_duplicate_table_header_is_rejected(self):
+        p = self.root / check.TRACKER
+        original = p.read_text(encoding="utf-8")
+        header = "| ID | Original phase entry | Unappointed owner role | Tracking issue | State | Required objective evidence |"
+        p.write_text(original + "\n" + header + "\n", encoding="utf-8")
+        self.assert_deny("Duplicate P1 table header")
+
     def test_missing_tracker_id_rejected(self):
         self.edit(check.TRACKER, "| CODEX-P00-07 |", "| LOST-P00-07 |")
         self.assert_deny("P01 tracker missing IDs")
 
     def test_duplicate_id_rejected(self):
         p = self.root / check.TRACKER
-        lines = p.read_text(encoding="utf-8").splitlines()
-        p.write_text("\n".join([*lines, lines[1], ""]), encoding="utf-8")
+        text = p.read_text(encoding="utf-8")
+        row = next(line for line in text.splitlines()
+                   if line.startswith("| CODEX-P00-07 |"))
+        p.write_text(text.replace(row, row + "\n" + row, 1),
+                     encoding="utf-8")
         self.assert_deny("Duplicate P1 ID")
 
     def test_evidence_drift_rejected(self):
