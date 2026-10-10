@@ -43,6 +43,57 @@ class SyntheticOnlyChecks(unittest.TestCase):
         document.update(changes)
         path.write_text(json.dumps(document), encoding="utf-8")
 
+    def test_all_trusted_build_inputs_reject_outside_file_symlinks(self):
+        # Real Mac/Linux symlink probes: identical bytes outside the checkout
+        # previously let the guard return PASS despite changed trust origin.
+        for relative in (
+            "Cargo.lock", "Cargo.toml", "rust-toolchain.toml",
+            ".gitattributes", "crates/g01a-synthetic/Cargo.toml",
+        ):
+            with self.subTest(path=relative), tempfile.TemporaryDirectory() as outside:
+                path = self.root / relative
+                original = path.read_bytes()
+                foreign = Path(outside) / "same-content"
+                foreign.write_bytes(original)
+                path.unlink()
+                try:
+                    path.symlink_to(foreign)
+                except OSError as exc:
+                    path.write_bytes(original)
+                    self.skipTest(f"symlinks unavailable on host: {exc}")
+                try:
+                    report = guard.check(self.root)
+                    self.assertEqual(report["structure"], "FAIL", report)
+                    self.assertTrue(any("Symbolic link" in error for error in report["errors"]))
+                    self.assertIs(report["copy_authorized"], False)
+                    self.assertEqual(report["source_imports"], "BLOCKED")
+                finally:
+                    path.unlink()
+                    path.write_bytes(original)
+
+    def test_trusted_input_parent_directory_symlinks_rejected(self):
+        # Final files remain ordinary, so filename-only is_symlink() checks
+        # do not protect against an outside fixture or manifest directory.
+        for relative in ("fixtures", "docs/evidence"):
+            with self.subTest(directory=relative), tempfile.TemporaryDirectory() as outside:
+                path = self.root / relative
+                foreign = Path(outside) / "relocated"
+                shutil.copytree(path, foreign)
+                shutil.rmtree(path)
+                try:
+                    path.symlink_to(foreign, target_is_directory=True)
+                except OSError as exc:
+                    shutil.copytree(foreign, path)
+                    self.skipTest(f"directory symlinks unavailable: {exc}")
+                try:
+                    report = guard.check(self.root)
+                    self.assertEqual(report["structure"], "FAIL", report)
+                    self.assertTrue(any("Symbolic link" in error for error in report["errors"]))
+                    self.assertFalse(report["copy_authorized"])
+                finally:
+                    path.unlink()
+                    shutil.copytree(foreign, path)
+
     def test_valid_fixture_is_still_nonclinical(self):
         report = guard.check(self.root)
         self.assertEqual(report["structure"], "PASS", report)
