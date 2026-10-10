@@ -18,7 +18,15 @@ CHECKOUT_LINE = re.compile(r"^\s*uses:\s*actions/checkout@([^\s#]+)", re.MULTILI
 # Reject additions to the execution surface, not just a moving checkout tag.
 # These three tiny workflows require exactly one external action each.
 # This line-level inventory includes step uses and reusable job-level uses.
-USES_LINE = re.compile(r"^[ \t]*(?:-[ \t]*)?uses[ \t]*:[ \t]*([^#\r\n]*)", re.MULTILINE)
+# Scan executable action keys in both block and inline YAML mappings. Quoted
+# keys are semantically the same as bare "uses" and must not evade inventory.
+# An unrecognised or aliased value is not accepted by the exact allowlist.
+USES_LINE = re.compile(
+    r"(?:^[ \t]*(?:-[ \t]*)?|[{,][ \t]*)"
+    r"(?:uses|\"uses\"|\x27uses\x27)[ \t]*:[ \t]*"
+    r"([^#\r\n,}]*)",
+    re.MULTILINE,
+)
 FULL_SHA = re.compile(r"[0-9a-f]{40}\Z")
 
 
@@ -166,6 +174,25 @@ class WorkflowCheckoutPinTests(unittest.TestCase):
             [f"actions/checkout@{EXPECTED_CHECKOUT_SHA}"],
             workflow_action_references(source),
         )
+
+    def test_quoted_action_key_cannot_bypass_reviewed_inventory(self):
+        approved = f"actions/checkout@{EXPECTED_CHECKOUT_SHA}"
+        for additional in (
+            '  - "uses": attacker/unreviewed@v1\n',
+            "  - 'uses': attacker/unreviewed@v1\n",
+            '  - { "uses": attacker/unreviewed@v1 }\n',
+            '  - { uses: attacker/unreviewed@v1 }\n',
+        ):
+            with self.subTest(additional=additional):
+                source = f"steps:\n  - uses: {approved}\n" + additional
+                self.assertNotEqual([approved], workflow_action_references(source))
+
+    def test_quoted_unapproved_value_cannot_be_hidden(self):
+        source = (
+            f"steps:\n  - uses: actions/checkout@{EXPECTED_CHECKOUT_SHA}\n"
+            '  - "uses": "attacker/extra@v1"\n'
+        )
+        self.assertEqual(2, len(workflow_action_references(source)))
 
     def test_extra_sha_pinned_action_still_needs_explicit_review(self):
         source = ("steps:\n"
