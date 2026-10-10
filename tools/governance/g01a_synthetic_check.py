@@ -19,6 +19,14 @@ FIELDS = {
     "dependencies", "source_path", "source_sha256",
 }
 
+# All inputs affecting the frozen synthetic build must be ordinary in-tree
+# files. Reject links at every path component, not just the final file, so
+# an outside tree cannot supply Cargo/toolchain policy or frozen evidence.
+TRUSTED_INPUTS = (
+    MANIFEST, FIXTURE, SOURCE, "Cargo.lock", "Cargo.toml",
+    "crates/g01a-synthetic/Cargo.toml", "rust-toolchain.toml", ".gitattributes",
+)
+
 
 def reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
     """Reject ambiguous JSON records instead of accepting the final duplicate value."""
@@ -32,6 +40,27 @@ def reject_duplicate_keys(pairs: list[tuple[str, object]]) -> dict[str, object]:
 
 def check(root: Path) -> dict[str, object]:
     errors: list[str] = []
+    # Do not read any trusted input through a symlink, including a symlink
+    # to an ancestor directory. Checking content alone is not enough: the
+    # referenced out-of-tree file can change after admission but before Cargo.
+    for relative in TRUSTED_INPUTS:
+        current = root
+        for part in Path(relative).parts:
+            current = current / part
+            if current.is_symlink():
+                errors.append(f"Symbolic link in trusted G01a input: {relative}")
+                break
+    if errors:
+        return {
+            "structure": "FAIL",
+            "classification": "SYNTHETIC_ONLY",
+            "clinical_validation": "NOT_PERFORMED",
+            "source_imports": "BLOCKED",
+            "copy_authorized": False,
+            "frozen_fixture_sha256": SHA256,
+            "frozen_source_sha256": SOURCE_SHA256,
+            "errors": errors,
+        }
     try:
         manifest = json.loads(
             (root / MANIFEST).read_text(encoding="utf-8"),
