@@ -212,6 +212,47 @@ class GateFixtures(unittest.TestCase):
         self.edit(check.CHARTER, "DRAFT_UNAPPROVED", "SIGNED")
         self.assert_deny("missing fail-closed marker")
 
+    def test_hidden_charter_denials_do_not_supply_visible_approval_state(self):
+        original = (self.root / check.CHARTER).read_text(encoding="utf-8")
+        for marker in ("DRAFT_UNAPPROVED", "NOT_SIGNED", "NOT_IDENTIFIED"):
+            self.assertIn(marker, original)
+            original = original.replace(marker, "OMITTED_FROM_VISIBLE_CHARTER")
+        self.write(
+            check.CHARTER,
+            original + "\n<!-- DRAFT_UNAPPROVED NOT_SIGNED NOT_IDENTIFIED -->\n",
+        )
+        self.assert_deny("missing fail-closed marker")
+
+    def test_fenced_charter_denials_do_not_supply_approval_state(self):
+        original = (self.root / check.CHARTER).read_text(encoding="utf-8")
+        self.assertIn("NOT_SIGNED", original)
+        original = original.replace("NOT_SIGNED", "OMITTED_FROM_VISIBLE_CHARTER")
+        for opener, closer in (("~~~~markdown", "~~~~"), (chr(96) * 3 + "md", chr(96) * 3)):
+            with self.subTest(opener=opener):
+                self.write(check.CHARTER, original + "\n" + opener + "\nNOT_SIGNED\n"
+                           + closer + "\n")
+                self.assert_deny("missing fail-closed marker")
+
+    def test_hidden_rights_denial_is_not_active_authority(self):
+        original = (self.root / check.RIGHTS).read_text(encoding="utf-8")
+        self.assertIn("NO_ADMISSIONS", original)
+        self.write(
+            check.RIGHTS,
+            original.replace("NO_ADMISSIONS", "NEEDS_GENUINE_APPROVAL")
+            + "\n<!-- NO_ADMISSIONS -->\n",
+        )
+        self.assert_deny("missing fail-closed marker")
+
+    def test_hidden_entry_blocker_is_not_active_authority(self):
+        original = (self.root / check.ENTRY).read_text(encoding="utf-8")
+        self.assertIn("PREPARED_NOT_ACTIVATED", original)
+        self.write(
+            check.ENTRY,
+            original.replace("PREPARED_NOT_ACTIVATED", "NOT_CANONICAL")
+            + "\n~~~~\nPREPARED_NOT_ACTIVATED\n~~~~\n",
+        )
+        self.assert_deny("missing fail-closed marker")
+
     def test_loss_of_import_denial_rejected(self):
         self.edit(check.RIGHTS, "NO_ADMISSIONS", "FULL_ADMISSIONS")
         self.assert_deny("missing fail-closed marker")
