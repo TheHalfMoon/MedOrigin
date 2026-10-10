@@ -14,6 +14,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from p01_candidate_integrity import visible_markdown_lines
+
 ID_RE = re.compile(r"^\|\s*(CODEX-P00-\d{2}|OPUS-P00-\d{3})\s*\|")
 EXPECTED = {
     "CODEX": {f"CODEX-P00-{n:02d}" for n in range(7, 31)},
@@ -182,8 +184,11 @@ def validate(
         (TRACKER, tracker, ("OPEN_OWNER_ASSIGNMENT", "unassigned")),
         (RIGHTS, rights, ("NO_ADMISSIONS", "VERIFIED_ALLOWED")),
     ]:
+        # Hidden HTML comments and Markdown code fences are not active
+        # governance authority. Accept denial markers only in visible prose.
+        visible = "\n".join(visible_markdown_lines(content))
         for marker in required:
-            if marker not in content:
+            if marker not in visible:
                 problems.append(f"{name}: missing fail-closed marker {marker}")
     return {
         "check": "SafeEvidence P01 pre-entry documentary consistency",
