@@ -145,6 +145,20 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         )
         self.assertEqual(check(self.root)["structure"], "FAIL")
 
+    def test_indented_code_cannot_supply_nonadmission_marker(self):
+        path = self.root / SOURCE
+        original = path.read_text(encoding="utf-8")
+        self.assertIn("NO_ADMISSIONS", original)
+        path.write_text(
+            original.replace("NO_ADMISSIONS", "RIGHTS_UNVERIFIED")
+            + "\n\n    NO_ADMISSIONS\n",
+            encoding="utf-8",
+        )
+        report = check(self.root)
+        self.assertEqual("FAIL", report["structure"], report)
+        self.assertIn("Source ledger fails closed markers", report["errors"])
+        self.assertFalse(report["copy_authorized"])
+
     def test_fenced_fingerprint_evidence_is_not_authority(self):
         p = self.root / SOURCE
         original = p.read_text(encoding="utf-8")

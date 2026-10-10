@@ -233,6 +233,30 @@ class GateFixtures(unittest.TestCase):
                            + closer + "\n")
                 self.assert_deny("missing fail-closed marker")
 
+    def test_indented_charter_denials_are_not_active_governance(self):
+        original = (self.root / check.CHARTER).read_text(encoding="utf-8")
+        for marker in ("DRAFT_UNAPPROVED", "NOT_SIGNED", "NOT_IDENTIFIED"):
+            self.assertIn(marker, original)
+            original = original.replace(marker, "MARKER_REMOVED")
+        for indent in ("    ", "\t"):
+            with self.subTest(indent=repr(indent)):
+                self.write(
+                    check.CHARTER,
+                    original + "\n\n" + indent
+                    + "DRAFT_UNAPPROVED NOT_SIGNED NOT_IDENTIFIED\n",
+                )
+                self.assert_deny("missing fail-closed marker")
+
+    def test_indented_rights_denial_is_not_active_governance(self):
+        original = (self.root / check.RIGHTS).read_text(encoding="utf-8")
+        self.assertIn("NO_ADMISSIONS", original)
+        self.write(
+            check.RIGHTS,
+            original.replace("NO_ADMISSIONS", "RIGHTS_UNVERIFIED")
+            + "\n\n    NO_ADMISSIONS\n",
+        )
+        self.assert_deny("missing fail-closed marker")
+
     def test_hidden_rights_denial_is_not_active_authority(self):
         original = (self.root / check.RIGHTS).read_text(encoding="utf-8")
         self.assertIn("NO_ADMISSIONS", original)
