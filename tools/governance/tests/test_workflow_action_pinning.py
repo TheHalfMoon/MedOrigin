@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import re
+import shutil
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -29,6 +31,21 @@ def action_checkout_pins(text: str) -> list[str]:
     return CHECKOUT_LINE.findall(text)
 
 
+def workflow_inventory(root: Path) -> set[str]:
+    """Include every entry, not just known *.yml files or action uses.
+
+    A fourth workflow would otherwise bypass checks confined to WORKFLOWS;
+    an unexpected directory, symlink or alternate *.yaml is also unreviewed.
+    """
+    directory = root / ".github/workflows"
+    if (root / ".github").is_symlink() or directory.is_symlink() or not directory.is_dir():
+        return set()
+    entries = list(directory.iterdir())
+    if any(path.is_symlink() for path in entries):
+        return set()
+    return {path.relative_to(root).as_posix() for path in entries}
+
+
 class WorkflowCheckoutPinTests(unittest.TestCase):
     def test_all_three_workflows_use_identical_immutable_checkout(self):
         for workflow in WORKFLOWS:
@@ -39,6 +56,95 @@ class WorkflowCheckoutPinTests(unittest.TestCase):
                     action_checkout_pins(source),
                     "Checkout must be a reviewed immutable action revision",
                 )
+
+    def test_entire_workflow_directory_is_the_reviewed_allowlist(self):
+        self.assertEqual(set(WORKFLOWS), workflow_inventory(ROOT))
+        workflow_directory = ROOT / ".github/workflows"
+        self.assertFalse(workflow_directory.is_symlink())
+        for name in WORKFLOWS:
+            with self.subTest(path=name):
+                self.assertTrue((ROOT / name).is_file())
+                self.assertFalse((ROOT / name).is_symlink())
+
+    def test_new_yaml_workflow_or_unreviewed_directory_is_rejected(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            folder = root / ".github/workflows"
+            folder.mkdir(parents=True)
+            for name in WORKFLOWS:
+                shutil.copyfile(ROOT / name, root / name)
+            self.assertEqual(set(WORKFLOWS), workflow_inventory(root))
+            for extra in ("unreviewed.yml", "unreviewed.yaml", "unreviewed"):
+                with self.subTest(unreviewed=extra):
+                    path = folder / extra
+                    if extra == "unreviewed":
+                        path.mkdir()
+                    else:
+                        path.write_text(
+                            "name: Unreviewed\non: [pull_request]\n"
+                            "jobs:\n  external:\n    runs-on: ubuntu-latest\n"
+                            "    steps:\n      - uses: attacker/unreviewed@v1\n",
+                            encoding="utf-8",
+                        )
+                    try:
+                        self.assertNotEqual(
+                            set(WORKFLOWS), workflow_inventory(root),
+                            "New workflow/executable surface must fail PR CI",
+                        )
+                    finally:
+                        if path.is_dir():
+                            path.rmdir()
+                        else:
+                            path.unlink()
+
+    def test_unreviewed_symlinked_workflow_not_silently_allowed(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            folder = root / ".github/workflows"
+            folder.mkdir(parents=True)
+            for name in WORKFLOWS:
+                shutil.copyfile(ROOT / name, root / name)
+            target = root / "external.yml"
+            target.write_text("name: external\n", encoding="utf-8")
+            injected = folder / "extra.yml"
+            try:
+                injected.symlink_to(target)
+            except OSError as exc:
+                self.skipTest(f"Symlinks unavailable on host: {exc}")
+            self.assertNotEqual(set(WORKFLOWS), workflow_inventory(root))
+            self.assertTrue(injected.is_symlink())
+
+    def test_existing_workflow_symlink_is_not_trusted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            folder = root / ".github/workflows"
+            folder.mkdir(parents=True)
+            for name in WORKFLOWS:
+                shutil.copyfile(ROOT / name, root / name)
+            source = root / WORKFLOWS[0]
+            outside = root / "external-copy.yml"
+            shutil.copyfile(source, outside)
+            source.unlink()
+            try:
+                source.symlink_to(outside)
+            except OSError as exc:
+                self.skipTest(f"Symlinks unavailable on host: {exc}")
+            self.assertNotEqual(set(WORKFLOWS), workflow_inventory(root))
+
+    def test_parent_directory_symlink_is_not_trusted(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            folder = root / ".github/workflows"
+            folder.mkdir(parents=True)
+            for name in WORKFLOWS:
+                shutil.copyfile(ROOT / name, root / name)
+            outside = root / "external-workflows"
+            folder.rename(outside)
+            try:
+                folder.symlink_to(outside, target_is_directory=True)
+            except OSError as exc:
+                self.skipTest(f"Symlinks unavailable on host: {exc}")
+            self.assertNotEqual(set(WORKFLOWS), workflow_inventory(root))
 
     def test_no_unreviewed_actions_in_any_governance_workflow(self):
         only_approved = [f"actions/checkout@{EXPECTED_CHECKOUT_SHA}"]
