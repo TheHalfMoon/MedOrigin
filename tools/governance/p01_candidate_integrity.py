@@ -98,6 +98,10 @@ def visible_markdown_lines(source: str) -> list[str]:
             if re.fullmatch(rf"^ {{0,3}}{re.escape(char)}{{{minimum},}}[ \t]*$", line):
                 fence = None
             continue
+        # Four-space and tab-indented Markdown code blocks are examples,
+        # not active governance prose or candidate identity evidence.
+        if line.startswith(("    ", "\t")):
+            continue
         opening = re.match(r"^ {0,3}((?:\x60{3,}|~{3,}))(.*)$", line)
         if opening and (opening.group(1)[0] == "~"
                         or chr(96) not in opening.group(2)):
