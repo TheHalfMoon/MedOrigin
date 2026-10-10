@@ -9,7 +9,10 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from p01_candidate_integrity import MANIFEST, SOURCE, check
+from p01_candidate_integrity import (
+    MANIFEST, SOURCE, FROZEN_CANDIDATE_IDENTITY_SHA256,
+    candidate_identity_digest, check,
+)
 
 REPO = Path(__file__).resolve().parents[3]
 
@@ -48,6 +51,62 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         self.assertEqual(11, result["raw_fingerprints_recorded"])
         self.assertIs(result["copy_authorized"], False)
         self.assertEqual("BLOCKED", result["source_imports"])
+
+    def test_original_candidate_identities_match_frozen_baseline(self):
+        self.assertEqual(
+            FROZEN_CANDIDATE_IDENTITY_SHA256,
+            candidate_identity_digest(self.original["entries"]),
+        )
+
+    def test_entry_reorder_preserves_frozen_identity(self):
+        obj = copy.deepcopy(self.original)
+        obj["entries"].reverse()
+        self.write(obj)
+        self.assertEqual("PASS", check(self.root)["structure"])
+
+    def test_coordinated_blob_and_raw_sha_rewrite_denied(self):
+        obj = copy.deepcopy(self.original)
+        entry = obj["entries"][0]
+        prior_oid, prior_sha = entry["git_blob_oid"], entry["raw_sha256"]
+        entry["git_blob_oid"] = "f" * 40
+        entry["raw_sha256"] = "d" * 64
+        self.write(obj)
+        record = self.root / SOURCE
+        original = record.read_text(encoding="utf-8")
+        self.assertEqual(original.count(prior_oid), 1)
+        self.assertEqual(original.count(prior_sha), 1)
+        record.write_text(
+            original.replace(prior_oid, entry["git_blob_oid"])
+                    .replace(prior_sha, entry["raw_sha256"]),
+            encoding="utf-8",
+        )
+        report = check(self.root)
+        self.assertEqual("FAIL", report["structure"], report)
+        self.assertTrue(
+            any("Frozen candidate identity baseline" in x for x in report["errors"]),
+            report["errors"],
+        )
+        self.assertIs(report["copy_authorized"], False)
+
+    def test_coordinated_repository_commit_revision_rewrite_denied(self):
+        obj = copy.deepcopy(self.original)
+        commit = obj["entries"][0]["source_commit"]
+        replacement = "f" * 40
+        for entry in obj["entries"]:
+            if entry["repo"] == obj["entries"][0]["repo"]:
+                entry["source_commit"] = replacement
+        self.write(obj)
+        record = self.root / SOURCE
+        content = record.read_text(encoding="utf-8")
+        self.assertIn(commit, content)
+        record.write_text(content.replace(commit, replacement), encoding="utf-8")
+        report = check(self.root)
+        self.assertEqual("FAIL", report["structure"], report)
+        self.assertTrue(
+            any("Frozen candidate identity baseline" in x for x in report["errors"]),
+            report["errors"],
+        )
+        self.assertEqual("BLOCKED", report["source_imports"])
 
     def test_conflicting_duplicate_copy_authorization_denied(self):
         path = self.root / MANIFEST

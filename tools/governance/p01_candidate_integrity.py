@@ -6,6 +6,7 @@ This does not download source, verify contributor rights, or allow imports.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -33,6 +34,36 @@ ENTRY_KEYS = {
     "repo", "source_commit", "path", "git_blob_oid", "byte_count",
     "raw_sha256", "admission_state", "copy_authorized",
 }
+# Independently observed exact pinned source identities; no import authority.
+# A coordinated rewrite of JSON and Markdown evidence is NOT new evidence.
+# Legitimate repinning requires a separately reviewed and documented decision.
+FROZEN_CANDIDATE_IDENTITY_SHA256 = (
+    "2dff0d7b12d4d6a4045353ac0fb58f8aec0a990aac63daa3a492649ed7daefd9"
+)
+IDENTITY_KEYS = (
+    "repo", "path", "source_commit", "git_blob_oid", "byte_count", "raw_sha256",
+)
+
+
+def candidate_identity_digest(entries: object) -> str | None:
+    """Canonical SHA-256 of ordered source identities, not permissions.
+
+    Array order and JSON formatting do not change the recorded identity set.
+    """
+    if not isinstance(entries, list):
+        return None
+    try:
+        if not all(isinstance(item, dict) and all(key in item for key in IDENTITY_KEYS)
+                   for item in entries):
+            return None
+        identities = [{key: item[key] for key in IDENTITY_KEYS} for item in entries]
+        identities.sort(key=lambda item: (item["repo"], item["path"]))
+        encoded = json.dumps(
+            identities, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+    except (KeyError, TypeError, ValueError):
+        return None
 
 
 # Exact table labels are the source-specific binding for eleven recorded fingerprints.
@@ -165,6 +196,8 @@ def check(root: Path) -> dict[str, object]:
     if not isinstance(document.get("purpose"), str) or "never an import allowlist" not in document["purpose"]:
         errors.append("Missing explicit non-admission purpose")
     entries = document.get("entries")
+    if candidate_identity_digest(entries) != FROZEN_CANDIDATE_IDENTITY_SHA256:
+        errors.append("Frozen candidate identity baseline differs; repinning requires review")
     if not isinstance(entries, list):
         errors.append("Entries must be an array")
         entries = []

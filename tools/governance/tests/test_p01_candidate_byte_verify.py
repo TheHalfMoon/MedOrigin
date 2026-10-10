@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from p01_candidate_byte_verify import verify
+import p01_candidate_integrity as candidate_guard
 from p01_candidate_integrity import MANIFEST, SOURCE, check
 
 ORIGIN = Path(__file__).resolve().parents[3]
@@ -43,6 +44,15 @@ class ExternalByteCheckTests(unittest.TestCase):
             usedforsecurity=False
         ).hexdigest()
         manifest_file.write_text(json.dumps(manifest), encoding="utf-8")
+        # This test fixture deliberately uses invented synthetic byte identities.
+        # Scoped mock keeps production's independently pinned 11 candidates intact.
+        synthetic_pin = patch.object(
+            candidate_guard,
+            "FROZEN_CANDIDATE_IDENTITY_SHA256",
+            candidate_guard.candidate_identity_digest(manifest["entries"]),
+        )
+        synthetic_pin.start()
+        self.addCleanup(synthetic_pin.stop)
         source_file = self.root / SOURCE
         written = source_file.read_text(encoding="utf-8").replace(old_oid, row["git_blob_oid"])
         tick = chr(96)
