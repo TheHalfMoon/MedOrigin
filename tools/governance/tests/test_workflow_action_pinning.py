@@ -1,6 +1,7 @@
 """Keep foundation and pre-entry checkout actions pinned to immutable commits."""
 from __future__ import annotations
 
+import hashlib
 import re
 import shutil
 import tempfile
@@ -14,6 +15,16 @@ WORKFLOWS = (
     ".github/workflows/g01a-synthetic-reproducibility.yml",
 )
 EXPECTED_CHECKOUT_SHA = "d23441a48e516b6c34aea4fa41551a30e30af803"
+# Exact reviewed workflow snapshots. Normalize checkout newlines through
+# read_text() so Windows CRLF checkouts retain the same audited content hash.
+# A change in any YAML syntax, including escaped keys and anchors, requires
+# an explicitly reviewed re-pin rather than relying on a partial regex parser.
+PINNED_WORKFLOW_SHA256 = {
+    ".github/workflows/p00-foundation-docs.yml": "ffc5b4246ee09dad96caed7cf759e8565fe0e80b2e6ffe8642cfa6ad2d1b8db6",
+    ".github/workflows/p01-preentry-governance.yml": "efe37c703ed5c24ec230e355ef2579070507d626b00f6f17f93a418ebe6dbfab",
+    ".github/workflows/g01a-synthetic-reproducibility.yml": "51eee1d5a8f2863ca28556cc5b4dc34a99634c4615926a5a0579e4b1f527cd7b",
+}
+
 CHECKOUT_LINE = re.compile(r"^\s*uses:\s*actions/checkout@([^\s#]+)", re.MULTILINE)
 # Reject additions to the execution surface, not just a moving checkout tag.
 # These three tiny workflows require exactly one external action each.
@@ -28,6 +39,11 @@ USES_LINE = re.compile(
     re.MULTILINE,
 )
 FULL_SHA = re.compile(r"[0-9a-f]{40}\Z")
+
+
+def workflow_content_digest(source: str) -> str:
+    """Hash canonical decoded checkout text across Unix and Windows."""
+    return hashlib.sha256(source.replace("\r\n", "\n").encode("utf-8")).hexdigest()
 
 
 def workflow_action_references(source: str) -> list[str]:
@@ -55,6 +71,45 @@ def workflow_inventory(root: Path) -> set[str]:
 
 
 class WorkflowCheckoutPinTests(unittest.TestCase):
+    def test_workflow_contents_match_pinned_reviewed_revisions(self):
+        self.assertEqual(set(WORKFLOWS), set(PINNED_WORKFLOW_SHA256))
+        for workflow in WORKFLOWS:
+            with self.subTest(workflow=workflow):
+                source = (ROOT / workflow).read_text(encoding="utf-8")
+                self.assertEqual(
+                    PINNED_WORKFLOW_SHA256[workflow],
+                    workflow_content_digest(source),
+                    "Any workflow change requires separately reviewed digest re-pinning",
+                )
+
+    def test_semantic_yaml_escape_bypass_fails_frozen_workflow_digest(self):
+        workflow = WORKFLOWS[0]
+        approved = f"actions/checkout@{EXPECTED_CHECKOUT_SHA}"
+        source = (ROOT / workflow).read_text(encoding="utf-8")
+        anchor = "      - name: Checkout exact evaluated head\n"
+        self.assertIn(anchor, source)
+        for escaped_key in (r'"\u0075ses"', r'"u\u0073es"'):
+            with self.subTest(escaped_key=escaped_key):
+                unreviewed_step = (
+                    "      - name: Unexpected external step\n"
+                    f"        {escaped_key}: attacker/unreviewed@v1\n"
+                )
+                modified = source.replace(anchor, unreviewed_step + anchor, 1)
+                # The legacy line regex misses escaped keys, even though
+                # a YAML parser resolves both of them to the key "uses".
+                self.assertEqual([approved], workflow_action_references(modified))
+                self.assertNotEqual(
+                    PINNED_WORKFLOW_SHA256[workflow],
+                    workflow_content_digest(modified),
+                )
+
+    def test_other_edits_and_crlf_normalization_stay_fail_closed(self):
+        workflow = WORKFLOWS[0]
+        source = (ROOT / workflow).read_text(encoding="utf-8")
+        expected = PINNED_WORKFLOW_SHA256[workflow]
+        self.assertEqual(expected, workflow_content_digest(source.replace("\n", "\r\n")))
+        self.assertNotEqual(expected, workflow_content_digest(source + "# changed\n"))
+
     def test_all_three_workflows_use_identical_immutable_checkout(self):
         for workflow in WORKFLOWS:
             with self.subTest(workflow=workflow):
