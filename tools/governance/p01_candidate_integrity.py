@@ -45,6 +45,20 @@ IDENTITY_KEYS = (
 )
 
 
+def trusted_path_has_symlink(root: Path, relative: str) -> bool:
+    """Reject evidence sourced through links, including ancestor directories.
+
+    Content may match a frozen fingerprint at the moment of checking, while a
+    linked path can later point to a different external authority document.
+    """
+    current = root
+    for component in Path(relative).parts:
+        current = current / component
+        if current.is_symlink():
+            return True
+    return False
+
+
 def candidate_identity_digest(entries: object) -> str | None:
     """Canonical SHA-256 of ordered source identities, not permissions.
 
@@ -174,6 +188,17 @@ def check(root: Path) -> dict[str, object]:
     errors: list[str] = []
     manifest_path = root / MANIFEST
     source_path = root / SOURCE
+    linked = [
+        relative for relative in (MANIFEST, SOURCE)
+        if trusted_path_has_symlink(root, relative)
+    ]
+    if linked:
+        return {
+            "structure": "FAIL",
+            "errors": [f"Symbolic link in P01 evidence input: {name}" for name in linked],
+            "copy_authorized": False, "source_imports": "BLOCKED",
+            "clinical_validation": "NOT_PERFORMED",
+        }
     try:
         document = json.loads(
             manifest_path.read_text(encoding="utf-8"),
