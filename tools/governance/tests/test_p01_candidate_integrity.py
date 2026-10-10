@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import copy
 import json
+import shutil
 import sys
 import tempfile
 import unittest
@@ -43,6 +44,50 @@ class SourceCandidateIntegrityTest(unittest.TestCase):
         self.assertTrue(
             any(expected in error for error in result["errors"]), result["errors"],
         )
+
+    def test_linked_candidate_manifest_or_ledger_denied(self):
+        for relative in (MANIFEST, SOURCE):
+            with self.subTest(file=relative), tempfile.TemporaryDirectory() as external:
+                file = self.root / relative
+                original = file.read_bytes()
+                outside = Path(external) / "unchanged-document"
+                outside.write_bytes(original)
+                file.unlink()
+                try:
+                    file.symlink_to(outside)
+                except OSError as exc:
+                    file.write_bytes(original)
+                    self.skipTest(f"Host cannot create symbolic links: {exc}")
+                try:
+                    report = check(self.root)
+                    self.assertEqual("FAIL", report["structure"], report)
+                    self.assertTrue(any("Symbolic link" in e for e in report["errors"]))
+                    self.assertIs(report["copy_authorized"], False)
+                    self.assertEqual("BLOCKED", report["source_imports"])
+                finally:
+                    file.unlink()
+                    file.write_bytes(original)
+
+    def test_linked_candidate_parent_directory_denied(self):
+        for relative in ("docs/evidence", "docs"):
+            with self.subTest(parent=relative), tempfile.TemporaryDirectory() as external:
+                folder = self.root / relative
+                outside = Path(external) / "unchanged-dir"
+                shutil.copytree(folder, outside)
+                shutil.rmtree(folder)
+                try:
+                    folder.symlink_to(outside, target_is_directory=True)
+                except OSError as exc:
+                    shutil.copytree(outside, folder)
+                    self.skipTest(f"Host cannot create directory links: {exc}")
+                try:
+                    report = check(self.root)
+                    self.assertEqual("FAIL", report["structure"], report)
+                    self.assertTrue(any("Symbolic link" in e for e in report["errors"]))
+                    self.assertEqual("BLOCKED", report["source_imports"])
+                finally:
+                    folder.unlink()
+                    shutil.copytree(outside, folder)
 
     def test_ledger_intact_still_denies_copy(self):
         result = check(self.root)

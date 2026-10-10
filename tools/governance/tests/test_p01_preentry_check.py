@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import shutil
 import sys
 import tempfile
 import unittest
@@ -70,6 +71,53 @@ class GateFixtures(unittest.TestCase):
         self.assertEqual(out["structure"], "FAIL")
         self.assertEqual(out["p01_g01_activation"], "BLOCKED")
         self.assertTrue(any(explanation in e for e in out["errors"]), out["errors"])
+
+    def test_identical_out_of_checkout_governance_files_denied(self):
+        trusted = [
+            *check.ORIGINAL_PATHS.values(), check.TRACKER,
+            check.ENTRY, check.CHARTER, check.RIGHTS,
+        ]
+        for relative in trusted:
+            with self.subTest(file=relative), tempfile.TemporaryDirectory() as external:
+                file = self.root / relative
+                original = file.read_bytes()
+                outside = Path(external) / "matching-evidence"
+                outside.write_bytes(original)
+                file.unlink()
+                try:
+                    file.symlink_to(outside)
+                except OSError as exc:
+                    file.write_bytes(original)
+                    self.skipTest(f"Host cannot create symbolic links: {exc}")
+                try:
+                    report = self.validate_fixture()
+                    self.assertEqual("FAIL", report["structure"], report)
+                    self.assertTrue(any("Symbolic link" in e for e in report["errors"]))
+                    self.assertEqual("BLOCKED", report["p01_g01_activation"])
+                    self.assertFalse(report["source_imports_authorized"])
+                finally:
+                    file.unlink()
+                    file.write_bytes(original)
+
+    def test_linked_parent_governance_directory_denied(self):
+        with tempfile.TemporaryDirectory() as external:
+            folder = self.root / "docs"
+            outside = Path(external) / "matching-docs"
+            shutil.copytree(folder, outside)
+            shutil.rmtree(folder)
+            try:
+                folder.symlink_to(outside, target_is_directory=True)
+            except OSError as exc:
+                shutil.copytree(outside, folder)
+                self.skipTest(f"Host cannot create directory links: {exc}")
+            try:
+                report = self.validate_fixture()
+                self.assertEqual("FAIL", report["structure"], report)
+                self.assertTrue(any("Symbolic link" in e for e in report["errors"]))
+                self.assertEqual("BLOCKED", report["p01_g01_activation"])
+            finally:
+                folder.unlink()
+                shutil.copytree(outside, folder)
 
     def test_valid_register_is_still_not_authorized(self):
         out = self.validate_fixture()

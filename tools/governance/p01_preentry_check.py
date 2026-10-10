@@ -14,7 +14,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from p01_candidate_integrity import visible_markdown_lines
+from p01_candidate_integrity import trusted_path_has_symlink, visible_markdown_lines
 
 ID_RE = re.compile(r"^\|\s*(CODEX-P00-\d{2}|OPUS-P00-\d{3})\s*\|")
 EXPECTED = {
@@ -41,6 +41,9 @@ RIGHTS = "docs/DONOR_RIGHTS_REGISTER.md"
 
 def read(root: Path, relative: str, problems: list[str]) -> str:
     path = root / relative
+    if trusted_path_has_symlink(root, relative):
+        problems.append(f"Symbolic link in P01 evidence input: {relative}")
+        return ""
     try:
         return path.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as exc:
